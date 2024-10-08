@@ -1,0 +1,14 @@
+contact: gabriela.czibula@ubbcluj.ro
+
+GRADING:
+- 10% attendance
+  https://docs.google.com/spreadsheets/d/e/2PACX-1vTfhb55FcjUHHgjlppBC3cYjR5gNc0nYdcbJRXW88CPt23rwXyPoanz19rnaI7ztobW24CKK8XQfBJg/pubhtml?gid=1675021479&single=true
+
+- LaTeX research report
+  - 45%
+  - Bayesian learning
+  - ppt/latex for the presentation
+  - not original, present state-of-the-art
+
+- software project
+  - 45%

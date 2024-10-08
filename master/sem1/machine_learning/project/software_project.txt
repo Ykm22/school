@@ -1,0 +1,30 @@
+SOFTWARE PROJECT
+
+purpose: demonstrate the use of conventional ML techniques on 2 learning tasks
+
+
+REQUIREMENTS:
+- labeled tabular dataset, predefined/handcrafted features
+- one dataset - two tasks
+  - supervised classification and/or supervised regression
+  - supervised classification/regression and or unsupervised var
+  - supervised classification/regression vs reinforcement learning
+- from scratch
+  - model (hyperparameters, optimization)
+  - performance eval (cross-validation, eval metrics)
+  - existing libraries allowed for data visualisation and numerical computations (numpy)
+- implementation using ML software
+  - pytorch
+- each task should have different classes of learning methods for models (network-based, tree-based, instance-learning-based, etc)
+
+PROJECT COMPONENTS:
+- each required document as .pdf, from LaTeX
+  - template in /ClassMaterials/LaTeX template (lab assignment)
+- sections/subsections for increased readability
+
+1) learning tasks definition
+- deadline lab 3 (week 5)
+- 10% of the grade
+- problem definition, what should be solved
+- problem specification, input, preconditions, output and postconditions
+- learning tasks specification- TASK, PERFORMANCE, EXPERIENCE (lecture?)

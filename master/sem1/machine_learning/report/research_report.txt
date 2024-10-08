@@ -1,0 +1,38 @@
+Research Report
+- Bayesian Learning
+- based on recent research papers
+
+Components:
+a) Written Paper
+- latex
+  - respect some template under /ClassMaterials/template
+- survey of 5-10 research papers on the topic
+- research paper structure (abstract, motivation, contributions, further improvements, conclusion, bibliography)
+- submitted 48h in advance of presentation date
+- 25% max similarity score
+- Gen AI
+  - special section where statement is given
+    - Section Title: Declaration of Generative AI and AI-assisted technologies in the writing process
+    - Statement:  During the preparation of this work the author(s) used [NAME TOOL / SERVICE] in order to [REASON]. After using this tool service, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the publication.
+
+b) oral presentation
+- NO RESCHEDULING
+- schedule under /ClassMaterials/TimePlanningReport.docx
+- ppt + qna
+- one page outline of the presentation(only graded if presentation takes place)
+- 15min (10 - presentation, 5 - questions)
+
+DEADLINES:
+- week 4
+  - one page presentation document
+  - brief description of the approached topic and its importance (3-4 paragraphs)
+  - research report title
+  - bibliographical references (5+)
+  - presentation date
+    - availability under /ClassMaterials/TimePlanningReport.docx
+
+GRADING
+- 5% presentation document
+- 95% paper + presentation
+  - 4.5 from presentation (quality, questions, one-page outline)
+  - 5.5 from paper

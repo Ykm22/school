@@ -1,0 +1,24 @@
+https://teaching.hfpop.ro/amda/
+
+Link under uni/data_analysis for resources
+
+read stuff from /resources:
+- /references (sort of mandatory[?])
+
+
+Grading
+https://teaching.hfpop.ro/_/grading.html
+- exam session: 
+  - written exam
+    - questions from lectures, definitions, concepts, comparisons
+  - playing with some method?
+
+
+paper websites:
+- arxiv, citeseerx, anelis-plus(request access from e-nformation.ro), google-scholar, research-gate, etc..
+  - https://www.e-nformation.ro/join-us
+- be careful with which are PUBLISHED, and which are waiting to be published
+
+
+Conduct
+https://teaching.hfpop.ro/_/conduct.html
