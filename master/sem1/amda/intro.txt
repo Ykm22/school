@@ -1,0 +1,76 @@
+https://teaching.hfpop.ro/amda/
+
+Link under uni/data_analysis for resources
+
+read stuff from /resources:
+- /references (sort of mandatory[?])
+
+
+Grading
+- 20% attendance
+- 20% 1st report
+- 20% 2nd report
+- 40% final exam paper (written in exam session)
+https://teaching.hfpop.ro/_/grading.html
+- exam session: 
+  - written exam
+    - questions from lectures, definitions, concepts, comparisons
+  - playing with some method?
+
+
+paper websites:
+- arxiv, citeseerx, anelis-plus(request access from e-nformation.ro), google-scholar, research-gate, etc..
+  - https://www.e-nformation.ro/join-us
+- be careful with which are PUBLISHED, and which are waiting to be published
+
+
+Conduct
+https://teaching.hfpop.ro/_/conduct.html
+
+RESEARCH REPORTS GENERAL RULES:
+- 4.5 - 5k words
+- 5-10 references
+- docx is mandatory (xd)
+  - A4, TimesNewRoman 12 pt fonts, single line spacing, 2cm wide margins
+- Submissions: 
+  - research paper, one-page executive summary (both DOCX), presentation support (PDF)
+  - packed as ZIP, (renamed to .zip.pdf, if .zip not accepted)
+- typical article structure
+
+SOFTWARE REPORTS GENERAL RULES:
+- docx is mandatory (xd)
+  - A4, TimesNewRoman 12 pt fonts, single line spacing, 2cm wide margins
+- completeness of the lab documentations - 30%
+- program quality - 40%
+- 30% from oral presentation
+- files to include:
+  - source code text files
+  - executables
+  - data files (??????)
+  - documentation (docx ofc)
+
+EXAMINATION SESSION:
+tbd
+
+Grading:
+- 70% written materials
+- 30% oral presentation
+
+CODE OF CONDUCT:
+- less than 20% similarity for reports
+- gen AI stuff
+  Acknowledgement: 
+This work is the result of my own activity, and I confirm I have neither given, nor received unauthorized assistance for this work. I declare that I did not use generative AI or automated tools in the creation of content or drafting of this document.
+
+or
+
+  Acknowledgement:
+This work is the result of my own activity, and I confirm I have neither given, nor received unauthorized assistance for this work. I declare that I used generative AI or automated tools in the creation of content or drafting of this document. (Give full details on how specifically did you use generative AI.) All the text impacted by generative AI has been explicitely marked as such in this document.
+
+
+COMMUNICATION:
+- All senders will completely identify themselves in any email sent: name, surname, specialization, year, course name.
+- All messages sending attached files will completely identify the number of attachments and full name of each attachment.
+- All messages sending files as links will be deleted and the links will not be accessed.
+- official addresses (scs or stud works)
+- 8am-8pm
