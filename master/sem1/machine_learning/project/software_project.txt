@@ -28,3 +28,7 @@ PROJECT COMPONENTS:
 - problem definition, what should be solved
 - problem specification, input, preconditions, output and postconditions
 - learning tasks specification- TASK, PERFORMANCE, EXPERIENCE (lecture?)
+
+Dataset:
+https://www.kaggle.com/datasets/camnugent/california-housing-prices/data
+
