@@ -1,0 +1,4 @@
+Difference Equations
+
+k-order difference equations
+- how many starting data do you need for a function
