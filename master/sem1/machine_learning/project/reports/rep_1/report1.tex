@@ -1,0 +1,83 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{color}
+
+
+\linespread{1}
+
+\geometry{a4paper,top=3cm,left=3cm,right=2.5cm,bottom=2cm}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=black,citecolor=blue}
+
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component} {1}}
+
+\author{\textbf{Authors:} {Ichim Stefan, Mirt Leonard}\\ \textbf{Group:} {246/1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Task 1 - Unsupervised Learning}
+
+\subsection{Problem Definition}
+
+\begin{itemize}
+  \item{
+    We want to create an algorithm that could assist us in 
+    observing similarities between different housings in California,
+    observations which could have been missed by market analysts.
+  }
+\end{itemize}
+
+\subsection{Problem Specification}
+
+\subsubsection*{Inputs} 
+  Tabluar data from the "California Housing Prices" dataset.
+  Features which will be used for the pattern learning
+  consist of: longitude, latitude, housing median age, total rooms,
+  total bedrooms, population, households, median income and ocean 
+  proximity. The median house value will act as the target value 
+  and will be used to evaluate if patterns from the same clusters
+  have similar values.
+
+\subsubsection*{Preconditions} 
+  Pattern features will need to be scaled for the algorithm
+  to work with numbers from a smaller interval.
+  $$
+  x = \frac{x - mean(x)}{std(x)}
+  $$
+
+\subsubsection*{Outputs} 
+  The unsupervised algorithm will indicate which cluster a pattern
+  will be part of.
+  
+\subsubsection*{Postconditions} 
+  A natural number, representing the number of the cluster.
+
+\subsection{Learning Task Specification}
+
+\subsubsection*{Task}
+Create appropriate clusters for various patterns in the dataset.
+
+\subsubsection*{Performance}
+The algorithm will be evaluated using both external and internal
+performance measures. According to these results, hyperparameters
+will suffer changes so that the algorithm reaches higher results.
+
+For internal measures, silhouette score and Calinski-Harabasz Index
+can be used. The first one measures how similar an object is to its own cluster
+compared to other clusters, and the latter measures the ratio
+of between-cluster dispersion to within-cluster dispersion.
+
+An external measure could be represented by a "feature hold-out" technique,
+where we choose to exclude a feature from the pattern when building our clusters,
+and then later on using that feature to examine how well the created clusters
+allign with it.
+
+\subsubsection*{Experience}
+The experience consists of patterns represented by the entries
+of the dataset.
+
+\end{document}

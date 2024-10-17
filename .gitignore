@@ -138,3 +138,12 @@ ui-tests/.pnp.*
 
 # venv
 venv/
+
+# LaTeX compilation output
+*.out
+*.aux
+*.log
+
+# LaTeX script autoreload
+latex_auto_reload.py
+LaTeX_templates/

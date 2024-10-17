@@ -1,0 +1,8 @@
+ml
+- research: bayesian learning
+  - finish by week 3?
+  - present week 9
+- software project: unsupervised learning, k-means clustering on california housing
+
+amda
+- present week 10

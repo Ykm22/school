@@ -22,13 +22,14 @@ PROJECT COMPONENTS:
   - template in /ClassMaterials/LaTeX template (lab assignment)
 - sections/subsections for increased readability
 
+Dataset:
+https://www.kaggle.com/datasets/camnugent/california-housing-prices/data
+- clustering on median_income
+
 1) learning tasks definition
 - deadline lab 3 (week 5)
 - 10% of the grade
 - problem definition, what should be solved
 - problem specification, input, preconditions, output and postconditions
-- learning tasks specification- TASK, PERFORMANCE, EXPERIENCE (lecture?)
-
-Dataset:
-https://www.kaggle.com/datasets/camnugent/california-housing-prices/data
+- learning tasks specification- TASK, PERFORMANCE, EXPERIENCE (lecture 1, section 3)
 
