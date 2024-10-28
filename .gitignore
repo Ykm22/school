@@ -143,7 +143,9 @@ venv/
 *.out
 *.aux
 *.log
+*.bbl
+*.blg
+*.spl
 
 # LaTeX script autoreload
-latex_auto_reload.py
 LaTeX_templates/

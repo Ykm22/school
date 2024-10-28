@@ -36,3 +36,6 @@ GRADING
 - 95% paper + presentation
   - 4.5 from presentation (quality, questions, one-page outline)
   - 5.5 from paper
+
+IDEAS:
+- bayesian learning used in medical diagnosis
