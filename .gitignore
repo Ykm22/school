@@ -138,6 +138,7 @@ ui-tests/.pnp.*
 
 # venv
 venv/
+ml_venv/
 
 # LaTeX compilation output
 *.out
