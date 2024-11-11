@@ -62,6 +62,8 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \label{fig:correlation_heatmap}
 \end{figure}
 
+The correlation heatmap reveals several important relationships in our dataset. Most notably, median income shows the strongest positive correlation with house values (0.688), indicating that areas with higher incomes tend to have higher house prices. There are also moderate correlations between related features such as total rooms and total bedrooms, and households and population, which is expected. Interestingly, geographic features (longitude and latitude) show relatively weak correlations with house values, suggesting that location alone is not a strong predictor of price.
+
 \subsection{Statistical Tests: Feature Importance}
 
 \begin{table}[h!]
@@ -84,6 +86,8 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \end{tabular}
 \end{table}
 
+We employed multiple statistical tests to evaluate feature importance from different perspectives. The Pearson correlation measures linear relationships, while Spearman captures monotonic relationships that might not be linear. F-Score helps identify discriminative features, and Mutual Information captures both linear and non-linear relationships. Consistently across all metrics, median income emerges as the most significant feature, while population shows the weakest relationship with house values. The variation in rankings across different tests suggests some non-linear relationships in our data.
+
 \subsection{Data Visualization and Interpretation}
 
 \begin{figure}[h]
@@ -101,12 +105,16 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \end{minipage}
 \end{figure}
 
+These visualizations reveal significant geographic price variations in the California housing market. Ocean proximity appears to have a substantial impact on house prices, with properties closer to the ocean generally commanding higher values. The north-south comparison demonstrates regional market differences, likely influenced by factors such as local economic conditions and population density.
+
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.5]{figs/price_by_area_type.png}
     \caption{House prices across different area types}
     \label{fig:price_area}
 \end{figure}
+
+The analysis of house prices across different area types reveals distinct pricing patterns based on neighborhood characteristics. This segmentation helps understand how property values vary with urbanization levels and local development patterns.
 
 \begin{figure}[h]
     \centering
@@ -121,6 +129,8 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \caption{Impact of neighborhood characteristics on price}
     \label{fig:price_neighborhood}
 \end{figure}
+
+The relationship between house size and price shows a generally positive correlation, though with notable variance. The neighborhood characteristics analysis demonstrates how community features influence property values, highlighting the importance of considering both physical and social factors in price determination.
 
 \begin{figure}[h]
     \centering
@@ -137,6 +147,8 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \end{minipage}
 \end{figure}
 
+The analysis of price outliers reveals interesting patterns in the California housing market. The box plot distribution helps identify extreme values, while the geographic distribution of these outliers shows they're not randomly distributed but tend to cluster in specific regions, particularly in coastal and metropolitan areas. This suggests that these extreme prices are often driven by location-specific factors rather than just property characteristics.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/price_brackets.png}
@@ -151,8 +163,9 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
     \label{fig:regional_markets}
 \end{figure}
 
+The distribution across price brackets shows the overall market segmentation, with distinct patterns in different price ranges. The regional market analysis further breaks this down by geographic areas, revealing how different regions of California have distinct price distributions and market characteristics. This information is particularly valuable for understanding market accessibility and investment opportunities across different areas.
+
 \subsection{Feature distribution}
-% List of features
 
 \begin{figure}[htbp]
     \centering
@@ -231,6 +244,5 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
         \label{fig:ocean_proximity_distribution}
     \end{minipage}
 \end{figure}
-
 
 \end{document}
