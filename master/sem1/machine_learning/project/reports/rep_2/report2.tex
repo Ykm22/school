@@ -1,8 +1,8 @@
 \documentclass[a4paper, 11pt]{article}
 \usepackage{geometry}
 \usepackage{url}
+\usepackage{booktabs}
 \usepackage{color}
-\usepackage{booktabs}  % Add this line
 \usepackage{graphicx}
 \linespread{1}
 
@@ -11,99 +11,13 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks,linkcolor=black,citecolor=blue}
 
-\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component} {1}}
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component} {2}}
 
 \author{\textbf{Authors:} {Ichim Stefan, Mirt Leonard}\\ \textbf{Group:} {246/1}}
 
 \begin{document}
 
 \maketitle
-
-\section{Task 1 - Unsupervised Learning}
-
-\subsection{Problem Definition}
-
-\begin{itemize}
-  \item{
-    We want to create an algorithm that could assist us in 
-    observing similarities between different housings in California,
-    observations which could have been missed by market analysts.
-  }
-\end{itemize}
-
-\subsection{Problem Specification}
-
-\subsubsection*{Inputs} 
-  Tabluar data from the "California Housing Prices" dataset.
-  Features which will be used for the pattern learning
-  consist of: longitude, latitude, housing median age, total rooms,
-  total bedrooms, population, households, median income and ocean 
-  proximity. The median house value will act as the target value 
-  and will be used to evaluate if patterns from the same clusters
-  have similar values.
-
-\subsubsection*{Preconditions} 
-Two of the input features, longitude and latitude can be negative, while the other seven have positive values.
-
-\subsubsection*{Outputs} 
-  The unsupervised algorithm will indicate which cluster a pattern
-  will be part of.
-  
-\subsubsection*{Postconditions} 
-  A natural number, representing the number of the cluster.
-
-\subsection{Learning Task Specification}
-
-\subsubsection*{Task}
-Create appropriate clusters for various patterns in the dataset.
-
-\subsubsection*{Performance}
-The algorithm will be evaluated using both external and internal
-performance measures. According to these results, hyperparameters
-will suffer changes so that the algorithm reaches higher results.
-
-For internal measures, silhouette score and Calinski-Harabasz Index
-can be used. The first one measures how similar an object is to its own cluster
-compared to other clusters, and the latter measures the ratio
-of between-cluster dispersion to within-cluster dispersion.
-
-An external measure could be represented by a "feature hold-out" technique,
-where we choose to exclude a feature from the pattern when building our clusters,
-and then later on using that feature to examine how well the created clusters
-allign with it.
-
-\subsubsection*{Experience}
-The experience consists of patterns represented by the entries
-of the dataset.
-\section{Task 2 - Supervizezd Regression}
-
-\subsection*{Problem Definition}
-The problem we want to solve is the prediction of the price of housing in California based on the input data. The goal is to develop a model that accurately estimates the selling price for any given house by learning patterns from historical housing data.
-
-\subsection*{Problem Specification}
-%\new
-
-Input data: median income, housing median age, average rooms, average bedrooms, house holds, average occupation, latitude, longitude, ocean proximity. Median house value will be used to train the decision tree regression.
-The input data is taken from California Housing Dataset available in scikit-learn. 
-\newline
-Precondition:
-\begin{itemize}
-\item Data Completeness: All input features (e.g., median income, housing median age, average rooms, etc.) should have no missing values or should be imputed if missing.
-\item Data Quality: Numerical values should be within realistic ranges (e.g., median income should be a positive number).
-Latitude and longitude values should accurately represent California’s geographic boundaries.
-\item Data Consistency: Features should be in consistent units and scales (e.g., income in thousands of dollars, age in years).
-All records should represent housing data from California to match the geographical scope of the dataset.
-\end{itemize}
-
-Output data: median house price in thousands of dollars
- Postcondition: the output is a continuous positive numerical value
-
-\subsection*{Specification of the learning Task}
-The model will be trained by recursively splitting the data based on feature values to create “branches” and “leaves” of a tree. Each split is chosen to minimize prediction error in the resulting subsets.\\ 
-The objective is to train a model that minimizes the prediction error for median house prices. The model learns patterns in the historical data to make accurate predictions on new, unseen data.
-$f: R_+^6 \times R^3 \rightarrow R_+$ \newline
-Performance is measured by minimizing the next error functions: Mean Squared Error (MSE), Root Mean Squared Error (RMSE) to measure the accuracy of predictions.\\
-The Experience is given by the Dataset.
 
 \section{Data Analysis}
 First, to be able to take statistics from features, we made sure that all the features are in numeric form. We tranformed the ocean proximity feature into a numeric features as follows:
@@ -134,12 +48,107 @@ Ocean Proximity   & 20640 & 1.17    & 1.42 & 0.00    & 4.00    \\
 \end{tabular}
 \end{table}
 
-\subsection{Correlation}
+\subsection{Pearson Test: Data Correlation and Independence}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figs/correlation.png}
+%     \caption{Pearson test results: 1 - strong positive, -1 - strong negative, 0 - no connection}
+%     \label{fig:correlation}
+% \end{figure}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{figs/correlation.png}
-    \caption{Correlation}
-    \label{fig:correlation}
+    \includegraphics[scale=0.5]{figs/correlation_heatmap.png}
+    \caption{Pearson test results: 1 - strong positive, -1 - strong negative, 0 - no connection}
+    \label{fig:correlation_heatmap}
+\end{figure}
+
+\subsection{Statistical Tests: Feature Importance}
+
+\begin{table}[h!]
+    \centering
+    \caption{Statistical Tests for Feature Importance}
+    \begin{tabular}{lrrrr}
+        \toprule
+        \textbf{Feature} & \textbf{Pearson} & \textbf{Spearman} & \textbf{F-Score} & \textbf{Mutual Information} \\
+        \midrule
+        Median Income & 0.688 & 0.677 & 1.000 & 0.051 \\
+        Latitude & 0.144 & 0.166 & 0.024 & 0.049 \\
+        Total Rooms & 0.134 & 0.206 & 0.020 & 0.006 \\
+        Housing Median Age & 0.106 & 0.075 & 0.013 & 0.004 \\
+        Ocean Proximity & 0.082 & 0.133 & 0.007 & 0.028 \\
+        Households & 0.066 & 0.113 & 0.005 & 0.004 \\
+        Total Bedrooms & 0.049 & 0.086 & 0.003 & 0.003 \\
+        Longitude & 0.046 & 0.070 & 0.002 & 0.053 \\
+        Population & 0.025 & 0.004 & 0.001 & 0.003 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Data Visualization and Interpretation}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{figs/price_by_ocean.png}
+        \caption{House prices variation by ocean proximity}
+        \label{fig:price_ocean}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{figs/price_by_region.png}
+        \caption{Price comparison: Northern vs Southern California}
+        \label{fig:price_region}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{figs/price_by_area_type.png}
+    \caption{House prices across different area types}
+    \label{fig:price_area}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figs/price_vs_size.png}
+    \caption{Relationship between house size and price}
+    \label{fig:price_size}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figs/price_vs_neighborhood.png}
+    \caption{Impact of neighborhood characteristics on price}
+    \label{fig:price_neighborhood}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{figs/price_outliers.png}
+        \caption{Distribution of price outliers}
+        \label{fig:outliers_box}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{figs/outliers_geographic.png}
+        \caption{Geographic distribution of outliers}
+        \label{fig:outliers_map}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figs/price_brackets.png}
+    \caption{Distribution of properties across price brackets}
+    \label{fig:price_brackets}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figs/regional_markets.png}
+    \caption{Regional market characteristics by price bracket}
+    \label{fig:regional_markets}
 \end{figure}
 
 \subsection{Feature distribution}
