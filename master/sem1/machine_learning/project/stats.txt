@@ -1,0 +1,81 @@
+{'longitude': count    20640.000000
+mean      -119.569704
+std          2.003532
+min       -124.350000
+25%       -121.800000
+50%       -118.490000
+75%       -118.010000
+max       -114.310000
+Name: longitude, dtype: float64, 'latitude': count    20640.000000
+mean        35.631861
+std          2.135952
+min         32.540000
+25%         33.930000
+50%         34.260000
+75%         37.710000
+max         41.950000
+Name: latitude, dtype: float64, 'housing_median_age': count    20640.000000
+mean        28.639486
+std         12.585558
+min          1.000000
+25%         18.000000
+50%         29.000000
+75%         37.000000
+max         52.000000
+Name: housing_median_age, dtype: float64, 'total_rooms': count    20640.000000
+mean      2635.763081
+std       2181.615252
+min          2.000000
+25%       1447.750000
+50%       2127.000000
+75%       3148.000000
+max      39320.000000
+Name: total_rooms, dtype: float64, 'total_bedrooms': count    20433.000000
+mean       537.870553
+std        421.385070
+min          1.000000
+25%        296.000000
+50%        435.000000
+75%        647.000000
+max       6445.000000
+Name: total_bedrooms, dtype: float64, 'population': count    20640.000000
+mean      1425.476744
+std       1132.462122
+min          3.000000
+25%        787.000000
+50%       1166.000000
+75%       1725.000000
+max      35682.000000
+Name: population, dtype: float64, 'households': count    20640.000000
+mean       499.539680
+std        382.329753
+min          1.000000
+25%        280.000000
+50%        409.000000
+75%        605.000000
+max       6082.000000
+Name: households, dtype: float64, 'median_income': count    20640.000000
+mean         3.870671
+std          1.899822
+min          0.499900
+25%          2.563400
+50%          3.534800
+75%          4.743250
+max         15.000100
+Name: median_income, dtype: float64, 'median_house_value': count     20640.000000
+mean     206855.816909
+std      115395.615874
+min       14999.000000
+25%      119600.000000
+50%      179700.000000
+75%      264725.000000
+max      500001.000000
+Name: median_house_value, dtype: float64, 'ocean_proximity': count    20640.000000
+mean         1.165843
+std          1.420662
+min          0.000000
+25%          0.000000
+50%          1.000000
+75%          1.000000
+max          4.000000
+Name: ocean_proximity, dtype: float64}
