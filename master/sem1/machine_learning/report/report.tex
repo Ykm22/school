@@ -190,6 +190,168 @@
 %\enlargethispage{-7mm}
 
 \section{Introduction}\label{introduction}
+% -- Medical Diagnosis introduction \\
+Medical diagnosis has been an activity one could recall taking place
+from the dawn of time. Throughout the millenias, it has suffered countless
+reiterations and experimentations, with the final destination to reach
+a state where life expectancy could be pushed to its limit. 
+In our current day and age, scientists have reached a point where medical
+diagnosis has become unfathomably complex. As of 2013, 26.000 different
+diseases have been discovered, an unbelievably high number for a qualified
+proffesional to memorize how each and one of them differentiate \cite{Espe2018Malacards}.
+By this moment in time, one other domain which has seen a rise in popularity had been
+computer science. As it is known for all new paradigm shifts, it takes time and
+patience for them to be integrated among the sate of affairs at the time. 
+Ideas about these two domains intertwining were concepted from late 1950s, but
+it was only in the early 1970s when the first 'expert systems' started seeing use
+\cite{WikipediaCAD2024}. Initially, these systems, also  known as clinical
+decision support systems (CDSS's), were planned with the concept to produce the diagnosis
+fully themselves, without the clinician's own opinions; however, with the passing
+of time, modern computer algorithms have taken the role of supporting clinicians,
+the final decision being made from a combination of human expertise and algorithm
+outputs \cite{WikipediaCDSS2024}.
+
+% -- General ML approaches
+CDSS's have been divided into knowledge and non-knowledege based.
+The former make decisions using IF-THEN rules on a timely
+updated collection of data, whereas the latter use machine
+learning, which is also where this research's topic is included:
+computers learn patterns from experiences, with the
+drawback that their decisions have no explanations. The general
+machine learning approaches are represented by support-vector
+machines, artificial neural networks and genetic algorithms.
+
+% -- Bayesian Learning intro. What is Bayesian Learning?
+The aim of this paper is to create a detailed report about
+bayesian techniques, a branch of the non-knowledge based CDSS's,
+and where they situate in the space compared to other machine learning
+methods used in clinical diagnosis.
+The term bayes comes from the statistician Thomas Bayes, who
+managed to prove that unknown events can attain probabilistic
+qualities. However, it was actually Pierre-Simon Laplace that 
+took his ideas further and concepted the bayes formula (\ref{eq:bayes}),
+on which our techniques are based off of.
+
+Bayes' theorem fundamentally describes the probability of an event 
+occurring based on prior knowledge of conditions that might be 
+related to the event. The theorem expresses how a subjective 
+degree of belief should rationally change to account for evidence.
+In its mathematical form, it states that the posterior probability
+of a hypothesis ($H$) given observed evidence ($E$) is proportional to
+the likelihood of the evidence given the hypothesis, multiplied by
+the prior probability of the hypothesis. This relationship is 
+expressed in Equation (\ref{eq:bayes}), where $P(H|E)$ represents the
+posterior probability, $P(E|H)$ the likelihood, $P(H)$ the prior
+probability, and $P(E)$ the evidence probability. 
+
+\begin{equation}
+    P(H|E) = \frac{P(E|H)P(H)}{P(E)}
+    \label{eq:bayes}
+\end{equation}
+
+In general, machine learning consists of finding the best
+hypothesis in a hypothesis space using certain observed data, 
+also classified as training data. One drawback to this
+approach is that with each iteration, certain hypothesis can
+be removed entirely from the possible best hypothesis set if
+they appear to be incosistent with some examples. Bayesian 
+learning methods tackle this challenge differently, in the 
+sense that each observed training sample will increase or
+decrease the probability of whether our hypothesis is correct
+or not.
+
+With that being said, there are also many difficulties when 
+working with these models. To begin with, as aforementioned,
+bayesian models build the hypothesis incrementally, one 
+piece of evidence at a time: needless to say, this feature
+can prove to be computationally demanding, linear with the 
+number of candidate hypothesises. Besides, some assertions
+need to be 
+stated before any inference takes place whatsoever, assertions 
+which carry a considerate amount of importance, which only
+underline further the engineer's duty to have a clear 
+understanding of the world of the problem and its place 
+in that world.
+
+The rest of the paper is organized as follows:
+
+\section{Related Works}
+The literature of non-knowledge based variants contains a wide
+variety of approaches tackling decision support systems in
+clinical diagnosis. Studies have undergone into this field 
+through support vector machines, genetic algorithms, 
+fuzzy logic approaches, decision trees and combinations 
+of these previously mentioned techniques.
+
+\subsection{Support Vector Machines in Clinical Diagnosis}
+Support Vector Machines (SVMs) have demonstrated significant
+success in medical diagnosis due to their ability to handle
+high-dimensional data and create optimal separating 
+hyperplanes between different disease classes. Notable
+applications include \cite{CHEN20119014} and \cite{ALAM2018} in 
+cancer diagnosis, \cite{Sali2016Clinical} and \cite{COMAK200721}
+in cardiovascular disease prediction. The main advantage
+of SVMs lies in their
+ability to handle non-linear relationships through kernel
+functions, though they can be computationally intensive
+for large datasets.
+
+\subsection{Artificial Neural Networks}
+Neural networks have gained considerable attention in medical
+diagnosis, particularly with the advent of deep learning.
+Studies by \cite{Karabulut2012Effective},
+\cite{Uguz2012Biomedical} and \cite{Tate2006Development} 
+have shown their effectiveness in
+medical image analysis and pattern recognition tasks. 
+While neural networks can capture complex relationships 
+in medical data, their "black box" nature poses challenges
+for clinical interpretation and validation.
+
+\subsection{Genetic Algorithms and Evolutionary Approaches}
+Genetic algorithms have been applied to optimize feature
+selection and parameter tuning in medical diagnosis systems.
+Research by \cite{Rani2021Decision} demonstrates their utility in
+developing adaptive diagnostic rules. These approaches excel
+at exploring large solution spaces but may require significant
+computational resources.
+
+\subsection{Fuzzy Logic and Decision Trees}
+Fuzzy logic approaches have proven valuable in handling
+uncertainty in medical diagnosis, while decision trees
+offer transparent decision-making processes. Studies 
+combining these methods(\cite{FAN2011632},
+\cite{Barach2019Fuzzy}) have shown
+promising results in dealing with imprecise medical data
+while maintaining interpretability.
+
+\subsection{Hybrid Approaches}
+Recent research has focused on combining multiple techniques 
+to leverage their respective strengths.
+For instance, \cite{SAMUEL2017163} integrated neural networks 
+with fuzzy logic to balance accuracy with interpretability.
+Similarly, \cite{Huerta2006} combined SVMs with genetic
+algorithms for optimal feature selection in disease diagnosis.
+
+\subsection{Bayesian Methods in Context}
+While the aforementioned approaches have their merits,
+Bayesian methods offer distinct advantages in medical 
+diagnosis. Unlike deterministic approaches, they provide
+natural handling of uncertainty through probability
+distributions, the ability to incorporate prior medical
+knowledge, incremental learning capabilities, and
+probabilistic outputs that align with clinical decision-making. 
+
+However, the literature reveals several challenges in
+implementing Bayesian approaches, including computational
+complexity in handling large hypothesis spaces, difficulty
+in specifying appropriate prior distributions, and the need
+to balance model complexity with interpretability. 
+
+This review of existing approaches sets the stage for our
+detailed exploration of Bayesian techniques in subsequent
+sections, where we will examine how these methods address
+the limitations of other approaches while introducing their
+own unique challenges and solutions.
 
 \section{\textcolor{red}{Other sections to be added}}
 
@@ -199,16 +361,9 @@
 
 \section{Conclusions and future work}\label{conclusions}
 
-
-
 \footnotesize{
-
-\bibliographystyle{elsarticle-harv}
-\bibliography{biblio}
-
+  \bibliographystyle{elsarticle-harv}
+  \bibliography{biblio}
 } 
 
 \end{document}
-
-%%
-%% End of file `Sample Paper.tex'.
