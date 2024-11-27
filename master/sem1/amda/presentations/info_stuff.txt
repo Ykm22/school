@@ -1,0 +1,23 @@
+❗have usb-stick ready
+
+week 7 questions
+- 1 question only(?)
+- data analysis in presentation
+- results
+- describe difficulties
+
+
+examples:
+- preprocessing
+ - scaling data
+- difference between detection and prediction
+- questions about issues
+  - if you were to continue, what would you improve on
+- questions about the chosen topic 
+  -> don't choose random topics/datasets, study them
+- difference between performance measures
+- describe why plots are how they are
+
+
+week 9 questions
+- 

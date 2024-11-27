@@ -1,0 +1,130 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}   % Add this for \text command
+\usepackage{amssymb}   % Option 1
+\linespread{1}
+
+\geometry{a4paper,top=3cm,left=3cm,right=2.5cm,bottom=2cm}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=black,citecolor=blue}
+
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component} {3}}
+
+\author{\textbf{Authors:} {Ichim Stefan, Mirt Leonard}\\ \textbf{Group:} {246/1}}
+
+\begin{document}
+\maketitle
+
+% Used ML technique(s) (doc)
+% ▪ brief description of the employed ML technique(s)
+% ▪ design of each of the learning tasks
+%   • target function to be learned (formal definition)
+%   • learning hypothesis (approximation of the target function)
+%   • representation of the learned function
+%   • learning algorithm
+\section{Unsupervised Learning Task}
+\subsection{Clustering and DBSCAN Analysis}
+
+Clustering is a machine learning technique that groups similar data points together based on their characteristics or features in multidimensional space. DBSCAN (Density-Based Spatial Clustering of Applications with Noise) is a density-based clustering algorithm that identifies clusters based on the concentration of points in space.
+
+The algorithm operates by examining the density relationships between points using two key parameters: epsilon ($\epsilon$), which defines a neighborhood radius, and minPoints, which specifies the minimum number of points required to form a dense region. Points are classified as core points, border points, or noise based on these density criteria. Core points have at least minPoints within their $\epsilon$-neighborhood, border points lie within the $\epsilon$-neighborhood of a core point but have fewer neighbors, and noise points meet neither condition. Clusters are formed by connecting density-reachable core points and their associated border points.
+
+\subsubsection{Strengths}
+\begin{itemize}
+    \item \textbf{Shape Flexibility:} Finds clusters of any shape, unlike K-means' circular assumptions
+    \item \textbf{Noise Handling:} Naturally identifies outliers
+    \item \textbf{No Preset Clusters:} Discovers number of clusters automatically
+    \item \textbf{Density-Based:} Works well with varying cluster sizes
+\end{itemize}
+
+\subsubsection{Limitations}
+\begin{itemize}
+    \item \textbf{Parameter Sensitivity:} Requires careful tuning
+    \item \textbf{Varying Densities:} Struggles with different density clusters
+    \item \textbf{High Dimensions:} Performance degrades in high-dimensional spaces
+\end{itemize}
+
+\subsection{Learning Framework for DBSCAN Clustering}
+
+\subsubsection{Target Function}
+The target function $f: X \rightarrow Y$ maps each point $x_i \in \mathbb{R}^d$ to its true cluster label $y_i \in \{1,\ldots,k\} \cup \{-1\}$, where $-1$ represents noise points. Formally:
+\[f(x) = \begin{cases} 
+      c_i  \text{ if } x \text{ belongs to cluster } i \\
+      -1  \text{ if } x \text{ is noise}
+   \end{cases}\]
+
+\subsubsection{Learning Hypothesis}
+DBSCAN approximates the target function with hypothesis $h_{\epsilon,m}: X \rightarrow Y$ parameterized by:
+\begin{itemize}
+    \item $\epsilon$: neighborhood radius
+    \item $m$: minimum points threshold
+\end{itemize}
+The hypothesis function assigns cluster labels based on density-reachability criteria:
+\[h_{\epsilon,m}(x) = \begin{cases} 
+      c_i  \text{ if } x \text{ is density-connected to cluster } i \\
+      -1  \text{ if } x \text{ is not density-reachable}
+   \end{cases}\]
+
+\subsubsection{Representation}
+The learned function is represented implicitly through:
+\begin{itemize}
+    \item Core points: $\{x: |N_{\epsilon}(x)| \geq m\}$
+    \item Border points: $\{x: |N_{\epsilon}(x)| < m \text{ but connected to core point}\}$
+    \item Noise points: $\{x: |N_{\epsilon}(x)| < m \text{ and not connected}\}$
+\end{itemize}
+where $N_{\epsilon}(x)$ is the $\epsilon$-neighborhood of point $x$.
+
+\subsubsection{Learning Algorithm}
+The DBSCAN learning process is deterministic and occurs through density-based region exploration:
+
+\begin{enumerate}
+    \item \textbf{Initialization Phase:}
+    \begin{itemize}
+        \item Mark all points as unvisited
+        \item Initialize empty cluster list $C$ and noise list $N$
+    \end{itemize}
+
+    \item \textbf{Core Point Identification:}
+    \begin{itemize}
+        \item For each unvisited point $p$:
+            \begin{itemize}
+                \item Compute $N_{\epsilon}(p) = \{q : dist(p,q) \leq \epsilon\}$
+                \item If $|N_{\epsilon}(p)| \geq m$, mark $p$ as core point
+            \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Cluster Expansion:}
+    \begin{itemize}
+        \item For each core point $p$ not yet assigned to cluster:
+            \begin{itemize}
+                \item Create new cluster $C_k$
+                \item Add $p$ to $C_k$
+                \item For each point $q \in N_{\epsilon}(p)$:
+                    \begin{itemize}
+                        \item If $q$ unvisited: mark as visited, add to $C_k$
+                        \item If $q$ is core point: add $N_{\epsilon}(q)$ to processing queue
+                    \end{itemize}
+            \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Noise Identification:}
+    \begin{itemize}
+        \item Any remaining unassigned points are marked as noise
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Learning Characteristics:}
+\begin{itemize}
+    \item \textbf{Non-parametric Learning:} Does not assume underlying distribution of clusters
+    \item \textbf{Instance-based Learning:} Clusters are formed based on local relationships between points
+    \item \textbf{Single-pass Algorithm:} Each point is processed exactly once for core point determination
+    \item \textbf{Time Complexity:} $O(n \log n)$ with spatial indexing, $O(n^2)$ without
+\end{itemize}
+
+The algorithm "learns" by discovering the inherent density structure of the data space. Unlike supervised learning algorithms, there is no explicit optimization of a loss function. Instead, learning occurs through the progressive discovery and expansion of dense regions, with the final cluster assignments emerging from the density-connectivity relationships between points. This makes DBSCAN particularly effective for datasets where clusters are defined by density rather than geometric distance to cluster centers.\end{document}
+
