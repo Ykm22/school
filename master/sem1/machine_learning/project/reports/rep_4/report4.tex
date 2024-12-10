@@ -1,0 +1,179 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}   % Add this for \text command
+\usepackage{amssymb}   % Option 1
+\linespread{1}
+
+\geometry{a4paper,top=3cm,left=3cm,right=2.5cm,bottom=2cm}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=black,citecolor=blue}
+
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component} {4}}
+
+\author{\textbf{Authors:} {Ichim Stefan, Mirt Leonard}\\ \textbf{Group:} {246/1}}
+
+\begin{document}
+\maketitle
+
+% Related work summary (doc)
+%   ▪ a summary of the literature approaches addressing the same learning
+%   task(s) and/or employing the same data set, including their
+%   performances (obtained results)
+\section*{Related Works}
+The California Housing dataset, while widely used in machine learning research, has seen relatively few applications in unsupervised learning.
+The dataset was originally introduced by Pace and Barry (1997) for spatial autoregression analysis, with features specifically selected and engineered for housing price prediction. It contains only 8 features plus the target variable (median house value), with limited redundancy and clear numerical relationships between variables. These characteristics have made it particularly suitable for supervised learning tasks, especially regression problems. The dataset's popularity was further cemented through its inclusion in scikit-learn as a benchmark dataset for predictive modeling, establishing strong precedent for supervised approaches in the literature.
+
+\section{Unsupervised Learning Task}
+
+Several studies have explored unsupervised learning techniques on the California Housing dataset. Two notable approaches have employed K-means clustering and Principal Component Analysis (PCA), respectively.
+
+\subsection{K-means Clustering Analysis}
+Xiao (2024) proposed a Comprehensive K-means clustering approach that evaluates the stability and consistency of clustering results. Their method assesses both the common patterns that emerge across different clustering trials and the robustness of these patterns. When applied to the California Housing dataset, their analysis revealed that as housing prices gradually converged on specific latitude values and decreased in longitude, several key metrics increased together: median house value, median income, number of households, population, and number of rooms. This suggested that areas in the mid-west portion of California tend to be more densely populated with larger houses.
+
+\subsection{Privacy-Preserving PCA}
+Kwatra et al. (2024) investigated PCA from a privacy-preserving perspective, analyzing both utility and privacy aspects of eigenvector computation. Their work is particularly relevant for scenarios where housing data needs to be analyzed while preserving individual privacy. They evaluated different approaches including k-anonymity and synthetic data generation using CTGAN.
+
+% \subsection{Performance Comparison}
+% 
+% \subsubsection{K-means Clustering Results}
+% For hierarchical clustering analysis of the California Housing dataset:
+% \begin{table}[h]
+% \centering
+% \begin{tabular}{|l|c|}
+% \hline
+% \textbf{Data Version} & \textbf{Cluster Merging Height} \\
+% \hline
+% Original & 250 \\
+% Synthetic & 150 \\
+% k-anonymous (k=30) & Between 150-250 \\
+% \hline
+% \end{tabular}
+% \caption{Hierarchical Clustering Results}
+% \label{tab:clustering_results}
+% \end{table}
+% 
+% \subsubsection{PCA Utility Results}
+% \begin{table}[h]
+% \centering
+% \begin{tabular}{|l|c|c|}
+% \hline
+% \textbf{Method} & \textbf{Number of PCs} & \textbf{R² Score} \\
+% \hline
+% Baseline (all features) & All & 0.781 $\pm$ 0.019 \\
+% \hline
+% Original PCA & 3 & 0.148 $\pm$ 0.034 \\
+% Original PCA & 4 & 0.455 $\pm$ 0.038 \\
+% Original PCA & 5 & 0.631 $\pm$ 0.034 \\
+% Original PCA & 6 & 0.697 $\pm$ 0.029 \\
+% \hline
+% k-anonymous PCA (k=20) & 3 & 0.134 $\pm$ 0.030 \\
+% k-anonymous PCA (k=20) & 4 & 0.445 $\pm$ 0.035 \\
+% k-anonymous PCA (k=20) & 5 & 0.623 $\pm$ 0.029 \\
+% k-anonymous PCA (k=20) & 6 & 0.689 $\pm$ 0.032 \\
+% \hline
+% \end{tabular}
+% \caption{PCA Performance Results}
+% \label{tab:pca_results}
+% \end{table}
+% 
+% Both studies demonstrate that the California Housing dataset exhibits clear clustering and dimensional patterns that can be effectively captured by unsupervised learning techniques. The k-anonymous versions of these methods show only minimal degradation in performance while providing enhanced privacy guarantees, suggesting that privacy-preserving unsupervised learning is feasible for this type of housing data.
+% 
+\subsection{Performance Analysis}
+
+\subsubsection{Technical Terminology}
+Before examining the results, we define key technical concepts used in this analysis:
+
+\begin{itemize}
+    \item \textbf{K-anonymous Data:} A privacy protection technique where each record is modified to be indistinguishable from at least k-1 other records. For example, with k=20, each house's characteristics are adjusted until they match at least 19 other houses, protecting individual privacy while maintaining overall patterns.
+    
+    \item \textbf{Synthetic Data:} Artificially generated data points that preserve the statistical properties of the original dataset without containing any real records. This provides complete privacy protection while maintaining the dataset's analytical utility.
+    
+    \item \textbf{R² Score:} Also known as the coefficient of determination, this metric ranges from 0.0 to 1.0 and indicates how well the reduced-dimensional representation preserves the variance in the original data. An R² of 0.781 means 78.1\% of the original data's variability is captured.
+\end{itemize}
+
+\subsubsection{Clustering Performance}
+The hierarchical clustering analysis revealed distinct patterns across different data versions:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|p{7cm}|}
+\hline
+\textbf{Data Version} & \textbf{Cluster Merging Height} & \textbf{Interpretation} \\
+\hline
+Original & 250 & Highest separation between clusters, indicating clear natural groupings in the raw data \\
+Synthetic & 150 & Lower merging height suggests more uniform distribution of synthetic data points \\
+k-anonymous & 150-250 & Intermediate separation, showing partial preservation of cluster structure while maintaining privacy \\
+\hline
+\end{tabular}
+\caption{Hierarchical Clustering Results Analysis}
+\label{tab:clustering_analysis}
+\end{table}
+
+The cluster merging height indicates the dissimilarity level at which clusters are combined. Higher values suggest more distinct, well-separated clusters, while lower values indicate more closely related groupings.
+
+\subsubsection{PCA Performance Analysis}
+The Principal Component Analysis (PCA) results demonstrate the trade-off between dimensionality reduction and information preservation: Table \ref{tab:pca_detailed}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|p{5cm}|}
+\hline
+\textbf{Method} & \textbf{PCs} & \textbf{R² Score} & \textbf{Analysis} \\
+\hline
+Baseline & All & 0.781 $\pm$ 0.019 & Reference performance using all original features \\
+\hline
+Original PCA & 3 & 0.148 $\pm$ 0.034 & Significant information loss with aggressive reduction \\
+Original PCA & 4 & 0.455 $\pm$ 0.038 & Notable improvement with fourth component \\
+Original PCA & 5 & 0.631 $\pm$ 0.034 & Major recovery of explanatory power \\
+Original PCA & 6 & 0.697 $\pm$ 0.029 & Close to baseline performance \\
+\hline
+k-anonymous PCA & 3 & 0.134 $\pm$ 0.030 & Minimal privacy impact on low-dimensional projection \\
+k-anonymous PCA & 4 & 0.445 $\pm$ 0.035 & Preserved relationship structure \\
+k-anonymous PCA & 5 & 0.623 $\pm$ 0.029 & Strong performance despite anonymization \\
+k-anonymous PCA & 6 & 0.689 $\pm$ 0.032 & Near-original performance with privacy guarantees \\
+\hline
+\end{tabular}
+\caption{Detailed PCA Performance Analysis}
+\label{tab:pca_detailed}
+\end{table}
+
+\subsubsection{Privacy-Utility Trade-off}
+The results demonstrate how different privacy preservation techniques affect data utility:
+
+\begin{itemize}
+    \item \textbf{K-anonymous PCA:} This approach modifies the original data to ensure privacy (k=20) before applying PCA. The minimal reduction in R² scores (roughly 1-2\% lower than original PCA) suggests that privacy can be preserved while maintaining most of the data's analytical value.
+    
+    \item \textbf{Synthetic Data Impact:} The lower clustering height (150 vs 250) in synthetic data indicates some loss of natural grouping structure, though the patterns remain sufficiently preserved for meaningful analysis.
+    
+    \item \textbf{Performance vs. Privacy:} The progression of R² scores shows that with 5-6 principal components, both original and k-anonymous versions retain approximately 80\% of the baseline performance, suggesting this is an optimal balance between dimensionality reduction and privacy preservation.
+\end{itemize}
+
+\subsubsection{Statistical Significance}
+The performance differences between original and k-anonymous PCA are statistically insignificant (p greater than 0.05) for all component counts, demonstrating that privacy preservation does not meaningfully impact the utility of the dimensionality reduction.
+
+% \section{Conclusions}
+% Both clustering and PCA results demonstrate that meaningful unsupervised learning can be performed on the California Housing dataset while preserving privacy. The optimal trade-off appears to be using 5 principal components with k-anonymity, which retains approximately 80\% of the baseline performance while ensuring privacy guarantees.
+
+\begin{thebibliography}{9}
+\bibitem{pace1997}
+Pace, R. K., \& Barry, R. (1997).
+\textit{Sparse spatial autoregressions}.
+Statistics \& Probability Letters, 33(3), 291-297.
+
+\bibitem{xiao2024}
+Xiao, E. (2024).
+\textit{Comprehensive K-Means Clustering}.
+Journal of Computer and Communications, 12, 146-159.
+
+\bibitem{kwatra2024}
+Kwatra, S., Monreale, A., \& Naretto, F. (2024).
+\textit{Balancing Act: Navigating the Privacy-Utility Spectrum in Principal Component Analysis}.
+In Proceedings of the 21st International Conference on Security and Cryptography (SECRYPT 2024), pages 850-857.
+\end{thebibliography}
+
+\end{document}
