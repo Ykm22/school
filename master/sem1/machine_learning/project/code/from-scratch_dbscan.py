@@ -5,6 +5,7 @@ from DBSCAN import StandardDBSCAN
 from performance_measures import calculate_silhouette, calculate_mutual_information, calculate_stability_score, calculate_inertia, calculate_calinski_harabasz, calculate_adjusted_rand_index
 from hyperparameters_tuning import plot_minpoints_analysis, plot_kdistance
 from preprocessing import preprocess, scale
+from statistics import calculate_bootstrap_statistics, print_statistical_analysis, plot_bootstrap_distributions
 
 def main():
     # Load and preprocess data
@@ -51,6 +52,11 @@ def main():
     print(f"Mutual Information: {mi:.3f}")
     print(f"Noise ratio: {noise_ratio:.3f}")
     
+    # Generate LIME explanations
+    print("\nGenerating LIME explanations...")
+    feature_names = ['latitude', 'median_income', 'total_rooms', 'ocean_proximity']
+    explain_clustering(X, dbscan, feature_names=feature_names, n_explanations=3)
+
     # Perform statistical analysis
     print("\nPerforming bootstrap analysis...")
     stats = calculate_bootstrap_statistics(
@@ -68,10 +74,6 @@ def main():
     plot_bootstrap_distributions(stats)
     
     plt.show()  # Make sure all plots are displayed
-    # Generate LIME explanations
-    print("\nGenerating LIME explanations...")
-    feature_names = ['latitude', 'median_income', 'total_rooms', 'ocean_proximity']
-    explain_clustering(X, dbscan, feature_names=feature_names, n_explanations=3)
 
 if __name__ == "__main__":
     main()
