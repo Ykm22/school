@@ -1,0 +1,3 @@
+conexp - for implications & atribute explanation
+FCA Tools Bundle - https://fca-tools-bundle.com/
+ToscanaJ - https://sourceforge.net/projects/toscanaj/files/

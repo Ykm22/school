@@ -1,0 +1,233 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry} % For better margins
+\usepackage{graphicx} % Required for \rotatebox command
+\usepackage{booktabs} % For better table formatting
+\usepackage{caption} % For table caption customization
+\usepackage{enumitem}
+
+\title{Exercise sheet Nr. 1}
+\author{Ichim Stefan - ICA - 246/1}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\left(\textbf{G 1}\right)
+
+\\
+
+Regard the following formal context K, given as a cross table:
+
+\begin{table}[htbp]
+\centering
+\label{tab:species}
+\begin{tabular}{|l||c|c|c|c|c|c|c|c|c|}
+\hline
+  & \rotatebox{90}{needs water to live} & \rotatebox{90}{lives in water} & \rotatebox{90}{lives on land} & \rotatebox{90}{needs chlorophyll to produce food} & \rotatebox{90}{two seed leaves} & \rotatebox{90}{one seed leaf} & \rotatebox{90}{can move around} & \rotatebox{90}{has limbs} & \rotatebox{90}{suckles its offspring} \\
+\hline\hline
+  Leech & x & x &  &  &  &  & x &  & \\
+\hline
+  Bream & x & x &  &  &  &  & x & x & \\
+\hline
+Frog & x & x & x &  &  &  & x & x & x \\
+\hline
+Spike-Weed & x & x &  & x &  & x &  &  & \\
+\hline
+  Reed & x & x & x & x & & x &  &  & \\
+\hline
+  Bean & x &  & x & x & x &  &  &  & \\
+\hline
+  Maize & x &  & x & x &  & x &  &  & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}[label=\alph*)]
+  \item Specify the following sets:
+    \begin{enumerate}[label=\arabic*.]
+      \item \{Bean\}' = \{needs water to live, lives on land, needs chlorophyll to produce food, two seed leaves\}
+      \item \{lives on land\}' = \{Frog, Reed, Bean, Maize\}
+      \item \{two seed leaves\}'' = \{Bean\}' = 1)
+      \item \{Frog, Maize\}' = \{needs water to live, lives on land\}
+      \item \{needs clorophyll to produce food, can move around\}' = \{\}
+      \item \{lives in water, lives on land\}' = \{Frog, Reed\}
+      \item \{needs clorophyll to produce food, can move around\}' = 5)
+    \end{enumerate}
+  \item Extend $K$ with both an object and an attribute
+    \begin{itemize}
+      \item $G \cup \{Lizard\},\ M \cup \{has\ scales\}$
+        \begin{table}[htbp]
+        \centering
+        \label{tab:species_2}
+        \begin{tabular}{|l||c|c|c|c|c|c|c|c|c|c|}
+        \hline
+          & \rotatebox{90}{needs water to live} & \rotatebox{90}{lives in water} & \rotatebox{90}{lives on land} & \rotatebox{90}{needs chlorophyll to produce food} & \rotatebox{90}{two seed leaves} & \rotatebox{90}{one seed leaf} & \rotatebox{90}{can move around} & \rotatebox{90}{has limbs} & \rotatebox{90}{suckles its offspring} & \rotatebox{90}{has scales} \\
+        \hline\hline
+          Leech & x & x &  &  &  &  & x &  &  & \\
+        \hline
+          Bream & x & x &  &  &  &  & x & x &  & x\\
+        \hline
+        Frog & x & x & x &  &  &  & x & x & x & \\
+        \hline
+        Spike-Weed & x & x &  & x &  & x &  &  &  & \\
+        \hline
+          Reed & x & x & x & x & & x &  &  &  & \\
+        \hline
+          Bean & x &  & x & x & x &  &  &  &  & \\
+        \hline
+          Maize & x &  & x & x &  & x &  &  &  & \\
+        \hline
+          Lizard & x &  & x &  &  &  & x & x &  & x\\
+        \hline
+      \end{tabular}
+      \end{table}
+    \end{itemize}
+\end{emnumerate}
+
+\newpage
+
+\left(\textbf{G 2}\right)
+
+Consider the formal context from Lecture 1. Use \textbf{ConExp} and \textbf{FCA Tools Bundle} to determine the set of concepts and to draw the concept lattices.
+
+Using the FCA Tools Bundle from https://fca-tools-bundle.com/, the following concepts were generated:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Concept} & \textbf{Attribute} \\
+\hline\hline
+Leech & needs water to live \\
+\hline
+Leech & lives in water \\
+\hline
+Leech & can move around \\
+\hline
+Bream & needs water to live \\
+\hline
+Bream & lives in water \\
+\hline
+Bream & can move around \\
+\hline
+Bream & has limbs \\
+\hline
+Frog & needs water to live \\
+\hline
+Frog & lives in water \\
+\hline
+Frog & lives on land \\
+\hline
+Frog & can move around \\
+\hline
+Frog & has limbs \\
+\hline
+Frog & suckles its offspring \\
+\hline
+Spike-Weed & needs water to live \\
+\hline
+Spike-Weed & lives in water \\
+\hline
+Spike-Weed & needs chlorophyll to produce food \\
+\hline
+Spike-Weed & one seed leaf \\
+\hline
+Reed & needs water to live \\
+\hline
+Reed & lives in water \\
+\hline
+Reed & lives on land \\
+\hline
+Reed & needs chlorophyll to produce food \\
+\hline
+Reed & one seed leaf \\
+\hline
+Bean & needs water to live \\
+\hline
+Bean & lives on land \\
+\hline
+Bean & needs chlorophyll to produce food \\
+\hline
+Bean & two seed leaves \\
+\hline
+Maize & needs water to live \\
+\hline
+Maize & lives on land \\
+\hline
+Maize & can move around \\
+\hline
+Maize & has limbs \\
+\hline
+\end{tabular}
+\label{tab:organism_characteristics}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{FCA_Tools_Bundle_ConceptLattice.png}
+\caption{Concept lattice generated by FCA Tools Bundle}
+\label{fig}
+\end{figure}
+
+\newpage
+
+\left(\textbf{G 3}\right)
+
+\begin{enumerate}[label=\alph*)]
+  \item Recall: how is the derivation operator $(\cdot)'$ defined?
+    \begin{itemize}
+      \item The derivation operator can be applied on a set of objects or a set of attributes.
+      \item When it is applied on a set of \textbf{objects}, the result is represented by the set of \textbf{attributes} all objects in the first set have in common.
+      \item When it is applied on a set of \textbf{attributes}, the result is represented by the set of \textbf{objects} which have all the attributes from the original set.
+    \end{itemize}
+
+  \item Let $K = \left(G, M, I\right)$ be a formal context and let $A, B \subseteq G$. Prove the following statements:
+   \begin{enumerate}[label=\arabic*.]
+     \item $A \subseteq B$ implies $B' \subseteq A'$
+       \begin{itemize}
+         \item if $A \subseteq B$, then for any attribute $m \in B'$, we know that $\forall g \in B: (g,m) \in I$
+         \item since $A \subseteq B$, every element in $A$ is also in $B$
+         \item therefore, for any $g \in A$, we have $g \in B$, which means $(g,m) \in I$
+         \item this shows that $\forall g \in A: (g,m) \in I$, which is exactly the definition of $m \in A'$
+         \item hence, if $m \in B'$, then $m \in A'$, which proves that $B' \subseteq A'$
+       \end{itemize}
+     \item $A \subseteq A''$
+       \begin{itemize}
+         \item for any $g \in A$, we need to show that $g \in A''$
+         \item by definition, $A'' = (A')'$, which means $A'' = \{g \in G \mid \forall m \in A': (g,m) \in I\}$
+         \item for any $g \in A$ and any $m \in A'$, we know that $(g,m) \in I$ by the definition of $A'$
+         \item therefore, every $g \in A$ satisfies the condition for being in $A''$
+         \item hence, $A \subseteq A''$
+       \end{itemize}
+     \item $A' = A'''$
+       \begin{itemize}
+         \item we'll prove both inclusions: $A' \subseteq A'''$ and $A''' \subseteq A'$
+         \item from (2), we know that $A' \subseteq A'''$ because we can substitute $A'$ for $A$ in the statement $A \subseteq A''$
+         \item for the other direction, let $m \in A'''$, then $\forall g \in A'': (g,m) \in I$
+         \item from (2), we know $A \subseteq A''$, so for every $g \in A$, we have $g \in A''$
+         \item therefore, $(g,m) \in I$ for all $g \in A$
+         \item this means $m \in A'$ by definition
+         \item thus, $A''' \subseteq A'$
+         \item combining both inclusions, we have $A' = A'''$
+       \end{itemize}
+     \item For $C \subseteq G$ and $D \subseteq M$ holds: $(C, D)$ is a formal concept if and only if there is some $E \subseteq G$ such that $C = E''$ and $D = E'$
+       \begin{itemize}
+         \item first, we'll prove the forward direction: if $(C, D)$ is a formal concept, then there exists $E \subseteq G$ such that $C = E''$ and $D = E'$
+         \item by definition, a formal concept $(C, D)$ satisfies $C' = D$ and $D' = C$
+         \item let $E = C$, then $E' = C' = D$ and $E'' = D' = C$
+         \item therefore, there exists $E$ (namely $C$ itself) such that $C = E''$ and $D = E'$
+         \item for the reverse direction, assume there exists $E \subseteq G$ such that $C = E''$ and $D = E'$
+         \item we need to show that $(C, D)$ is a formal concept, which means $C' = D$ and $D' = C$
+         \item since $D = E'$, we have $D' = (E')' = E''$ by definition
+         \item since $C = E''$, we have $D' = E'' = C$
+         \item now we need to show $C' = D$
+         \item since $C = E''$, by the property in (3), we have $C' = (E'')' = E'''$
+         \item again from (3), we know $E' = E'''$
+         \item therefore, $C' = E''' = E' = D$
+         \item thus, $(C, D)$ is a formal concept if and only if there exists $E \subseteq G$ such that $C = E''$ and $D = E'$
+       \end{itemize}
+   \end{enumerate}
+\end{enumerate}
+
+\end{document}

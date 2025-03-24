@@ -150,3 +150,6 @@ ml_venv/
 
 # LaTeX script autoreload
 LaTeX_templates/
+
+# ignore kd tools directory
+**/kd/tools/

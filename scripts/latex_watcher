@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+"""
+LaTeX Compiler and PDF Watcher
+
+This script watches a LaTeX file for changes, automatically compiles it (including bibliography
+references), and opens the resulting PDF. If the PDF is already open, it will recompile on changes.
+
+Usage: ./latex_watcher.py /path/to/your/document.tex
+
+Needs: watchdog
+"""
+
+import os
+import sys
+import time
+import subprocess
+import platform
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+class LatexHandler(FileSystemEventHandler):
+    def __init__(self, tex_file):
+        # Get absolute path to ensure consistency
+        self.tex_file = os.path.abspath(tex_file)
+        self.tex_dir = os.path.dirname(self.tex_file)
+        self.tex_filename = os.path.basename(self.tex_file)
+        self.base_name = os.path.splitext(self.tex_filename)[0]
+        self.pdf_file = os.path.join(self.tex_dir, f"{self.base_name}.pdf")
+        self.last_compile_time = 0
+        self.debounce_time = 2  # seconds to wait before recompiling after changes
+
+    def on_modified(self, event):
+        # Only respond to modifications to our tex file or related files
+        if not event.is_directory:
+            current_time = time.time()
+            file_path = event.src_path
+            
+            # Check for main tex file or related files (.bib, included tex files)
+            if (file_path.endswith('.tex') or file_path.endswith('.bib')) and \
+               (current_time - self.last_compile_time) > self.debounce_time:
+                print(f"Change detected in {file_path}")
+                self.compile_latex()
+                self.last_compile_time = current_time
+
+    def compile_latex(self):
+        """Compile the LaTeX document including bibliography if needed"""
+        print(f"Compiling {self.tex_filename}...")
+        
+        # Change to the directory containing the tex file
+        original_dir = os.getcwd()
+        os.chdir(self.tex_dir)
+        
+        try:
+            # Run pdflatex first
+            subprocess.run(['pdflatex', '-interaction=nonstopmode', self.tex_filename], 
+                          check=False, capture_output=True)
+            
+            # Check for bibliography
+            if self._has_bibliography():
+                print("Bibliography detected, running bibtex...")
+                subprocess.run(['bibtex', self.base_name], check=False, capture_output=True)
+                
+                # Run pdflatex twice more to resolve references
+                subprocess.run(['pdflatex', '-interaction=nonstopmode', self.tex_filename], 
+                              check=False, capture_output=True)
+                subprocess.run(['pdflatex', '-interaction=nonstopmode', self.tex_filename], 
+                              check=False, capture_output=True)
+            
+            print(f"Compilation finished.")
+            
+            # Check if we need to open the PDF
+            if not self._is_pdf_open():
+                self.open_pdf()
+            else:
+                print("PDF already open - it should refresh automatically.")
+        finally:
+            # Return to original directory
+            os.chdir(original_dir)
+
+    def _has_bibliography(self):
+        """Check if the TeX file uses bibliography"""
+        with open(self.tex_file, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+            return any(pattern in content for pattern in [
+                '\\bibliography{', '\\addbibresource{', '\\bibdata{', 
+                '\\cite{', '\\citep{', '\\citet{', '\\nocite{', 
+                '\\bibliographystyle{', '\\printbibliography'
+            ])
+
+    def open_pdf(self):
+        """Open the PDF with the default PDF viewer"""
+        if not os.path.exists(self.pdf_file):
+            print(f"Error: {self.pdf_file} does not exist after compilation.")
+            return
+            
+        print(f"Opening {self.pdf_file}...")
+        if platform.system() == 'Darwin':  # macOS
+            subprocess.run(['open', self.pdf_file], check=False)
+        elif platform.system() == 'Windows':
+            os.startfile(self.pdf_file)
+        else:  # Linux and others
+            subprocess.run(['xdg-open', self.pdf_file], check=False)
+
+    def _is_pdf_open(self):
+        """Check if the PDF is already open (platform-specific)"""
+        if platform.system() == 'Windows':
+            # Check if the file is open on Windows
+            try:
+                # Try to rename the file - if it's locked, this will fail
+                temp_name = self.pdf_file + '.temp'
+                os.rename(self.pdf_file, temp_name)
+                os.rename(temp_name, self.pdf_file)
+                return False
+            except (OSError, PermissionError):
+                return True
+        elif platform.system() == 'Darwin':  # macOS
+            try:
+                result = subprocess.run(['lsof', self.pdf_file], 
+                                      check=False, capture_output=True)
+                return len(result.stdout) > 0
+            except FileNotFoundError:
+                return False
+        else:  # Linux
+            try:
+                result = subprocess.run(['lsof', self.pdf_file], 
+                                      check=False, capture_output=True)
+                return len(result.stdout) > 0
+            except FileNotFoundError:
+                return False
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: ./latex_watcher.py <tex_file>")
+        sys.exit(1)
+    
+    tex_file = sys.argv[1]
+    
+    if not os.path.exists(tex_file):
+        print(f"Error: File {tex_file} does not exist.")
+        sys.exit(1)
+    
+    if not tex_file.endswith('.tex'):
+        print(f"Error: {tex_file} is not a LaTeX file.")
+        sys.exit(1)
+    
+    # Get absolute paths
+    tex_file = os.path.abspath(tex_file)
+    watch_dir = os.path.dirname(tex_file)
+    
+    handler = LatexHandler(tex_file)
+    observer = Observer()
+    observer.schedule(handler, watch_dir, recursive=True)
+    observer.start()
+    
+    # Initial compilation
+    handler.compile_latex()
+    
+    try:
+        print(f"Watching for changes in {watch_dir}...")
+        print("Press Ctrl+C to stop.")
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    
+    observer.join()
+
+if __name__ == "__main__":
+    main()
