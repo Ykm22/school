@@ -1,0 +1,191 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{color}
+\linespread{1}
+\geometry{a4paper,top=3cm,left=3cm,right=2.5cm,bottom=2cm}
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=black,citecolor=blue}
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component 2}}
+\author{\textbf{Authors: Ichim Stefan, Mirt Leonard} \\ \textbf{Group: 246/1}}
+\begin{document}
+\maketitle
+\section{Problem Definition}
+The problem we aim to solve is the implementation of a Pac-Man game simulation using a multi-agent system approach. Pac-Man is a classic arcade game where the player controls a character that navigates through a maze, collecting dots while avoiding ghosts. When the player consumes special power pellets, the ghosts become temporarily vulnerable, allowing Pac-Man to eat them for bonus points.
+
+In our multi-agent system simulation, we approach this problem by decomposing the game into various autonomous agents that interact with each other within a shared environment. This decomposition allows for modular development, parallel execution, and realistic modeling of the game mechanics through agent interaction patterns.
+
+Using the PADE (Python Agent DEvelopment) framework, we aim to create a simulation that accurately replicates the classic Pac-Man game while demonstrating key principles of multi-agent systems, including communication, coordination, and autonomous decision-making.
+
+\section{High-Level MAS Specification}
+
+\subsection{Inputs and Outputs to/from the MAS System}
+
+The multi-agent system for the Pac-Man simulation accepts the following inputs:
+\begin{enumerate}
+    \item Initial maze configuration (wall layout, dot positions, power pellet locations)
+    \item Game parameters (speed, scoring rules, level progression criteria)
+    \item Autonomous behavior parameters for the Pac-Man agent
+\end{enumerate}
+
+The system produces the following outputs:
+\begin{enumerate}
+    \item Current game state (positions of all agents, remaining dots, score)
+    \item Terminal-based visualization of the maze and agents using ASCII characters
+    \item Game events (dot collection, ghost encounters, level completion)
+    \item Performance metrics (score, time elapsed, efficiency of agents)
+    \item Logs of agent interactions and decision-making processes
+\end{enumerate}
+
+\subsection{Types of Agents}
+
+Based on our initial analysis, the Pac-Man simulation will consist of three primary types of agents:
+
+\subsubsection{Pac-Man Agent}
+A single agent representing the player character, responsible for navigating the maze, collecting dots, and avoiding or consuming ghosts.
+
+\subsubsection{Ghost Agents}
+Four distinct ghost agents (Blinky, Pinky, Inky, and Clyde), each with unique behavior patterns and strategies for pursuing Pac-Man.
+
+\subsubsection{Environment Agent}
+A specialized agent that manages the maze state, including dot availability, wall configurations, and coordinates the game progression.
+
+\subsection{Specification of Agents}
+
+\subsubsection{Pac-Man Agent}
+\textbf{Inputs:}
+\begin{enumerate}
+    \item Current position in the maze
+    \item Local perception of surrounding maze elements (walls, dots, power pellets)
+    \item Ghost positions within perception radius
+    \item Game state information from the blackboard (ghost modes, score)
+\end{enumerate}
+
+\textbf{Outputs:}
+\begin{enumerate}
+    \item Movement decisions (up, down, left, right)
+    \item Updates to the blackboard regarding position and dot collection
+    \item Interaction events (power pellet consumption, ghost encounters)
+    \item Character representation for terminal visualization ('P' for Pac-Man)
+\end{enumerate}
+
+\textbf{Task:} The Pac-Man agent must navigate the maze efficiently to collect all dots while avoiding ghosts in their normal state and pursuing them when in a frightened state. It employs pathfinding algorithms and strategic decision-making based on its perception of the environment.
+
+\subsubsection{Ghost Agents}
+\textbf{Inputs:}
+\begin{enumerate}
+    \item Current position in the maze
+    \item Current behavior mode (chase, scatter, frightened)
+    \item Pac-Man's position (either directly perceived or from blackboard)
+    \item Maze structure within perception radius
+\end{enumerate}
+
+\textbf{Outputs:}
+\begin{enumerate}
+    \item Movement decisions (up, down, left, right)
+    \item Updates to the blackboard regarding position and mode changes
+    \item Interaction events (collisions with Pac-Man)
+    \item Character representations for terminal visualization ('B', 'P', 'I', 'C' for respective ghosts)
+\end{enumerate}
+
+\textbf{Task:} Each ghost agent must navigate the maze according to its specific behavior pattern. In chase mode, ghosts pursue Pac-Man using various strategies unique to each ghost. In scatter mode, they patrol specific corners of the maze. In frightened mode, they attempt to flee from Pac-Man. The ghost agents implement decision trees and simple pathfinding to achieve these behaviors.
+
+\subsubsection{Environment Agent}
+\textbf{Inputs:}
+\begin{enumerate}
+    \item Agent positions and actions
+    \item Game clock signals
+    \item Level configuration data
+\end{enumerate}
+
+\textbf{Outputs:}
+\begin{enumerate}
+    \item Updated maze state (dot availability, power pellet status)
+    \item Game event notifications (level completion, game over)
+    \item Mode change signals for ghosts (timing for chase/scatter transitions)
+    \item Blackboard updates with comprehensive game state
+    \item Terminal-based visualization of the entire game state using ASCII characters
+    \item Character representations for maze elements (walls, dots, power pellets)
+\end{enumerate}
+
+\textbf{Task:} The environment agent serves as the central coordinator for the simulation. It maintains the maze state, processes agent interactions, manages the game clock, and ensures that all game rules are properly enforced. It also handles the transitions between different game phases and levels.
+
+\subsection{Communications Among Agents}
+
+The communication structure in our Pac-Man MAS implementation follows the blackboard pattern, providing a centralized knowledge repository accessible to all agents. This approach offers several advantages for our simulation:
+
+\subsubsection{Blackboard Structure}
+The blackboard contains shared knowledge including:
+\begin{enumerate}
+    \item Complete maze state (walls, dots, power pellets)
+    \item Agent positions and current modes
+    \item Game events (collisions, dot collections, mode changes)
+    \item Global game state (score, level, time remaining)
+\end{enumerate}
+
+\subsubsection{Communication Patterns}
+The environment agent acts as the primary manager of the blackboard, updating it with the latest game state after each game cycle. Ghost and Pac-Man agents both read from and write to the blackboard:
+\begin{enumerate}
+    \item Reading: Agents retrieve information outside their perception radius
+    \item Writing: Agents update their positions and report interactions
+\end{enumerate}
+
+\subsubsection{Message Types}
+While the blackboard handles most communication needs, direct messages are exchanged in specific scenarios:
+\begin{enumerate}
+    \item Position updates from agents to the environment
+    \item Mode change notifications from environment to ghosts
+    \item Collision detection and resolution messages
+    \item Game state transitions (level completion, game over)
+\end{enumerate}
+
+\section{Agents' Role Within the MAS}
+
+Each agent in our Pac-Man simulation fulfills a specific role that contributes to the overall functioning of the multi-agent system:
+
+\subsection{Pac-Man Agent Role}
+The Pac-Man agent serves as the protagonist within the system, embodying the following roles:
+
+\textbf{Explorer:} Systematically navigates the maze to discover and collect dots and power pellets.
+
+\textbf{Decision-maker:} Evaluates risk and reward to determine optimal paths through the maze, balancing the goals of dot collection and ghost avoidance.
+
+\textbf{Reactor:} Responds dynamically to changing game conditions, such as ghost proximity and power pellet effects.
+
+The Pac-Man agent's actions drive the primary gameplay loop and serve as the focal point around which other agents organize their behaviors.
+
+\subsection{Ghost Agent Roles}
+The four ghost agents function as antagonists within the system, each with a specialized role:
+
+\textbf{Blinky (Red):} Acts as the direct pursuer, implementing aggressive pathfinding to chase Pac-Man by the shortest possible route. Functions as the primary threat and pace-setter for the game difficulty.
+
+\textbf{Pinky (Pink):} Serves as the ambusher, attempting to position itself in front of Pac-Man's expected path. Introduces tactical complexity to the pursuit mechanics.
+
+\textbf{Inky (Cyan):} Operates as the flanker, using both Blinky's position and Pac-Man's position to triangulate interception points. Adds unpredictability and coordination to ghost behavior.
+
+\textbf{Clyde (Orange):} Functions as the patroller, alternating between pursuit when distant from Pac-Man and retreat when close. Provides relief from constant pressure and introduces rhythm to the pursuit dynamics.
+
+Collectively, the ghost agents create emergent complexity through their different pursuit strategies, forcing the Pac-Man agent to adapt to multiple simultaneous threats.
+
+\subsection{Environment Agent Role}
+The environment agent serves multiple critical roles within the system:
+
+\textbf{Coordinator:} Synchronizes agent actions according to the game clock, ensuring fair and consistent gameplay progression.
+
+\textbf{Referee:} Enforces game rules, detects collisions, and determines outcomes of agent interactions.
+
+\textbf{State Manager:} Maintains the authoritative representation of the game state, including dot availability, power pellet status, and score.
+
+\textbf{Director:} Controls the pacing of the game by managing mode transitions for ghosts and level progressions.
+
+\textbf{Visualizer:} Generates the terminal-based ASCII representation of the current game state after each simulation step, displaying the maze, agents, dots, and power pellets using appropriate character symbols.
+
+The environment agent provides the structural foundation upon which the other agents operate, maintaining consistency and facilitating ordered interaction between the autonomous agents.
+
+Through the complementary roles of these agents, the multi-agent system creates a cohesive simulation of the classic Pac-Man game, demonstrating effective agent specialization, communication, and coordinated behavior.
+
+% \cite{2018_Dafonte}
+%
+% \bibliographystyle{alpha}
+% \bibliography{biblio}
+\end{document}
