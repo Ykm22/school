@@ -1,0 +1,128 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{color}
+\usepackage{tabularx}
+\linespread{1}
+\geometry{a4paper,top=3cm,left=3cm,right=2.5cm,bottom=2cm}
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=black,citecolor=blue}
+\title{\textbf{Laboratory assignment} \\[1ex] \large \textbf{Component 4}}
+\author{\textbf{Authors: Ichim Stefan, Mirt Leonard} \\ \textbf{Group: 246/1}}
+\begin{document}
+\maketitle
+Problem definition and MAS specification for SP2 (doc)
+\section{Problem Definition}
+This project addresses the challenge of distributed traffic management through a multi-agent system where each vehicle is represented by an autonomous agent. In urban environments with increasing traffic density, centralized traffic management systems often struggle to adapt to rapidly changing conditions. Our solution implements a distributed pathfinding approach where vehicle agents communicate directly with each other to share information about obstacles, traffic conditions, and route availability.
+
+Agents exchange real-time data about road blockages, congestion levels, and unexpected events, allowing each agent to dynamically adjust its pathfinding algorithm based on collective intelligence. This distributed approach enables more responsive traffic flow optimization compared to traditional centralized systems, as decision-making occurs locally but with globally shared information.
+
+\section{High-Level MAS Specification}
+\subsection{System Architecture}
+The multi-agent system utilizes a decentralized architecture with peer-to-peer communication between vehicle agents. The system operates within a simulated urban road network with configurable road segments, intersections, and potential obstacles. Each vehicle agent maintains a local knowledge base that is continuously updated through communication with nearby agents.
+
+\subsection{Core Capabilities}
+The system implements four key capabilities:
+\begin{enumerate}
+    \item Distributed obstacle detection and reporting
+    \item Dynamic path recalculation based on shared information
+    \item Traffic flow optimization through collaborative routing
+    \item Emergent traffic pattern formation without centralized control
+\end{enumerate}
+
+\section{Inputs and Outputs}
+\subsection{System Inputs}
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\textbf{Input} & \textbf{Description} \\
+\hline
+Road Network & Graph representation of the road system with nodes (intersections) and edges (road segments) \\
+\hline
+Traffic Conditions & Initial traffic density and flow rates for road segments \\
+\hline
+Vehicle Parameters & Starting locations, destinations, and movement capabilities \\
+\hline
+Obstacle Events & Scheduled or random events that block roads or reduce capacity \\
+\hline
+\end{tabularx}
+
+\subsection{System Outputs}
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\textbf{Output} & \textbf{Description} \\
+\hline
+Route Solutions & Paths selected by each vehicle agent \\
+\hline
+System Performance & Overall metrics including average travel time, congestion levels, and system throughput \\
+\hline
+Information Spread & Analysis of how quickly obstacle information propagates through the system \\
+\hline
+Emergent Patterns & Identification of cooperative behaviors that emerge without explicit programming \\
+\hline
+\end{tabularx}
+
+\section{Types of Agents}
+\subsection{Vehicle Agents}
+The primary agent type representing individual vehicles navigating through the network. Each vehicle agent has unique origin-destination pairs and can communicate with nearby agents.
+
+\subsection{Monitor Agents}
+Observer agents that track system-wide metrics without directly participating in pathfinding. These agents collect data for performance evaluation.
+
+\subsection{Infrastructure Agents}
+Optional extension representing fixed infrastructure elements like traffic lights or road sensors that can communicate with vehicle agents.
+
+\section{Agent Specifications}
+\subsection{Vehicle Agent}
+\textbf{Inputs:} Current location, destination, local map, messages from other agents\\
+\textbf{Internal State:} Known obstacles, traffic conditions, planned route\\
+\textbf{Outputs:} Movement decisions, information broadcasts\\
+\textbf{Task:} Navigate to destination efficiently while sharing and utilizing collective information
+
+\subsection{Monitor Agent}
+\textbf{Inputs:} System state observations, performance metrics\\
+\textbf{Internal State:} Historical performance data, statistical models\\
+\textbf{Outputs:} System analysis reports\\
+\textbf{Task:} Evaluate overall system efficiency and information propagation patterns
+
+\subsection{Infrastructure Agent}
+\textbf{Inputs:} Local traffic observations\\
+\textbf{Internal State:} Local traffic history, scheduled operations\\
+\textbf{Outputs:} Status broadcasts to nearby vehicle agents\\
+\textbf{Task:} Provide fixed reference points for information dissemination
+
+\section{Agent Communications}
+\subsection{Communication Model}
+The system implements a hybrid communication model combining:
+\begin{enumerate}
+    \item Direct message passing between agents
+    \item Selective information forwarding for important updates
+    \item Information persistence with time decay for reliability
+\end{enumerate}
+
+\subsection{Message Types}
+\begin{tabularx}{\textwidth}{|X|X|X|}
+\hline
+\textbf{Message Type} & \textbf{Content} & \textbf{Purpose} \\
+\hline
+Obstacle Alert & Location, type, severity, timestamp & Inform about road blockages \\
+\hline
+Traffic Update & Road segment, congestion level, velocity & Share traffic conditions \\
+\hline
+Route Intention & Planned path segments, estimated arrival & Coordinate future movements \\
+\hline
+Request Info & Location area, information type & Query for specific information \\
+\hline
+\end{tabularx}
+
+\subsection{Communication Protocol}
+Agents communicate asynchronously with no guaranteed delivery. Information reliability is established through:
+
+\begin{enumerate}
+    \item Timestamping all shared information
+    \item Confidence ratings based on information source and age
+    \item Prioritization of high-impact information (major obstacles)
+    \item Confirmation mechanisms for critical updates
+\end{enumerate}
+
+Messages between agents have limited propagation distance to prevent network congestion while ensuring relevant information reaches affected vehicles.
+\end{document}
