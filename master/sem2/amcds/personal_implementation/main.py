@@ -1,9 +1,9 @@
 import argparse
-from pl.perfect_link import PerfectLink
+from perfect_link import PerfectLink
 import pb.communication_protocol_pb2 as pb
 import time
-from tcp import tcp
-from system.system import System
+import tcp
+from system import System
 
 systems = {}
 

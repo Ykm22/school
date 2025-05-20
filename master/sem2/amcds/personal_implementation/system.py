@@ -1,12 +1,12 @@
 import queue
 import threading
-import time
-from pl.perfect_link import PerfectLink
-from app.app import App
-from broadcast.best_effort_broadcast import BestEffortBroadcast
+from perfect_link import PerfectLink
+from app import App
+from best_effort_broadcast import BestEffortBroadcast
 import pb.communication_protocol_pb2 as pb
 import utils
 from nnar import NNAtomicRegister
+from consensus import EpochChange, EventualLeaderDetector, EventuallyPerfectFailureDetector, UniformConsensus
 
 class System:
     def __init__(self, host_ip, host_port, owner, idx, hub_ip, hub_port, msg):
@@ -55,6 +55,24 @@ class System:
         self.abstractions[f"{abstraction_id}.beb"] = BestEffortBroadcast(self.msg_queue, self.processes, f"{abstraction_id}.beb")
         self.abstractions[f"{abstraction_id}.beb.pl"] = pl.create_copy(parent_id=f"{abstraction_id}.beb")
         # print(f"created register {abstraction_id}")
+
+    def _register_consensus_abstractions(self, abstraction_id: str):
+        # print("im here!\n\n\n")
+        pl = PerfectLink(
+            self.own_process.host, self.own_process.port, 
+            self.hub_ip, self.hub_port, 
+            self.system_id, self.msg_queue, self.processes
+        )
+        self.abstractions[abstraction_id] = UniformConsensus(abstraction_id, self.msg_queue, self.abstractions, self.processes, self.own_process, pl)
+        self.abstractions[f"{abstraction_id}.ec"] = EpochChange(abstraction_id, f"{abstraction_id}.ec", self.msg_queue, self.processes, self.own_process)
+        self.abstractions[f"{abstraction_id}.ec.pl"] = pl.create_copy(parent_id=f"{abstraction_id}.ec")
+        self.abstractions[f"{abstraction_id}.ec.beb"] = BestEffortBroadcast(self.msg_queue, self.processes, f"{abstraction_id}.ec.beb")
+        self.abstractions[f"{abstraction_id}.ec.beb.pl"] = pl.create_copy(parent_id=f"{abstraction_id}.ec.beb")
+        self.abstractions[f"{abstraction_id}.ec.eld"] = EventualLeaderDetector(f"{abstraction_id}.ec", f"{abstraction_id}.ec.eld", self.msg_queue, self.processes)
+        self.abstractions[f"{abstraction_id}.ec.eld.epfd"] = EventuallyPerfectFailureDetector(f"{abstraction_id}.ec.eld", f"{abstraction_id}.ec.eld.epfd", self.msg_queue, self.processes)
+        # print("aloo\n\n\n")
+        self.abstractions[f"{abstraction_id}.ec.eld.epfd.pl"] = pl.create_copy(parent_id=f"{abstraction_id}.ec.eld.epfd")
+        # print("aloo\n\n\n")
         
     def _start_event_loop(self):
         self.running = True
@@ -79,13 +97,25 @@ class System:
         # print(msg)
         to_abstraction_id = msg.ToAbstractionId
         if to_abstraction_id not in self.abstractions.keys():
+            # print("\n\n")
+            # print(to_abstraction_id)
+            # print("\n\n")
+            # print(msg.type)
+            # print("\n\n")
             if to_abstraction_id.startswith("app.nnar"):
                 register_id = utils.extract_register_id(to_abstraction_id)
                 if register_id:
                     self._register_nnar_abstractions(f"app.nnar[{register_id}]")
                 else:
-                    print(f"Error extracting register_id: {register_id}")
+                    print(f"Error extracting NNAR register_id: {register_id}")
+            elif msg.type == pb.Message.Type.UC_PROPOSE:
+                register_id = utils.extract_register_id(to_abstraction_id)
+                if register_id:
+                    self._register_consensus_abstractions(f"app.uc[{register_id}]")
+                else:
+                    print(f"Error extracting UC_PROPOSE register_id: {register_id}")
         try:
+            # print(self.abstractions.keys())
             handler = self.abstractions[msg.ToAbstractionId]
             handler.handle(msg)
         except Exception as e:

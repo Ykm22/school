@@ -1,5 +1,5 @@
 import pb.communication_protocol_pb2 as pb
-from tcp import tcp 
+import tcp 
 import queue
 
 #         pl = PerfectLink(self.own_process.host, self.own_process.port, self.hub_ip, self.hub_port, self.system_id, self.msg_queue, self.processes)

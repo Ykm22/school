@@ -57,6 +57,18 @@ class App():
                         msg_to_send.FromAbstractionId = "app"
                         msg_to_send.ToAbstractionId = f"app.nnar[{msg.plDeliver.message.appRead.register}]"
                         msg_to_send.nnarRead.SetInParent()  # Equivalent to creating an empty NnarRead message
+                    case pb.Message.Type.APP_PROPOSE:
+                        # Create message for UC_PROPOSE
+                        msg_to_send = pb.Message()
+                        msg_to_send.type = pb.Message.Type.UC_PROPOSE
+                        msg_to_send.FromAbstractionId = "app"
+
+                        # Build the ToAbstractionId with the topic name
+                        topic = msg.plDeliver.message.appPropose.topic
+                        msg_to_send.ToAbstractionId = f"app.uc[{topic}]"
+
+                        # Copy the value from the original message to UcPropose
+                        msg_to_send.ucPropose.value.CopyFrom(msg.plDeliver.message.appPropose.value)
 
             case pb.Message.Type.BEB_DELIVER:
                 msg_to_send = pb.Message()
@@ -101,5 +113,23 @@ class App():
                 inner_message.appReadReturn.value.CopyFrom(msg.nnarReadReturn.value)
 
                 # Attach inner message to outer message
+                msg_to_send.plSend.message.CopyFrom(inner_message)
+
+            case pb.Message.Type.UC_DECIDE:
+                # Create the outer message for PL_SEND
+                msg_to_send = pb.Message()
+                msg_to_send.type = pb.Message.Type.PL_SEND
+                msg_to_send.FromAbstractionId = "app" 
+                msg_to_send.ToAbstractionId = "app.pl"
+
+                # Create the inner message for APP_DECIDE
+                inner_message = pb.Message()
+                inner_message.type = pb.Message.Type.APP_DECIDE
+                inner_message.ToAbstractionId = "app"
+
+                # Copy the value from UcDecide to AppDecide
+                inner_message.appDecide.value.CopyFrom(msg.ucDecide.value)
+
+                # Set the inner message in PlSend
                 msg_to_send.plSend.message.CopyFrom(inner_message)
         self.msg_queue.put(msg_to_send, block=False)
