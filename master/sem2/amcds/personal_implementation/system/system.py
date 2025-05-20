@@ -5,6 +5,8 @@ from pl.perfect_link import PerfectLink
 from app.app import App
 from broadcast.best_effort_broadcast import BestEffortBroadcast
 import pb.communication_protocol_pb2 as pb
+import utils
+from nnar import NNAtomicRegister
 
 class System:
     def __init__(self, host_ip, host_port, owner, idx, hub_ip, hub_port, msg):
@@ -37,6 +39,22 @@ class System:
         self.abstractions["app.pl"] = pl.create_copy(parent_id="app")
         self.abstractions["app.beb"] = BestEffortBroadcast(self.msg_queue, self.processes, "app.beb")
         self.abstractions["app.beb.pl"] = pl.create_copy(parent_id="app.beb")
+
+    def _register_nnar_abstractions(self, abstraction_id: str):
+        pl = PerfectLink(
+            self.own_process.host, self.own_process.port, 
+            self.hub_ip, self.hub_port, 
+            self.system_id, self.msg_queue, self.processes
+        )
+        self.abstractions[abstraction_id] = NNAtomicRegister(
+            self.msg_queue, len(self.processes), 
+            abstraction_id, 0, self.own_process.rank, 
+            -1, {}
+        )
+        self.abstractions[f"{abstraction_id}.pl"] = pl.create_copy(parent_id=abstraction_id)
+        self.abstractions[f"{abstraction_id}.beb"] = BestEffortBroadcast(self.msg_queue, self.processes, f"{abstraction_id}.beb")
+        self.abstractions[f"{abstraction_id}.beb.pl"] = pl.create_copy(parent_id=f"{abstraction_id}.beb")
+        # print(f"created register {abstraction_id}")
         
     def _start_event_loop(self):
         self.running = True
@@ -58,9 +76,20 @@ class System:
                 
     def _process_message(self, msg: pb.Message):
         # print("have to process message!")
-        handler = self.abstractions[msg.ToAbstractionId]
-        handler.handle(msg)
-        pass
+        # print(msg)
+        to_abstraction_id = msg.ToAbstractionId
+        if to_abstraction_id not in self.abstractions.keys():
+            if to_abstraction_id.startswith("app.nnar"):
+                register_id = utils.extract_register_id(to_abstraction_id)
+                if register_id:
+                    self._register_nnar_abstractions(f"app.nnar[{register_id}]")
+                else:
+                    print(f"Error extracting register_id: {register_id}")
+        try:
+            handler = self.abstractions[msg.ToAbstractionId]
+            handler.handle(msg)
+        except Exception as e:
+            print(f"No handler: {str(e)}")
             
     def add_message(self, msg: pb.Message):
         try:
