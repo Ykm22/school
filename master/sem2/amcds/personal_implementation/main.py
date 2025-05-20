@@ -14,11 +14,12 @@ def parse_arguments():
     parser.add_argument('hub_port', type=int, help='Port of the hub')
     parser.add_argument('owner', help='Owner identifier')
     parser.add_argument('host', help='IP address for processes')
-    parser.add_argument('process_ports', type=int, nargs='+', help='Ports for processes (one or more)')
+    parser.add_argument('process_port', type=int, help='Ports for processes (one or more)')
+    parser.add_argument('index', type=int, help='Process index')
     
     return parser.parse_args()
 
-def register(pl: PerfectLink, owner: str, destination_host: str, destination_port: str) -> bool:
+def register(pl: PerfectLink, owner: str, index: int, destination_host: str, destination_port: str) -> bool:
     try:
         msg = pb.Message()
         msg.type = pb.Message.Type.PL_SEND
@@ -30,7 +31,7 @@ def register(pl: PerfectLink, owner: str, destination_host: str, destination_por
         # Set the registration message
         msg.plSend.message.type = pb.Message.Type.PROC_REGISTRATION
         msg.plSend.message.procRegistration.owner = owner
-        msg.plSend.message.procRegistration.index = 1
+        msg.plSend.message.procRegistration.index = index
         
         success = pl.handle(msg)
         if not success:
@@ -75,15 +76,15 @@ def message_handler(data: bytes, hub_ip: str, hub_port: str, host_ip: str, host_
 def main():
     args = parse_arguments()
 
-    pl = PerfectLink(args.host, args.process_ports[0], args.hub_ip, args.hub_port)
+    pl = PerfectLink(args.host, args.process_port, args.hub_ip, args.hub_port)
 
-    if not register(pl, args.owner, args.hub_ip, args.hub_port):
+    if not register(pl, args.owner, args.index, args.hub_ip, args.hub_port):
         return
 
-    listener = tcp.listen(args.host, args.process_ports[0], 
+    listener = tcp.listen(args.host, args.process_port, 
         lambda data: message_handler(data, 
                                      args.hub_ip, args.hub_port, 
-                                     args.host, args.process_ports[0], args.owner, 1
+                                     args.host, args.process_port, args.owner, args.index
         )
     )
 
