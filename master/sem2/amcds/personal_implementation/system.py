@@ -83,7 +83,6 @@ class System:
     def _event_loop(self):
         while self.running:
             try:
-                # Non-blocking queue get with timeout to allow checking running flag
                 message = self.msg_queue.get(block=True, timeout=0.1)
                 self._process_message(message)
                 self.msg_queue.task_done()

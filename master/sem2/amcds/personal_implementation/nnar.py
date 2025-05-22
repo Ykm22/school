@@ -45,7 +45,7 @@ class NNAtomicRegister():
             case pb.Message.Type.NNAR_READ:
                 self.read_id = self.read_id + 1
                 self.acks = 0
-                self.read_list = {}  # Python dict as equivalent to Go map
+                self.read_list = {}
                 self.reading = True
 
                 msg_to_send = pb.Message()

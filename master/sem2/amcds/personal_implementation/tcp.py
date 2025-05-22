@@ -65,45 +65,41 @@ def listen(address_ip: str, address_port: str, handler: Callable[[bytes], Any]) 
         listener.listen(5)
         print(f"Listening on {host}:{port}")
         
-        # Start a background thread to handle connections
         def accept_connections():
             while True:
                 try:
-                    # Accept a connection
                     conn, addr = listener.accept()
-                    # Handle this connection in a try-finally block for proper cleanup
                     try:
-                        # Read the message size (4 bytes)
                         size_buf = conn.recv(4)
                         if len(size_buf) != 4:
                             print("Failed to read message size")
                             continue
-                        
-                        # Parse the size as a big-endian uint32
+ 
+                        # parse size as a big-endian uint32
                         message_size = struct.unpack('>I', size_buf)[0]
-                        
+
                         # Read exactly message_size bytes
                         data = b''
                         remaining = message_size
                         while remaining > 0:
                             chunk = conn.recv(min(4096, remaining))
-                            if not chunk:  # Connection closed prematurely
+                            if not chunk:
                                 break
                             data += chunk
                             remaining -= len(chunk)
-                        
+
                         if len(data) != message_size:
                             print(f"Incomplete message: got {len(data)} bytes, expected {message_size}")
                             continue
-                        
+
                         # Pass the data to the handler
                         handler(data)
-                        
+
                     except Exception as e:
                         print(f"Error handling connection from {addr}: {str(e)}")
                     finally:
                         conn.close()
-                        
+
                 except Exception as e:
                     # Check if the listener was closed
                     if listener.fileno() == -1:
@@ -112,7 +108,7 @@ def listen(address_ip: str, address_port: str, handler: Callable[[bytes], Any]) 
         
         # Start the accept thread
         thread = threading.Thread(target=accept_connections)
-        thread.daemon = True  # This makes the thread exit when the main program exits
+        thread.daemon = True
         thread.start()
         
         return listener
