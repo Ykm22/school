@@ -1,19 +1,26 @@
 # Game configuration parameters
 
-GAME_SPEED = 2.0  # Seconds between moves
+GAME_SPEED = 0.2  # 0.2 seconds between moves (faster gameplay)
 MAZE_WIDTH = 19
 MAZE_HEIGHT = 21
+
+# Scoring
+SCORE_DOT = 10
+SCORE_POWER_PELLET = 50
+POWER_PELLET_DURATION = 8.0  # seconds
 
 # Agent passwords for SPADE
 AGENT_PASSWORDS = {
     'pacman': 'password',
-    'environment': 'password'
+    'environment': 'password',
+    'blinky': 'password'
 }
 
 # Agent JIDs (will be constructed with localhost)
 AGENT_JIDS = {
     'pacman': 'pacman@localhost',
-    'environment': 'environment@localhost'
+    'environment': 'environment@localhost',
+    'blinky': 'blinky@localhost'
 }
 
 # Directions

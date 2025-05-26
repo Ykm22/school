@@ -24,6 +24,7 @@ async def test_connection():
     # Test configurations
     test_configs = [
         {"jid": "pacman@localhost", "password": "password"},
+        {"jid": "blinky@localhost", "password": "password"},
         {"jid": "environment@localhost", "password": "password"},
         {"jid": "admin@localhost", "password": "admin"},
     ]

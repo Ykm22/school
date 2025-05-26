@@ -2,13 +2,13 @@ import asyncio
 import random
 import logging
 from spade.behaviour import PeriodicBehaviour
-from config.game_config import GAME_SPEED, DIRECTIONS
+from config.game_config import DIRECTIONS
 
 logger = logging.getLogger('PacManMAS.PacManBehavior')
 
 class RandomMoveBehaviour(PeriodicBehaviour):
     def __init__(self, agent):
-        super().__init__(period=GAME_SPEED)
+        super().__init__(period=0.2)  # 0.2 seconds between moves
         self.agent = agent
     
     async def run(self):
@@ -16,6 +16,19 @@ class RandomMoveBehaviour(PeriodicBehaviour):
         x, y = current_pos
         
         logger.info(f"Pac-Man at position {current_pos}, planning next move...")
+        
+        # Check and collect item at current position first
+        collected_item = self.agent.maze.collect_item(x, y)
+        if collected_item == 'dot':
+            self.agent.blackboard.collect_dot()
+        elif collected_item == 'power_pellet':
+            self.agent.blackboard.collect_power_pellet()
+        
+        # Check if game is complete
+        if self.agent.maze.is_game_complete():
+            logger.info("All collectibles gathered! Game complete!")
+            self.agent.blackboard.set_game_complete()
+            return
         
         # Get valid moves
         valid_moves = self.agent.maze.get_valid_moves(x, y)

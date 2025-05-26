@@ -1,8 +1,8 @@
-# Maze layout definitions
+# Maze layout definitions with power pellets
 
 MINI_MAZE = [
     "#####################",
-    "#.........#.........#",
+    "#O........#........O#",  # Power pellets in corners
     "#.###.###.#.###.###.#",
     "#...................#",
     "#.###.#.#####.#.###.#",
@@ -16,7 +16,7 @@ MINI_MAZE = [
     "#####.#.#####.#.#####",
     "#.........#.........#",
     "#.###.###.#.###.###.#",
-    "#...#.....P.....#...#",
+    "#O..#.....P.....#..O#",  # Power pellets and Pac-Man start
     "###.#.#.#####.#.#.###",
     "#.....#...#...#.....#",
     "#.#######.#.#######.#",
@@ -26,6 +26,7 @@ MINI_MAZE = [
 
 # Characters:
 # '#' = wall
-# '.' = dot
+# '.' = dot (10 points)
+# 'O' = power pellet (50 points, 8 seconds of power)
 # ' ' = empty space
 # 'P' = Pac-Man starting position
