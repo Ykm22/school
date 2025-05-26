@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  prosody:
+    image: prosody/prosody:latest
+    container_name: pacman_prosody
+    ports:
+      - "5222:5222"
+      - "5280:5280"
+    environment:
+      - LOCAL=localhost
+      - DOMAIN=localhost
+      - PASSWORD=admin
+    volumes:
+      - prosody_data:/var/lib/prosody
+      - ./prosody.cfg.lua:/etc/prosody/prosody.cfg.lua
+    restart: unless-stopped
+
+volumes:
+  prosody_data:
