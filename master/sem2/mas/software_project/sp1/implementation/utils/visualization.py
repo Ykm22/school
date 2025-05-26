@@ -21,13 +21,24 @@ class MazeVisualizer:
         print("=" * 50)
         print()
         
+        # Create a fresh copy of the maze layout
         maze_copy = [list(row) for row in self.maze.layout]
         
-        # Place agents on the maze
+        # First, clear any existing 'P' from the original layout
+        # Replace original Pac-Man position with a dot
+        start_x, start_y = self.maze.pacman_start
+        if maze_copy[start_y][start_x] == 'P':
+            maze_copy[start_y][start_x] = '.'
+        
+        # Now place agents on the maze
         for agent_name, pos in agents_positions.items():
             x, y = pos
-            if agent_name == 'pacman':
-                maze_copy[y][x] = 'P'
+            if 0 <= y < len(maze_copy) and 0 <= x < len(maze_copy[0]):
+                if agent_name == 'pacman':
+                    maze_copy[y][x] = 'P'
+                # Add other agent types here when you implement ghosts
+                # elif agent_name == 'blinky':
+                #     maze_copy[y][x] = 'B'
         
         # Print the maze
         for row in maze_copy:

@@ -33,12 +33,14 @@ async def main():
         logger.info("Agents created, starting system...")
         
         # Start agents with auto-registration
-        await pacman_agent.start(auto_register=True)
+        # await pacman_agent.start(auto_register=True)
+        await pacman_agent.start()
         logger.info("Pac-Man agent started")
         
         await asyncio.sleep(1)  # Small delay between agent starts
         
-        await environment_agent.start(auto_register=True)
+        # await environment_agent.start(auto_register=True)
+        await environment_agent.start()
         logger.info("Environment agent started")
         
         logger.info("All agents started successfully")
