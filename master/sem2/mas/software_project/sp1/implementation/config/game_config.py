@@ -13,14 +13,20 @@ POWER_PELLET_DURATION = 8.0  # seconds
 AGENT_PASSWORDS = {
     'pacman': 'password',
     'environment': 'password',
-    'blinky': 'password'
+    'blinky': 'password',
+    'pinky': 'password',
+    'inky': 'password',
+    'clyde': 'password'
 }
 
 # Agent JIDs (will be constructed with localhost)
 AGENT_JIDS = {
     'pacman': 'pacman@localhost',
     'environment': 'environment@localhost',
-    'blinky': 'blinky@localhost'
+    'blinky': 'blinky@localhost',
+    'pinky': 'pinky@localhost',
+    'inky': 'inky@localhost',
+    'clyde': 'clyde@localhost'
 }
 
 # Directions
@@ -32,3 +38,18 @@ DIRECTIONS = {
 }
 
 DIRECTION_NAMES = ['UP', 'DOWN', 'LEFT', 'RIGHT']
+
+# Ghost configurations
+GHOST_COLORS = {
+    'blinky': 'Red',
+    'pinky': 'Pink',
+    'inky': 'Cyan',
+    'clyde': 'Orange'
+}
+
+GHOST_PERSONALITIES = {
+    'blinky': 'The Chaser - Directly pursues Pac-Man',
+    'pinky': 'The Ambusher - Tries to get ahead of Pac-Man',
+    'inky': 'The Flanker - Uses Blinky to create pincer movements',
+    'clyde': 'The Alternator - Chases when far, retreats when close'
+}

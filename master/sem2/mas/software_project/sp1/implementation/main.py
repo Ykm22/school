@@ -31,13 +31,37 @@ async def main():
             maze
         )
         
-        # Create ghost agent
-        ghost_agent = GhostAgent(
+        # Create all four ghost agents
+        blinky_agent = GhostAgent(
             AGENT_JIDS['blinky'],
             AGENT_PASSWORDS['blinky'],
             maze,
             ghost_name="blinky",
-            start_position=(10, 9)  # Start near center
+            start_position=(10, 9)  # Starts outside ghost house
+        )
+        
+        pinky_agent = GhostAgent(
+            AGENT_JIDS['pinky'],
+            AGENT_PASSWORDS['pinky'],
+            maze,
+            ghost_name="pinky",
+            start_position=(9, 10)  # Starts inside ghost house
+        )
+        
+        inky_agent = GhostAgent(
+            AGENT_JIDS['inky'],
+            AGENT_PASSWORDS['inky'],
+            maze,
+            ghost_name="inky",
+            start_position=(10, 10)  # Starts inside ghost house
+        )
+        
+        clyde_agent = GhostAgent(
+            AGENT_JIDS['clyde'],
+            AGENT_PASSWORDS['clyde'],
+            maze,
+            ghost_name="clyde",
+            start_position=(11, 10)  # Starts inside ghost house
         )
         
         logger.info("Agents created, starting system...")
@@ -46,12 +70,24 @@ async def main():
         await pacman_agent.start(auto_register=True)
         logger.info("Pac-Man agent started")
         
-        await asyncio.sleep(1)  # Small delay between agent starts
+        await asyncio.sleep(0.5)  # Small delay between agent starts
         
-        await ghost_agent.start(auto_register=True)
-        logger.info("Ghost agent started")
+        # Start all ghost agents
+        await blinky_agent.start(auto_register=True)
+        logger.info("Blinky ghost agent started")
+        await asyncio.sleep(0.5)
         
-        await asyncio.sleep(1)
+        await pinky_agent.start(auto_register=True)
+        logger.info("Pinky ghost agent started")
+        await asyncio.sleep(0.5)
+        
+        await inky_agent.start(auto_register=True)
+        logger.info("Inky ghost agent started")
+        await asyncio.sleep(0.5)
+        
+        await clyde_agent.start(auto_register=True)
+        logger.info("Clyde ghost agent started")
+        await asyncio.sleep(0.5)
         
         await environment_agent.start(auto_register=True)
         logger.info("Environment agent started")
@@ -69,7 +105,10 @@ async def main():
         
         # Stop agents
         await pacman_agent.stop()
-        await ghost_agent.stop()
+        await blinky_agent.stop()
+        await pinky_agent.stop()
+        await inky_agent.stop()
+        await clyde_agent.stop()
         await environment_agent.stop()
         
         # Show final results
