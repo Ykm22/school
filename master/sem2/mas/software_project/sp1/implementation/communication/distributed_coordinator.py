@@ -102,11 +102,16 @@ class DistributedGameCoordinator:
             # Set all ghosts as frightened
             self.local_cache['frightened_ghosts'] = {'blinky', 'pinky', 'inky', 'clyde'}
         elif event_type == 'ghost_eaten':
-            ghost_name = message.data.get('extra_data', {}).get('ghost_name')
-            self.local_cache['game_state']['ghosts_eaten'] += 1
-            self.local_cache['game_state']['score'] += points
-            if ghost_name:
-                self.local_cache['consumed_ghosts'].add(ghost_name)
+            logger.info(f"Coordinator for {self.agent_name}: Processing 'ghost_eaten'. Sender: {message.sender}, Data: {message.data}")
+            ghost_name_from_event = message.data.get('ghost_name')
+
+            # For all agents, this part might be just for local info, not authoritative score
+            self.local_cache['game_state']['ghosts_eaten'] += 1 
+            self.local_cache['game_state']['score'] += points 
+
+            if ghost_name_from_event:
+                if self.agent_name == ghost_name_from_event or self.agent_name == f"ghost_{ghost_name_from_event}": # Ensure this targets the correct agent
+                    self.local_cache['consumed_ghosts'].add(ghost_name_from_event)
         elif event_type == 'game_complete':
             self.local_cache['game_state']['game_complete'] = True
             self.local_cache['game_state']['running'] = False
