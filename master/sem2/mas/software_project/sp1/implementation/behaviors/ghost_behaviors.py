@@ -21,6 +21,19 @@ class GhostBehaviour(PeriodicBehaviour):
         # Update respawn timer
         self.agent.update_respawn()
         
+        # Check if ghost was consumed and needs to reset
+        if self.agent.blackboard.is_ghost_consumed(self.agent.ghost_name):
+            self.agent.position = self.agent.start_position
+            self.agent.ghost_mode = "returning"
+            self.agent.respawn_timer = 5
+            self.agent.blackboard.clear_ghost_consumed(self.agent.ghost_name)
+            logger.info(f"Ghost {self.agent.ghost_name} resetting position after being consumed")
+
+        if self.agent.blackboard.is_ghost_frightened(self.agent.ghost_name):
+            if self.agent.ghost_mode != "frightened" and self.agent.ghost_mode != "returning":
+                self.agent.set_mode("frightened")
+                self.agent.blackboard.clear_ghost_frightened(self.agent.ghost_name) 
+
         current_pos = self.agent.position
         
         # Get PacMan's position for AI decisions

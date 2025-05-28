@@ -60,12 +60,16 @@ class GameCoordinatorBehaviour(PeriodicBehaviour):
     def _frighten_all_ghosts(self):
         """Set all ghosts to frightened mode"""
         logger.info("Power pellet activated! All ghosts are now frightened!")
-        # Note: In a full implementation, you'd send messages to ghost agents
-        # For now, ghosts will check power pellet status themselves
-    
+        # Mark all ghosts as frightened in the blackboard
+        for ghost_name in ['blinky', 'pinky', 'inky', 'clyde']:
+            self.agent.blackboard.set_ghost_frightened(ghost_name)
+
     def _normalize_all_ghosts(self):
         """Return all ghosts to normal mode"""
         logger.info("Power pellet expired! Ghosts returning to normal mode!")
+        # Clear frightened status for all ghosts
+        for ghost_name in ['blinky', 'pinky', 'inky', 'clyde']:
+            self.agent.blackboard.clear_ghost_frightened(ghost_name)
     
     def _check_collisions(self, positions, game_state):
         """Check for collisions between PacMan and ghosts"""
@@ -87,8 +91,18 @@ class GameCoordinatorBehaviour(PeriodicBehaviour):
             points = self.agent.blackboard.eat_ghost(ghost_name)
             logger.info(f"PacMan ate ghost {ghost_name}! +{points} points!")
             
-            # Reset ghost position (simulate consumption)
-            # In a full implementation, send message to ghost agent to respawn
+            # Reset ghost position
+            ghost_start_positions = {
+                "blinky": (10, 9),
+                "pinky": (9, 10),
+                "inky": (10, 10),
+                "clyde": (11, 10)
+            }
+            if ghost_name in ghost_start_positions:
+                reset_pos = ghost_start_positions[ghost_name]
+                self.agent.blackboard.update_agent_position(f"ghost_{ghost_name}", reset_pos)
+                # Mark ghost as consumed in blackboard
+                self.agent.blackboard.set_ghost_consumed(ghost_name)
             
         else:
             # Ghost catches PacMan - Game Over

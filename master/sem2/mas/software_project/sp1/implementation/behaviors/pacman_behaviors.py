@@ -38,6 +38,13 @@ class SmartPacManBehaviour(PeriodicBehaviour):
         
         # Get ghost positions
         ghost_positions = self._get_ghost_positions()
+
+        # Check for immediate collision with ghosts
+        for ghost_pos in ghost_positions:
+            if ghost_pos == current_pos and not power_active:
+                logger.info(f"Pac-Man caught by ghost at {current_pos}!")
+                self.agent.blackboard.set_game_over()
+                return
         
         # Determine best move based on current situation
         if power_active:

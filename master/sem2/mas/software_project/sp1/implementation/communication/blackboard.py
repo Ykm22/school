@@ -21,6 +21,8 @@ class Blackboard:
             return
         
         self.agent_positions = {}
+        self.consumed_ghosts = {}
+        self.frightened_ghosts = {}
         self.game_state = {
             'step': 0,
             'score': 0,
@@ -110,7 +112,35 @@ class Blackboard:
             self.game_state['score'] += points
             logger.info(f"Ghost {ghost_name} eaten! +{points} points! Total ghosts eaten this power pellet: {self.game_state['ghosts_eaten']}")
             return points
+
+    def set_ghost_consumed(self, ghost_name):
+        with self._data_lock:
+            self.consumed_ghosts[ghost_name] = True
+            logger.info(f"Ghost {ghost_name} marked as consumed")
+
+    def is_ghost_consumed(self, ghost_name):
+        with self._data_lock:
+            return self.consumed_ghosts.get(ghost_name, False)
+
+    def clear_ghost_consumed(self, ghost_name):
+        with self._data_lock:
+            if ghost_name in self.consumed_ghosts:
+                del self.consumed_ghosts[ghost_name]
     
+    def set_ghost_frightened(self, ghost_name):
+        with self._data_lock:
+            self.frightened_ghosts[ghost_name] = True
+            logger.info(f"Ghost {ghost_name} marked as frightened")
+
+    def is_ghost_frightened(self, ghost_name):
+        with self._data_lock:
+            return self.frightened_ghosts.get(ghost_name, False)
+
+    def clear_ghost_frightened(self, ghost_name):
+        with self._data_lock:
+            if ghost_name in self.frightened_ghosts:
+                del self.frightened_ghosts[ghost_name]
+
     def set_game_over(self):
         with self._data_lock:
             self.game_state['game_over'] = True
