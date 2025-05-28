@@ -117,6 +117,7 @@ from spade.behaviour import PeriodicBehaviour
 from utils.visualization import MazeVisualizer
 from behaviors.messaging_behaviors import GameEventBroadcastBehaviour, StateQueryBehaviour
 from communication.messages import PowerModeMessage
+from config.game_config import ACTIVE_GHOSTS, get_active_agent_jids
 
 logger = logging.getLogger('PacManMAS.EnvironmentBehavior')
 
@@ -271,7 +272,7 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
             return
         
         # Check each ghost position
-        for ghost_name in ['blinky', 'pinky', 'inky', 'clyde']:
+        for ghost_name in ACTIVE_GHOSTS:
             ghost_key = f'ghost_{ghost_name}'
             ghost_pos = positions.get(ghost_key)
             
@@ -349,15 +350,9 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
     
     async def _broadcast_message(self, game_message):
         """Broadcast message to all known agents"""
-        all_jids = [
-            'pacman@localhost',
-            'blinky@localhost',
-            'pinky@localhost',
-            'inky@localhost',
-            'clyde@localhost'
-        ]
+        active_jids = get_active_agent_jids()
         
-        for jid in all_jids:
+        for jid in active_jids:
             if jid != str(self.agent.jid):
                 from spade.message import Message
                 msg = Message(to=jid)
