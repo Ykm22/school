@@ -53,3 +53,37 @@ GHOST_PERSONALITIES = {
     'inky': 'The Flanker - Uses Blinky to create pincer movements',
     'clyde': 'The Alternator - Chases when far, retreats when close'
 }
+
+# All possible ghost types that the game logic knows about
+ALL_GHOST_NAMES = [
+    'blinky',
+    'pinky',
+    'inky',
+    'clyde']
+
+# USER CONFIGURABLE: Define which ghosts are active in the game
+# Default to all ghosts being active. Modify this list to change participants.
+# Example: ACTIVE_GHOSTS = ['blinky', 'pinky'] for only Blinky and Pinky
+ACTIVE_GHOSTS = [
+    'blinky',
+    'pinky',
+    'inky',
+    'clyde'
+]
+
+# Helper function to get JIDs of all active game agents (Pacman, Environment, Active Ghosts)
+def get_active_agent_jids():
+    """Returns a list of JIDs for all currently active game agents."""
+    jids = []
+    if 'pacman' in AGENT_JIDS:
+        jids.append(AGENT_JIDS['pacman'])
+    if 'environment' in AGENT_JIDS:
+        jids.append(AGENT_JIDS['environment'])
+    
+    for ghost_name in ACTIVE_GHOSTS:
+        if ghost_name in AGENT_JIDS:
+            jids.append(AGENT_JIDS[ghost_name])
+        else:
+            # This case should ideally not happen if ACTIVE_GHOSTS only contains valid names
+            print(f"Warning: Ghost '{ghost_name}' is in ACTIVE_GHOSTS but has no JID defined.")
+    return jids

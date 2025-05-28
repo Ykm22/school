@@ -7,6 +7,7 @@ from communication.messages import (
     GameMessage, MessageType, PositionUpdateMessage, 
     StateQueryMessage, StateResponseMessage, GameEventMessage
 )
+from config.game_config import get_active_agent_jids
 
 logger = logging.getLogger('PacManMAS.MessagingBehaviors')
 
@@ -89,7 +90,7 @@ class PositionBroadcastBehaviour(PeriodicBehaviour):
             )
             
             await self._broadcast_message(position_msg)
-            self.coordinator.update_local_position(current_position)
+            # self.coordinator.update_local_position(current_position)
             self.last_position = current_position
             
             logger.debug(f"Agent {self.agent.agent_name} broadcasted position: {current_position}")
@@ -105,19 +106,11 @@ class PositionBroadcastBehaviour(PeriodicBehaviour):
         return 'agent'
     
     async def _broadcast_message(self, game_message):
-        """Broadcast message to all known agents"""
-        all_jids = [
-            'pacman@localhost',
-            'environment@localhost', 
-            'blinky@localhost',
-            'pinky@localhost',
-            'inky@localhost',
-            'clyde@localhost'
-        ]
-        
-        for jid in all_jids:
-            if jid != str(self.agent.jid):  # Don't send to self
-                msg = Message(to=jid)
+        """Broadcast message to all known ACTIVE agents."""
+        active_jids = get_active_agent_jids()
+        for jid_str in active_jids:
+            if jid_str != str(self.agent.jid):  # Don't send to self
+                msg = Message(to=jid_str)
                 msg.body = game_message.to_json()
                 await self.send(msg)
 
@@ -134,8 +127,19 @@ class GameEventBroadcastBehaviour:
             extra_data
         )
         
-        await self._broadcast_message(event_msg)
+        await self._broadcast_message_mixin(event_msg)
         logger.info(f"Broadcasted game event: {event_type} (+{points} points)")
+
+    async def _broadcast_message_mixin(self, game_message): # Renamed to avoid conflict if the class using it also has _broadcast_message
+        """Broadcast message to all known ACTIVE agents (for mixin)."""
+        # This method relies on `self.agent` and `self.send()` being available in the class that uses this mixin.
+        active_jids = get_active_agent_jids()
+        for jid_str in active_jids:
+            if jid_str != str(self.agent.jid):
+                msg = Message(to=jid_str)
+                msg.body = game_message.to_json()
+                await self.send(msg) # self.send must be available from the agent class
+
     
     async def _broadcast_message(self, game_message):
         """Broadcast message to all known agents"""

@@ -4,6 +4,7 @@ import time
 import threading
 from typing import Dict, List, Optional
 from communication.messages import GameMessage, MessageType
+from config.game_config import ACTIVE_GHOSTS
 
 logger = logging.getLogger('PacManMAS.DistributedCoordinator')
 
@@ -100,7 +101,7 @@ class DistributedGameCoordinator:
             self.local_cache['game_state']['power_pellet_end_time'] = time.time() + 8.0
             self.local_cache['game_state']['ghosts_eaten'] = 0
             # Set all ghosts as frightened
-            self.local_cache['frightened_ghosts'] = {'blinky', 'pinky', 'inky', 'clyde'}
+            self.local_cache['frightened_ghosts'] = set(ACTIVE_GHOSTS)
         elif event_type == 'ghost_eaten':
             logger.info(f"Coordinator for {self.agent_name}: Processing 'ghost_eaten'. Sender: {message.sender}, Data: {message.data}")
             ghost_name_from_event = message.data.get('ghost_name')
@@ -141,7 +142,7 @@ class DistributedGameCoordinator:
         if active:
             duration = message.data.get('duration', 8.0)
             self.local_cache['game_state']['power_pellet_end_time'] = time.time() + duration
-            self.local_cache['frightened_ghosts'] = {'blinky', 'pinky', 'inky', 'clyde'}
+            self.local_cache['frightened_ghosts'] = set(ACTIVE_GHOSTS)
             logger.info("Power mode activated - all ghosts frightened!")
         else:
             self.local_cache['frightened_ghosts'].clear()
