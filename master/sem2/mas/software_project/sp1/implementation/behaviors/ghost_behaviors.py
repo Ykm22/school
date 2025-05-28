@@ -334,23 +334,18 @@ class GhostBehaviour(PeriodicBehaviour, StateQueryBehaviour):
         if self.agent.coordinator.is_ghost_consumed(self.agent.ghost_name):
             self.agent.position = self.agent.start_position
             self.agent.ghost_mode = "returning"
-            self.agent.respawn_timer = 5
+            self.agent.respawn_timer = 25  # 5 seconds
             self.agent.coordinator.clear_ghost_consumed(self.agent.ghost_name)
             logger.info(f"Ghost {self.agent.ghost_name} resetting position after being consumed")
-
+            # Update our position immediately
+            self.agent.update_position(self.agent.position)
+            return  # Skip normal movement this cycle
+        
+        # Check if we're still respawning
+        if self.agent.respawn_timer > 0:
+            return  # Don't move while respawning
+        
         # Check if this ghost should be frightened
-        if self.agent.coordinator.is_ghost_frightened(self.agent.ghost_name):
-            if self.agent.ghost_mode != "frightened" and self.agent.ghost_mode != "returning":
-                self.agent.set_mode("frightened")
-
-        current_pos = self.agent.position
-        
-        # Get PacMan's position for AI decisions
-        pacman_pos = await self._get_pacman_position()
-        
-        logger.info(f"Ghost {self.agent.ghost_name} at {current_pos}, mode: {self.agent.ghost_mode}")
-        
-        # Check if power pellet is active to determine mode
         game_state = self.agent.get_cached_game_state()
         power_active = game_state.get('power_pellet_active', False)
         
@@ -360,6 +355,13 @@ class GhostBehaviour(PeriodicBehaviour, StateQueryBehaviour):
         else:
             if self.agent.ghost_mode == "frightened":
                 self.agent.set_mode("normal")
+        
+        current_pos = self.agent.position
+        
+        # Get PacMan's position for AI decisions
+        pacman_pos = await self._get_pacman_position()
+        
+        logger.info(f"Ghost {self.agent.ghost_name} at {current_pos}, mode: {self.agent.ghost_mode}")
         
         # Update scatter/chase phase timer (only in normal mode)
         if self.agent.ghost_mode == "normal":

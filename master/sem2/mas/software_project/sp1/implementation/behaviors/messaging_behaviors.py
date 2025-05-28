@@ -17,11 +17,6 @@ class MessageReceiveBehaviour(CyclicBehaviour):
         super().__init__()
         self.agent = agent
         self.coordinator = agent.coordinator
-        
-        # Set up template to receive all messages (no filter)
-        # This allows the behavior to receive any incoming message
-        template = Template()
-        self.set_template(template)
     
     async def run(self):
         msg = await self.receive(timeout=1)
@@ -29,7 +24,7 @@ class MessageReceiveBehaviour(CyclicBehaviour):
             try:
                 game_message = GameMessage.from_json(str(msg.body))
                 
-                logger.debug(f"Agent {self.agent.agent_name} received message: {game_message.type.value if hasattr(game_message.type, 'value') else game_message.type} from {game_message.sender}")
+                logger.debug(f"Agent {self.agent.agent_name} received message: {game_message.type} from {game_message.sender}")
                 
                 # Process message through coordinator
                 self.coordinator.process_incoming_message(game_message)
@@ -76,7 +71,7 @@ class MessageReceiveBehaviour(CyclicBehaviour):
 class PositionBroadcastBehaviour(PeriodicBehaviour):
     """Periodically broadcast agent position to all other agents"""
     
-    def __init__(self, agent, period=0.3):
+    def __init__(self, agent, period=0.1):  # Faster broadcast rate
         super().__init__(period=period)
         self.agent = agent
         self.coordinator = agent.coordinator
@@ -85,8 +80,8 @@ class PositionBroadcastBehaviour(PeriodicBehaviour):
     async def run(self):
         current_position = getattr(self.agent, 'position', None)
         
-        # Only broadcast if position changed
-        if current_position and current_position != self.last_position:
+        # Always broadcast position, not just on change, for better synchronization
+        if current_position:
             position_msg = PositionUpdateMessage(
                 self.agent.agent_name,
                 current_position,
@@ -111,7 +106,6 @@ class PositionBroadcastBehaviour(PeriodicBehaviour):
     
     async def _broadcast_message(self, game_message):
         """Broadcast message to all known agents"""
-        # Get all known agent JIDs
         all_jids = [
             'pacman@localhost',
             'environment@localhost', 

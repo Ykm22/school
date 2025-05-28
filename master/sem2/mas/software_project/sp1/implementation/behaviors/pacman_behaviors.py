@@ -829,7 +829,12 @@ class RandomMoveBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour):
         if collected_item == 'dot':
             await self.broadcast_game_event('dot_collected', current_pos, 10)
         elif collected_item == 'power_pellet':
+            # Update local game state immediately
+            self.agent.coordinator.local_cache['game_state']['power_pellet_active'] = True
+            self.agent.coordinator.local_cache['game_state']['power_pellet_end_time'] = time.time() + 8.0
+            self.agent.coordinator.local_cache['game_state']['ghosts_eaten'] = 0
             await self.broadcast_game_event('power_pellet_collected', current_pos, 50)
+            logger.info("POWER PELLET ACTIVATED! Ghosts are now vulnerable!")
         
         # Check if game is complete
         if self.agent.maze.is_game_complete():
@@ -837,21 +842,54 @@ class RandomMoveBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour):
             await self.broadcast_game_event('game_complete')
             return
         
-        # Get valid moves
-        valid_moves = self.agent.maze.get_valid_moves(x, y)
+        # Get game state from local cache
+        game_state = self.agent.get_cached_game_state()
+        power_active = game_state.get('power_pellet_active', False)
         
-        if valid_moves:
-            # Choose random valid move
-            chosen_direction = random.choice(valid_moves)
-            dx, dy = DIRECTIONS[chosen_direction]
-            new_x, new_y = x + dx, y + dy
-            
-            # Update position
-            self.agent.update_position((new_x, new_y))
-            
-            logger.info(f"Pac-Man moved {chosen_direction} to position {self.agent.position}")
+        # Get ghost positions from cache, refresh if needed
+        ghost_positions = await self._get_ghost_positions()
+        
+        # Check for immediate collision with ghosts
+        for ghost_pos in ghost_positions:
+            if ghost_pos == current_pos and not power_active:
+                logger.info(f"Pac-Man caught by ghost at {current_pos}!")
+                await self.broadcast_game_event('game_over')
+                return
+        
+        # Determine best move based on current situation
+        if power_active:
+            best_move = self._hunt_ghosts(current_pos, ghost_positions)
+            logger.info("Pac-Man in POWER MODE - hunting ghosts!")
         else:
-            logger.warning(f"Pac-Man has no valid moves from position {current_pos}")
+            danger_level = self._assess_danger(current_pos, ghost_positions)
+            
+            if danger_level > 0.7:
+                best_move = self._escape_ghosts(current_pos, ghost_positions)
+                logger.info("Pac-Man in DANGER - escaping ghosts!")
+            elif danger_level > 0.3:
+                best_move = self._safe_collect(current_pos, ghost_positions)
+                logger.info("Pac-Man being CAUTIOUS - safe collection")
+            else:
+                best_move = self._efficient_collect(current_pos)
+                logger.info("Pac-Man COLLECTING - efficient path")
         
-        # Increment game step
+        # Execute the chosen move
+        if best_move and best_move != current_pos:
+            self.last_position = current_pos
+            self.agent.update_position(best_move)
+            
+            direction = self._get_direction_name(current_pos, best_move)
+            logger.info(f"Pac-Man moved {direction} to position {self.agent.position}")
+            self.stuck_counter = 0
+        else:
+            # No good move found, try random valid move
+            self.stuck_counter += 1
+            if self.stuck_counter > 3:
+                random_move = self._get_random_valid_move(current_pos)
+                if random_move:
+                    self.agent.update_position(random_move)
+                    logger.warning(f"Pac-Man was stuck, made random move to {random_move}")
+                    self.stuck_counter = 0
+        
+        # Increment game step in coordinator
         self.agent.coordinator.increment_step()

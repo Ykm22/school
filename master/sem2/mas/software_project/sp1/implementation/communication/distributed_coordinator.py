@@ -41,33 +41,49 @@ class DistributedGameCoordinator:
     def update_local_position(self, position):
         """Update own position in local cache"""
         with self._cache_lock:
-            self.local_cache['agent_positions'][self.agent_name] = position
+            self.local_cache['agent_positions'][self.agent_name] = tuple(position)
             self.local_cache['last_updated'][self.agent_name] = time.time()
     
     def process_incoming_message(self, message: GameMessage):
         """Process received message and update local cache"""
         with self._cache_lock:
-            if message.type == MessageType.POSITION_UPDATE:
+            # Convert string type to MessageType enum if needed
+            msg_type = message.type
+            if isinstance(msg_type, str):
+                try:
+                    msg_type = MessageType(msg_type)
+                except ValueError:
+                    logger.warning(f"Unknown message type: {msg_type}")
+                    return
+            
+            if msg_type == MessageType.POSITION_UPDATE:
                 self._handle_position_update(message)
-            elif message.type == MessageType.GAME_EVENT:
+            elif msg_type == MessageType.GAME_EVENT:
                 self._handle_game_event(message)
-            elif message.type == MessageType.STATE_RESPONSE:
+            elif msg_type == MessageType.STATE_RESPONSE:
                 self._handle_state_response(message)
-            elif message.type == MessageType.POWER_MODE_CHANGED:
+            elif msg_type == MessageType.POWER_MODE_CHANGED:
                 self._handle_power_mode_change(message)
-            elif message.type == MessageType.STATE_QUERY:
+            elif msg_type == MessageType.STATE_QUERY:
                 # Will be handled by specific agent behaviors
                 pass
     
     def _handle_position_update(self, message: GameMessage):
         """Handle position update from another agent"""
         agent_name = message.sender
-        position = message.data['position']
+        position = tuple(message.data['position'])
+        agent_type = message.data.get('agent_type', 'agent')
         
-        self.local_cache['agent_positions'][agent_name] = position
-        self.local_cache['last_updated'][agent_name] = message.timestamp
+        # Map agent types to position keys
+        if agent_type.startswith('ghost_'):
+            position_key = f"ghost_{agent_name}"
+        else:
+            position_key = agent_name
         
-        logger.debug(f"Updated position cache: {agent_name} -> {position}")
+        self.local_cache['agent_positions'][position_key] = position
+        self.local_cache['last_updated'][position_key] = message.timestamp
+        
+        logger.debug(f"Updated position cache: {position_key} -> {position}")
     
     def _handle_game_event(self, message: GameMessage):
         """Handle game events (dots collected, etc.)"""
@@ -83,10 +99,10 @@ class DistributedGameCoordinator:
             self.local_cache['game_state']['power_pellet_active'] = True
             self.local_cache['game_state']['power_pellet_end_time'] = time.time() + 8.0
             self.local_cache['game_state']['ghosts_eaten'] = 0
-            # Clear frightened ghosts set for new power pellet
+            # Set all ghosts as frightened
             self.local_cache['frightened_ghosts'] = {'blinky', 'pinky', 'inky', 'clyde'}
         elif event_type == 'ghost_eaten':
-            ghost_name = message.data.get('ghost_name')
+            ghost_name = message.data.get('extra_data', {}).get('ghost_name')
             self.local_cache['game_state']['ghosts_eaten'] += 1
             self.local_cache['game_state']['score'] += points
             if ghost_name:

@@ -109,6 +109,8 @@
 #             logger.info(f"Ghost {ghost_name} caught PacMan! Game Over!")
 #             self.agent.blackboard.set_game_over()
 
+# behaviors/environment_behaviors.py - Fixed collision detection
+
 import asyncio
 import logging
 from spade.behaviour import PeriodicBehaviour
@@ -125,10 +127,20 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         self.visualizer = MazeVisualizer(agent.maze)
         self.last_power_state = False
         self.ghost_respawn_timers = {}
+        self.power_pellet_timer = 0
     
     async def run(self):
         game_state = self.agent.get_cached_game_state()
         positions = self.agent.get_cached_all_positions()
+        
+        # Update power pellet timer
+        if game_state.get('power_pellet_active', False):
+            if self.power_pellet_timer > 0:
+                self.power_pellet_timer -= 1
+                if self.power_pellet_timer == 0:
+                    # Power pellet expired
+                    self.agent.coordinator.local_cache['game_state']['power_pellet_active'] = False
+                    await self._normalize_all_ghosts()
         
         # Check power pellet status and update ghost modes
         power_was_active = self.last_power_state
@@ -137,10 +149,8 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         # Handle power pellet mode changes
         if current_power_state and not power_was_active:
             # Power pellet just activated - frighten ghosts
+            self.power_pellet_timer = 40  # 8 seconds at 0.2s intervals
             await self._frighten_all_ghosts()
-        elif not current_power_state and power_was_active:
-            # Power pellet just expired - return ghosts to normal
-            await self._normalize_all_ghosts()
         
         self.last_power_state = current_power_state
         
@@ -159,10 +169,11 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         # Check game completion or game over
         if game_state.get('game_over', False):
             logger.info("Game Over! PacMan was caught by a ghost!")
-            await self.broadcast_game_event('game_over')
+            self.agent.coordinator.local_cache['game_state']['running'] = False
+            await self.agent.stop()
             return
         
-        if game_state['game_complete'] or not game_state['running']:
+        if game_state.get('game_complete', False) or not game_state.get('running', True):
             logger.info("Game completed! Stopping environment agent...")
             await self.agent.stop()
             return
@@ -174,6 +185,7 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         if total_remaining == 0:
             logger.info("All collectibles collected! Game completing...")
             await self.broadcast_game_event('game_complete')
+            self.agent.coordinator.local_cache['game_state']['game_complete'] = True
     
     async def _frighten_all_ghosts(self):
         """Broadcast power pellet activation to all ghosts"""
@@ -187,9 +199,8 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         
         await self._broadcast_message(power_msg)
         
-        # Also mark all ghosts as frightened in our coordinator
-        for ghost_name in ['blinky', 'pinky', 'inky', 'clyde']:
-            self.agent.coordinator.local_cache['frightened_ghosts'].add(ghost_name)
+        # Mark all ghosts as frightened in our coordinator
+        self.agent.coordinator.local_cache['frightened_ghosts'] = {'blinky', 'pinky', 'inky', 'clyde'}
 
     async def _normalize_all_ghosts(self):
         """Broadcast power pellet deactivation to all ghosts"""
@@ -212,10 +223,15 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         if not pacman_pos:
             return
         
-        for agent_name, pos in positions.items():
-            if agent_name.startswith('ghost_') and pos == pacman_pos:
-                ghost_name = agent_name.replace('ghost_', '')
-                await self._handle_collision(ghost_name, game_state)
+        # Check each ghost position
+        for ghost_name in ['blinky', 'pinky', 'inky', 'clyde']:
+            ghost_key = f'ghost_{ghost_name}'
+            ghost_pos = positions.get(ghost_key)
+            
+            if ghost_pos and ghost_pos == pacman_pos:
+                # Check if ghost is in respawn (can't collide)
+                if ghost_name not in self.ghost_respawn_timers:
+                    await self._handle_collision(ghost_name, game_state)
     
     async def _handle_collision(self, ghost_name, game_state):
         """Handle collision between PacMan and a ghost"""
@@ -228,11 +244,19 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
             
             logger.info(f"PacMan ate ghost {ghost_name}! +{points} points!")
             
+            # Update local game state
+            self.agent.coordinator.local_cache['game_state']['ghosts_eaten'] += 1
+            self.agent.coordinator.local_cache['game_state']['score'] += points
+            
+            # Get pacman position for the event
+            positions = self.agent.get_cached_all_positions()
+            pacman_pos = positions.get('pacman')
+            
             # Broadcast ghost eaten event
             await self.broadcast_game_event(
                 'ghost_eaten', 
-                pacman_pos=positions.get('pacman'),
-                points=points,
+                pacman_pos,
+                points,
                 extra_data={'ghost_name': ghost_name}
             )
             
@@ -256,6 +280,7 @@ class GameCoordinatorBehaviour(PeriodicBehaviour, GameEventBroadcastBehaviour, S
         else:
             # Ghost catches PacMan - Game Over
             logger.info(f"Ghost {ghost_name} caught PacMan! Game Over!")
+            self.agent.coordinator.local_cache['game_state']['game_over'] = True
             await self.broadcast_game_event('game_over')
     
     def _update_ghost_respawn_timers(self):

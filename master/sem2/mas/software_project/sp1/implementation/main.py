@@ -168,7 +168,7 @@ async def main():
             AGENT_PASSWORDS['blinky'],
             maze,
             ghost_name="blinky",
-            start_position=(10, 9)  # Starts outside ghost house
+            start_position=(10, 9)
         )
         
         pinky_agent = GhostAgent(
@@ -176,7 +176,7 @@ async def main():
             AGENT_PASSWORDS['pinky'],
             maze,
             ghost_name="pinky",
-            start_position=(9, 10)  # Starts inside ghost house
+            start_position=(9, 10)
         )
         
         inky_agent = GhostAgent(
@@ -184,7 +184,7 @@ async def main():
             AGENT_PASSWORDS['inky'],
             maze,
             ghost_name="inky",
-            start_position=(10, 10)  # Starts inside ghost house
+            start_position=(10, 10)
         )
         
         clyde_agent = GhostAgent(
@@ -192,39 +192,32 @@ async def main():
             AGENT_PASSWORDS['clyde'],
             maze,
             ghost_name="clyde",
-            start_position=(11, 10)  # Starts inside ghost house
+            start_position=(11, 10)
         )
         
         logger.info("Agents created, starting distributed system...")
         
-        # Start environment agent first (authoritative coordinator)
+        # Start ALL agents first, then wait for them to initialize
+        logger.info("Starting all agents...")
+        
+        # Start environment agent
         await environment_agent.start(auto_register=True)
-        logger.info("Environment agent started - now serving as game coordinator")
-        await asyncio.sleep(1)  # Give environment time to initialize
         
-        # Start Pac-Man agent
-        await pacman_agent.start(auto_register=True)
-        logger.info("Pac-Man agent started with distributed messaging")
-        await asyncio.sleep(0.5)
+        # Start all other agents in parallel
+        await asyncio.gather(
+            pacman_agent.start(auto_register=True),
+            blinky_agent.start(auto_register=True),
+            pinky_agent.start(auto_register=True),
+            inky_agent.start(auto_register=True),
+            clyde_agent.start(auto_register=True)
+        )
         
-        # Start all ghost agents
-        await blinky_agent.start(auto_register=True)
-        logger.info("Blinky ghost agent started with distributed messaging")
-        await asyncio.sleep(0.5)
+        logger.info("All agents started, waiting for initialization...")
         
-        await pinky_agent.start(auto_register=True)
-        logger.info("Pinky ghost agent started with distributed messaging")
-        await asyncio.sleep(0.5)
+        # Give all agents time to initialize their behaviors
+        await asyncio.sleep(3)
         
-        await inky_agent.start(auto_register=True)
-        logger.info("Inky ghost agent started with distributed messaging")
-        await asyncio.sleep(0.5)
-        
-        await clyde_agent.start(auto_register=True)
-        logger.info("Clyde ghost agent started with distributed messaging")
-        await asyncio.sleep(0.5)
-        
-        logger.info("All agents started successfully with XMPP communication")
+        logger.info("All agents initialized and ready with XMPP communication")
         logger.info("Game coordination now handled via distributed messaging")
         
         # Wait for game to run
@@ -237,12 +230,14 @@ async def main():
         logger.info("Game ended, stopping agents...")
         
         # Stop agents
-        await pacman_agent.stop()
-        await blinky_agent.stop()
-        await pinky_agent.stop()
-        await inky_agent.stop()
-        await clyde_agent.stop()
-        await environment_agent.stop()
+        await asyncio.gather(
+            pacman_agent.stop(),
+            blinky_agent.stop(),
+            pinky_agent.stop(),
+            inky_agent.stop(),
+            clyde_agent.stop(),
+            environment_agent.stop()
+        )
         
         # Show final results
         final_state = environment_agent.get_cached_game_state()
