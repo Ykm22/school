@@ -7,7 +7,7 @@ from communication.messages import (
     GameMessage, MessageType, PositionUpdateMessage, 
     StateQueryMessage, StateResponseMessage, GameEventMessage
 )
-from config.game_config import get_active_agent_jids # NEW IMPORT
+from config.game_config import get_active_agent_jids
 
 logger = logging.getLogger('PacManMAS.MessagingBehaviors')
 
