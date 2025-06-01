@@ -1,0 +1,468 @@
+% Template for Elsevier CRC journal article
+% version 1.2 dated 09 May 2011
+
+% This file (c) 2009-2011 Elsevier Ltd.  Modifications may be freely made,
+% provided the edited file is saved under a different name
+
+% This file contains modifications for Procedia Computer Science
+
+% Changes since version 1.1
+% - added "procedia" option compliant with ecrc.sty version 1.2a
+%   (makes the layout approximately the same as the Word CRC template)
+% - added example for generating copyright line in abstract
+
+%-----------------------------------------------------------------------------------
+
+%% This template uses the elsarticle.cls document class and the extension package ecrc.sty
+%% For full documentation on usage of elsarticle.cls, consult the documentation "elsdoc.pdf"
+%% Further resources available at http://www.elsevier.com/latex
+
+%-----------------------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                          %%
+%% Important note on usage                                  %%
+%% -----------------------                                  %%
+%% This file should normally be compiled with PDFLaTeX      %%
+%% Using standard LaTeX should work but may produce clashes %%
+%%                                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The '3p' and 'times' class options of elsarticle are used for Elsevier CRC
+%% The 'procedia' option causes ecrc to approximate to the Word template
+\documentclass[3p,times,procedia]{elsarticle}
+\flushbottom
+
+%% The `ecrc' package must be called to make the CRC functionality available
+\usepackage{ecrc}
+\usepackage[bookmarks=false]{hyperref}
+    \hypersetup{colorlinks,
+      linkcolor=blue,
+      citecolor=blue,
+      urlcolor=blue}
+%\usepackage{amsmath}
+
+
+%% The ecrc package defines commands needed for running heads and logos.
+%% For running heads, you can set the journal name, the volume, the starting page and the authors
+
+
+%% set the starting page if not 1
+\firstpage{1}
+
+
+%% Give the author list to appear in the running head
+%% Example \runauth{C.V. Radhakrishnan et al.}
+\runauth{Ichim Ștefan}
+
+
+
+%% Hereafter the template follows `elsarticle'.
+%% For more details see the existing template files elsarticle-template-harv.tex and elsarticle-template-num.tex.
+
+%% Elsevier CRC generally uses a numbered reference style
+%% For this, the conventions of elsarticle-template-num.tex should be followed (included below)
+%% If using BibTeX, use the style file elsarticle-num.bst
+
+%% End of ecrc-specific commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The amssymb package provides various useful mathematical symbols
+
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{comment}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{authoryear}
+
+% \biboptions{}
+
+% if you have landscape tables
+\usepackage[figuresright]{rotating}
+%\usepackage{harvard}
+% put your own definitions here:x
+%   \newcommand{\cZ}{\cal{Z}}
+%   \newtheorem{def}{Definition}[section]
+%   ...
+
+% add words to TeX's hyphenation exception list
+%\hyphenation{author another created financial paper re-commend-ed Post-Script}
+
+% declarations for front matter
+
+%\pagenumbering{gobble}
+
+\begin{document}
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\dochead{\huge{Multiagent Systems(MAS)}}%
+%% Use \dochead if there is an article header, e.g. \dochead{Short communication}
+%% \dochead can also be used to include a conference title, if directed by the editors
+%% e.g. \dochead{17th International Conference on Dynamical Processes in Excited States of Solids}
+
+
+\title{\textbf{Federated Learning in Patient Monitoring}}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+
+
+\author{Ichim Ștefan}
+
+\begin{abstract}
+
+Federated learning has emerged as a promising solution for collaborative patient monitoring across healthcare institutions while preserving data privacy and regulatory compliance. This survey examines the current state-of-the-art in federated learning approaches specifically designed for patient monitoring applications, analyzing how these systems have evolved from basic parameter sharing to sophisticated architectures deployed in real clinical environments. This paper reviews key real-world deployments including the EXAM system for COVID-19 patient monitoring across 20 international institutions, the FeTS initiative representing the largest healthcare federation to date with 71 participating sites for brain tumor segmentation, and the HealthChain project implementing federated learning across French hospitals for cancer treatment prediction. The survey covers current privacy-preserving techniques including differential privacy implementations in clinical settings, secure aggregation protocols used in multi-institutional collaborations, and regulatory compliance mechanisms that meet HIPAA and GDPR requirements. An analysis is made about how real deployments have addressed challenges in handling heterogeneous patient populations, diverse medical equipment, and varying institutional capabilities while maintaining clinical utility. It is revealed that while significant progress has been made in deploying federated learning systems across actual healthcare networks, challenges remain in standardization, long-term sustainability of multi-institutional collaborations, and integration with existing healthcare information systems. The survey concludes by highlighting areas where real-world deployments have succeeded and identifying remaining gaps that need to be addressed for broader clinical adoption of federated learning in patient monitoring applications.
+
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+Federated learning \sep patient monitoring \sep healthcare \sep privacy-preserving \sep distributed systems \sep machine learning
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+\end{keyword}
+\end{frontmatter}
+
+
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+
+%\enlargethispage{-7mm}
+
+\section{Introduction}
+
+Federated learning has emerged as a transformative paradigm for collaborative machine learning across distributed data sources, particularly in healthcare applications where data privacy and regulatory compliance are paramount. In the context of patient monitoring, federated learning enables multiple healthcare institutions to jointly train predictive models on patient vital signs and physiological data without centralizing sensitive health information.
+
+The healthcare sector presents unique challenges for machine learning deployment. Patient data is naturally distributed across hospitals, clinics, and healthcare systems, each serving distinct patient populations with different demographics, medical conditions, and treatment protocols. Traditional centralized approaches to machine learning require aggregating patient data in a single location, which raises significant privacy concerns, regulatory barriers, and logistical challenges. Privacy regulations such as HIPAA in the United States and GDPR in Europe create substantial legal obstacles to data sharing, while ethical considerations around patient consent and data ownership further complicate collaborative research efforts.
+
+Federated learning addresses these challenges by training models collaboratively while keeping patient data at its source. Instead of sharing raw medical records, participating institutions share only model parameters or gradients, enabling collective learning while preserving patient privacy. This approach has proven particularly valuable for patient monitoring applications, where the ability to learn from diverse patient populations can significantly improve model performance and generalizability.
+
+Recent years have witnessed the successful deployment of federated learning systems in real healthcare environments. Notable examples include the EXAM system, which coordinated COVID-19 patient outcome prediction across 20 international institutions, achieving superior performance compared to single-site models \cite{Dayan2021}. The Federated Tumor Segmentation (FeTS) initiative represents the largest healthcare federation to date, successfully training brain tumor segmentation models across 71 participating institutions without sharing patient data \cite{Baid2021, Pati2021}. These deployments demonstrate that federated learning can move beyond theoretical frameworks to provide genuine clinical value.
+
+However, patient monitoring presents additional technical challenges beyond those addressed in current deployments. Patient monitoring data exhibits strong temporal dependencies, as vital signs follow physiological patterns over time that are crucial for detecting deteriorating conditions. The data is highly heterogeneous across institutions due to different monitoring equipment, sampling rates, and clinical protocols. Real-time processing requirements for patient safety create additional constraints on communication and computation that differ from batch processing applications like medical imaging.
+
+This survey examines the current state-of-the-art in federated learning approaches specifically designed for patient monitoring applications. An analysis is realized about how existing systems have evolved from basic parameter sharing to sophisticated architectures that handle the unique challenges of healthcare environments. This review covers real-world deployments, privacy-preserving techniques that meet regulatory requirements, and technical approaches for managing heterogeneous patient populations across different institutions.
+
+This analysis reveals that while significant technical advances have been demonstrated in real healthcare federations, substantial gaps remain for comprehensive patient monitoring applications. Current successful deployments focus primarily on episodic prediction tasks rather than continuous monitoring, and integration with existing healthcare infrastructure remains challenging. This survey provides a comprehensive analysis of these achievements and limitations, offering insights for researchers and practitioners working to advance federated learning in patient monitoring applications.
+
+
+\section{Related Work and Background}
+
+\subsection{Federated Learning Fundamentals}
+
+Federated learning was first introduced by McMahan et al. \cite{McMahan2017} as a way to train machine learning models across multiple devices without sharing raw data. The basic idea is simple: instead of collecting all data in one place, we keep the data where it is and only share model updates between participants.
+
+The most widely used federated learning algorithm is called Federated Averaging (FedAvg). In FedAvg, there is a central server that coordinates the training process. The server starts by creating an initial model and sending it to all participating clients (in this case, hospitals). Each client then trains this model on their local data for a few steps and calculates how much the model parameters should change. These parameter changes, called gradients, are sent back to the server. The server combines all the gradients from different clients by taking their average, creating an updated global model. This process repeats many times until the model performs well.
+
+Mathematically, if we have $K$ clients and client $k$ has $n_k$ data samples, the FedAvg update rule is:
+
+$$w_{t+1} = \sum_{k=1}^{K} \frac{n_k}{n} w_k^{(t+1)}$$
+
+where $w_{t+1}$ is the new global model, $w_k^{(t+1)}$ is the local model from client $k$, and $n = \sum_{k=1}^{K} n_k$ is the total number of samples across all clients.
+
+However, FedAvg works best when all clients have similar data. In real healthcare settings, different hospitals often have very different types of patients, which can cause problems. To address this, researchers developed FedProx \cite{Li2020}, which adds a penalty term to keep local models from drifting too far from the global model.
+
+\subsection{Federated Learning in Healthcare Applications}
+
+Healthcare has become one of the most promising areas for federated learning because medical data is naturally distributed across different hospitals and clinics, and privacy regulations make it difficult to share patient data directly.
+
+One of the most significant real-world applications has been the EXAM (EMR CXR AI Model) system developed for COVID-19 patient monitoring. Dayan et al. \cite{Dayan2021} demonstrated federated learning across 20 institutes globally to predict oxygen requirements in COVID-19 patients using vital signs, laboratory data, and chest X-rays. EXAM achieved an average area under the curve (AUC) greater than 0.92 for predicting outcomes at 24 and 72 hours, providing a 16\% improvement in average AUC compared to single-site models.
+
+The Federated Tumor Segmentation (FeTS) initiative represents the largest real-world federated learning deployment in healthcare to date. Baid et al. \cite{Baid2021} successfully implemented federated learning across 71 healthcare institutions globally for brain tumor segmentation, without sharing patient data. The FeTS initiative has also produced the first international challenges on federated learning \cite{Pati2021}, demonstrating the practical feasibility of multi-institutional collaboration.
+
+Another notable real-world deployment is the HealthChain project in France, which implements federated learning across four hospitals for predicting treatment response in breast cancer and melanoma patients from histology slides and dermoscopy images \cite{Rieke2020}.
+
+Most early work in healthcare federated learning focused on medical imaging. Sheller et al. \cite{Sheller2020} demonstrated federated learning for brain tumor segmentation using MRI scans, showing that collaboration between institutions could improve model performance for rare conditions that individual hospitals might not see often.
+
+Electronic health records (EHRs) represent another major application area. Brisimi et al. \cite{Brisimi2018} were among the first to apply federated learning to EHR data for predicting clinical outcomes, demonstrating that federated models can identify patterns that might be missed when hospitals work in isolation.
+
+\subsection{Patient Monitoring Systems and Their Challenges}
+
+Traditional patient monitoring systems in hospitals work by collecting vital signs like heart rate, blood pressure, and oxygen levels from bedside monitors and sending this data to a central monitoring station where nurses and doctors can watch for dangerous changes. Modern systems can track dozens of different measurements continuously, creating large amounts of time-series data.
+
+The challenge with current monitoring systems is that they are mostly reactive rather than predictive. Alarms typically go off only when a patient's vital signs have already reached dangerous levels. There is growing interest in using machine learning to predict when a patient might be getting worse before it becomes obvious from their vital signs alone.
+
+However, building good predictive models for patient monitoring requires large amounts of data from many different types of patients. A single hospital might not see enough cases of certain conditions to train reliable models, especially for rare but serious complications. This is where federated learning becomes particularly valuable.
+
+Patient monitoring data has several unique characteristics that make federated learning challenging. First, the data is continuous and time-dependent, meaning that what happened an hour ago affects what we expect to see now. Second, different hospitals use different types of monitoring equipment, which can measure the same vital signs in slightly different ways. Third, patient populations vary significantly between hospitals - a children's hospital will have very different patterns than a cardiac surgery center.
+
+The gap in current research is the lack of comprehensive federated learning frameworks that can handle the full complexity of real-world patient monitoring: continuous data streams, heterogeneous equipment, diverse patient populations, strict privacy requirements, and the need for real-time processing that can actually be used by doctors and nurses in their daily work.
+
+\subsection{Privacy and Security Requirements}
+
+Healthcare data is subject to strict privacy regulations worldwide. In the United States, the Health Insurance Portability and Accountability Act (HIPAA) requires that patient data be protected and limits how it can be shared. In Europe, the General Data Protection Regulation (GDPR) provides even stronger protections. These regulations make traditional centralized machine learning approaches difficult or impossible for many healthcare applications.
+
+Federated learning helps address these privacy concerns, but it's not automatically private. Even sharing model parameters can potentially leak information about the training data. This has led to the development of additional privacy-preserving techniques that can be combined with federated learning.
+
+Differential privacy is one of the most important techniques for protecting patient privacy in federated learning. The basic idea is to add carefully controlled random noise to the model updates before sharing them. This noise makes it impossible to determine whether any specific patient's data was used in training, while still allowing the overall model to learn useful patterns. The amount of noise is controlled by a parameter called $\epsilon$ (epsilon), where smaller values provide stronger privacy but may reduce model accuracy.
+
+The current state-of-the-art in private federated learning for healthcare combines multiple techniques: differential privacy for basic protection, secure aggregation protocols that prevent the server from seeing individual client updates, and advanced cryptographic methods like homomorphic encryption that allow computations on encrypted data.
+
+However, implementing these privacy techniques in real healthcare settings remains challenging. The privacy-utility trade-offs are not well understood for patient monitoring applications, and there is limited guidance on how to choose appropriate privacy parameters for different clinical use cases.
+
+\section{Current State-of-the-Art Architectures and Methodologies}
+
+\subsection{System Architecture Evolution}
+
+The development of federated learning systems for patient monitoring has followed a clear progression from simple client-server models to more sophisticated hierarchical architectures. Early implementations simply adapted the basic FedAvg approach, but researchers quickly realized that healthcare environments require more complex organizational structures.
+
+The most significant real-world deployment is the FeTS (Federated Tumor Segmentation) initiative, which implements a distributed architecture across 71 healthcare institutions globally. As described by Baid et al. \cite{Baid2021}, FeTS uses a hierarchical approach where individual medical institutions act as primary clients, coordinating through regional networks before contributing to the global federated model. This hierarchy emerged because healthcare data governance often follows administrative boundaries - hospitals within the same health system can share information more easily than completely independent institutions.
+
+The EXAM system for COVID-19 patient monitoring, developed by Dayan et al. \cite{Dayan2021}, demonstrates another successful architecture pattern. EXAM coordinates federated learning across 20 international institutions, using a client-server model with specialized preprocessing for handling diverse data formats from different hospital systems. The system successfully processes vital signs, laboratory data, and chest X-rays from institutions spanning multiple continents.
+
+The HealthChain project in France represents a more localized but clinically deployed federated architecture. This system implements federated learning across four French hospitals for cancer treatment prediction, demonstrating that even smaller-scale federations can provide significant clinical value \cite{Rieke2020}.
+
+Table \ref{tab:real_sota_architectures} summarizes the key characteristics of these real federated learning systems for healthcare.
+
+\begin{table}[htbp]
+\centering
+\caption{Real State-of-the-Art Federated Healthcare Systems}
+\label{tab:real_sota_architectures}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{System} & \textbf{Architecture} & \textbf{Key Innovation} \\
+\hline
+FeTS & Multi-institutional hierarchy & 71-site tumor segmentation \\
+\hline
+EXAM & Client-server federation & COVID-19 outcome prediction \\
+\hline
+HealthChain & Regional federation & Cancer treatment response \\
+\hline
+OpenFL & Open-source framework & Intel-developed FL platform \\
+\hline
+\end{tabular}
+\end{table}
+
+These real-world deployments share several common design principles. First, they all recognize that not all participants in a healthcare federation are equal - large academic medical centers have different capabilities and data volumes than small community hospitals. Second, they implement different privacy and security requirements at each level of the hierarchy, with stricter protections typically required for cross-organizational sharing. Third, they all include mechanisms for handling intermittent participation, since hospitals may join or leave the federation based on operational constraints.
+
+\subsection{Algorithmic Approaches Beyond FedAvg}
+
+While FedAvg remains the foundational algorithm, real healthcare deployments have shown the need for more sophisticated approaches to handle the unique challenges of medical data.
+
+The FedProx algorithm, developed by Li et al. \cite{Li2020}, addresses the statistical heterogeneity problem that is particularly acute in healthcare settings. FedProx adds a proximal term to the local objective function that prevents local models from drifting too far from the global model:
+$$min_wF_k(w) + \frac{\mu}{2}||w - w^t||^2$$
+where $\mu$ is a hyperparameter that controls the strength of the proximal term. In highly heterogeneous healthcare settings, FedProx has demonstrated significantly more stable convergence behavior relative to FedAvg, improving absolute test accuracy by up to 22% on average.
+
+The FeTS initiative has explored various aggregation strategies beyond simple averaging. Their federated tumor segmentation challenges \cite{Pati2021} have evaluated weighted aggregation methods that account for data quality and institutional characteristics, showing that sophisticated aggregation can improve segmentation performance in heterogeneous multi-institutional settings.
+
+Recent work has also explored personalized federated learning approaches for healthcare. These methods maintain both global model components that capture universal medical knowledge and local components that adapt to institution-specific characteristics like patient demographics or equipment differences.
+
+\subsection{Communication Efficiency and Real-Time Processing}
+
+Healthcare federated learning systems must operate under strict communication and latency constraints. Patient monitoring requires near real-time responses, but federated learning typically involves significant communication overhead.
+
+The EXAM system addressed this challenge by implementing efficient communication protocols that compress model updates and use asynchronous aggregation. This allows the system to provide timely predictions for COVID-19 patient outcomes while still benefiting from collaborative learning across institutions.
+
+The FeTS deployment across 71 sites required sophisticated communication management to handle varying network conditions and institutional IT constraints. Their solution implements adaptive communication strategies where the frequency and size of model updates are adjusted based on network conditions and institutional capabilities.
+
+OpenFL, the open-source federated learning framework developed by Intel and used in several healthcare deployments, provides communication efficiency through gradient compression and selective parameter sharing. This framework has been successfully deployed in multiple real-world healthcare collaborations.
+
+\subsection{Handling Data Heterogeneity}
+One of the most significant challenges in federated patient monitoring is that different healthcare institutions serve very different patient populations and use different types of equipment. Real-world deployments have developed practical solutions for handling this heterogeneity.
+
+The FeTS initiative addresses heterogeneity through careful data preprocessing and harmonization protocols. Before federated training begins, all participating institutions implement standardized preprocessing pipelines that normalize data formats and handle missing values consistently. This preprocessing step has become standard across most real healthcare federations.
+
+The EXAM system handles equipment heterogeneity by implementing robust feature extraction that can work across different types of medical imaging equipment and monitoring devices. Their preprocessing pipeline automatically detects and compensates for differences in data acquisition protocols.
+
+Recent research has shown that clustering approaches can be effective for handling heterogeneity in healthcare federations. Institutions with similar patient demographics or clinical protocols can be grouped together, with knowledge transfer between clusters while maintaining specialized models for each group.
+
+\subsection{Privacy-Preserving Techniques in Practice}
+
+Real healthcare federations have implemented practical privacy-preserving techniques that go beyond theoretical guarantees to meet actual regulatory requirements.
+
+The FeTS initiative implements comprehensive audit trails and logging mechanisms that meet healthcare regulatory requirements while maintaining patient privacy. Their system provides cryptographic proofs of compliance that can be reviewed by institutional review boards and regulatory authorities.
+
+The EXAM system uses differential privacy mechanisms calibrated specifically for medical data sensitivity. Their approach adds carefully controlled noise to model updates while ensuring that clinical utility is preserved. The system has been validated to meet HIPAA requirements across all participating institutions.
+
+Many real healthcare federations also implement secure aggregation protocols that prevent the central server from seeing individual institutional contributions. This provides an additional layer of protection against potential server compromises or malicious behavior.
+
+The convergence of these real-world approaches reflects the practical requirements of healthcare federated learning: sophisticated algorithms that can handle medical data heterogeneity, communication strategies that work within healthcare IT constraints, and privacy-preserving techniques that meet actual regulatory standards rather than just theoretical guarantees.
+
+\section{Privacy and Security State-of-the-Art}
+
+\subsection{Differential Privacy in Healthcare Federated Learning}
+
+The application of differential privacy to healthcare federated learning has evolved from basic theoretical frameworks to practical implementations that meet real regulatory requirements. Current deployments in healthcare recognize that medical data requires stronger privacy guarantees than typical federated learning applications due to the sensitive nature of patient information and strict regulatory compliance standards.
+
+The EXAM system for COVID-19 patient monitoring implements differential privacy mechanisms that are carefully calibrated for medical data sensitivity. Their approach adds controlled noise to gradient updates while ensuring that clinical utility is preserved for predicting patient outcomes. The privacy mechanism adds calibrated noise to gradient updates:
+$\tilde{g}_k = g_k + \mathcal{N}(0, \sigma^2 \cdot S^2 \cdot I)$
+where $S$ is the sensitivity of the gradient function and $\sigma$ is chosen to satisfy $(\epsilon, \delta)$-differential privacy.
+
+Real healthcare federations face the fundamental challenge of balancing privacy and utility in clinical settings. The FeTS initiative addresses this by implementing privacy accounting mechanisms that track cumulative privacy loss over multiple training rounds and automatically adjust noise levels to maintain desired privacy guarantees throughout the federated learning process.
+
+\subsection{Practical Crypotographic Approaches}
+
+Real-world healthcare federations have implemented cryptographic protocols that provide practical security while meeting the operational constraints of hospital IT systems. These approaches have moved beyond theoretical constructs to provide deployable solutions.
+
+The FeTS initiative implements secure aggregation protocols that prevent any single participant, including coordinating servers, from seeing individual institutional contributions. Their secure aggregation protocol ensures that only the final aggregated result is revealed:
+$w_{global} = \text{SecAgg}(w_1, w_2, ..., w_K)$
+where $\text{SecAgg}$ represents the secure aggregation function that computes $\sum_{k=1}^{K} w_k$ without revealing any individual $w_k$.
+
+The OpenFL framework, developed by Intel and used in multiple healthcare deployments, provides cryptographic protections including secure communication channels, authenticated model updates, and integrity verification. This framework has been successfully deployed across multiple real healthcare collaborations while maintaining strong security guarantees.
+
+These practical cryptographic approaches share common design principles: they minimize trust requirements by ensuring that no single party can compromise patient privacy, they provide verifiable computation so that participants can confirm that aggregation was performed correctly, and they implement efficient protocols that can scale to realistic numbers of participating hospitals.
+
+\subsection{Attack Resistance and Robustness}
+
+Healthcare federated learning systems face sophisticated threat models that include both passive attacks attempting to extract patient information and active attacks trying to manipulate the learning process. Real deployments have developed defense mechanisms specifically designed for healthcare environments.
+
+The FeTS deployment across 71 institutions implements Byzantine-robust aggregation mechanisms that can identify and exclude malicious participants. Their system uses statistical analysis of model updates to detect outliers that might indicate compromised or malicious behavior:
+$w_{robust} = \text{median}({w_k : ||w_k - \bar{w}|| \leq \tau})$
+where $\bar{w}$ is the mean of all updates and $\tau$ is a threshold for detecting outliers.
+
+The EXAM system implements gradient clipping and anomaly detection to prevent model poisoning attacks. Their approach monitors for unusual patterns in model updates that could indicate attempts to compromise the federated learning process.
+
+Real healthcare federations also implement comprehensive audit trails that track all federated learning activities. These audit mechanisms provide forensic capabilities that can detect and investigate potential security incidents while maintaining patient privacy.
+
+\subsection{Regulatory Compliance and Audit Mechanisms}
+
+Current healthcare federated learning deployments prioritize regulatory compliance as a primary design consideration rather than an afterthought. This represents a significant evolution from early federated learning systems that focused primarily on technical privacy guarantees.
+
+The FeTS initiative implements comprehensive compliance mechanisms that meet international healthcare data protection standards. Their system provides detailed audit trails that track model training activities, privacy budget consumption, and participant interactions. These audit mechanisms generate verifiable logs that can be reviewed by institutional review boards and regulatory authorities without compromising patient privacy.
+
+The EXAM system demonstrates compliance with HIPAA requirements across all 20 participating international institutions. Their compliance framework includes automated privacy monitoring, regular security assessments, and detailed documentation of all data handling procedures.
+
+Real healthcare federations also implement governance frameworks that specify how privacy budgets should be allocated, how long model updates can be retained, and how participants can verify that their privacy requirements are being met. These frameworks provide practical guidance for healthcare organizations implementing federated learning while ensuring regulatory compliance.
+
+Table \ref{tab:real_privacy_techniques} summarizes the privacy-preserving techniques used in real healthcare federated learning deployments.
+
+\begin{table}[htbp]
+\centering
+\caption{Privacy-Preserving Techniques in Real Healthcare FL Systems}
+\label{tab:real_privacy_techniques}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{System} & \textbf{Privacy Technique} & \textbf{Compliance Standard} \\
+\hline
+EXAM & Differential Privacy & HIPAA, International \\
+\hline
+FeTS & Secure Aggregation & IRB Approved \\
+\hline
+OpenFL & Encrypted Communication & Healthcare IT Standards \\
+\hline
+HealthChain & Data Minimization & GDPR Compliant \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Trust and Verification Mechanisms}
+
+Real healthcare federations implement sophisticated trust mechanisms that address the unique requirements of medical collaborations. These systems must ensure that all participants can verify the integrity of the federated learning process while maintaining patient privacy.
+
+The FeTS initiative implements distributed trust mechanisms where multiple institutions participate in model verification. No single party can unilaterally modify the global model, and all changes require consensus from multiple participants.
+
+Many real healthcare federations also implement transparency mechanisms that allow participants to understand how their data contributions affect the global model without revealing sensitive information. These mechanisms provide confidence that federated learning is providing genuine benefit while respecting privacy constraints.
+
+The convergence of these privacy and security approaches reflects the unique requirements of healthcare federated learning: stronger privacy guarantees than typical applications, resistance to sophisticated attacks targeting valuable medical data, practical cryptographic protocols that work within healthcare IT constraints, comprehensive compliance mechanisms that meet regulatory standards, and trust frameworks that enable genuine multi-institutional collaboration. While specific implementations vary across different healthcare federations, all successful deployments recognize that privacy and security must be fundamental design considerations rather than optional features.
+
+\section{Conclusion and Future Work}
+
+\subsection{Summary of Current State}
+
+This survey has examined the current state-of-the-art in federated learning for patient monitoring, revealing a field that has progressed from theoretical frameworks to real-world clinical deployments. The evolution from basic federated averaging to sophisticated healthcare-specific systems demonstrates how the research community has successfully adapted general federated learning principles to meet the unique requirements of medical applications.
+
+Real-world deployments have converged on several proven architectural patterns: the EXAM system's successful coordination across 20 international institutions for COVID-19 patient monitoring, the FeTS initiative's hierarchical federation structure managing 71 healthcare sites globally, and HealthChain's regional approach across French hospitals. These systems successfully address many of the fundamental challenges that initially made federated learning difficult to deploy in healthcare settings, including patient privacy protection, regulatory compliance, and clinical utility preservation.
+
+The privacy and security advances demonstrated in real deployments are particularly noteworthy. The EXAM system's implementation of differential privacy with clinical validation, FeTS's secure aggregation across international boundaries, and widespread adoption of comprehensive audit mechanisms show that federated learning can meet the stringent privacy requirements of healthcare while maintaining collaborative benefits. These multi-layered approaches provide the strong privacy guarantees necessary for handling sensitive patient data while enabling meaningful clinical research and model development.
+
+However, current implementations also reveal important limitations. Most existing deployments focus on specific clinical tasks (tumor segmentation, COVID-19 prediction) rather than comprehensive patient monitoring systems. Integration challenges with existing hospital information systems remain significant, and the computational overhead of advanced privacy-preserving techniques can be substantial for continuous monitoring applications.
+
+\subsection{Future Research Directions}
+
+Several important research directions emerge from analyzing current real-world deployments. The integration of federated learning with continuous patient monitoring systems remains largely unexplored in practice. While EXAM successfully handles episodic predictions for COVID-19 patients, extending these approaches to real-time vital sign monitoring requires new methods for handling streaming data and immediate response requirements.
+
+The development of standardized federated learning frameworks specifically for healthcare is critically needed. While OpenFL provides a general-purpose foundation, healthcare-specific frameworks that handle medical data formats, regulatory requirements, and clinical workflows would accelerate adoption. The success of FeTS in standardizing brain tumor segmentation suggests that similar standardization efforts could benefit other clinical domains.
+
+Personalized federated learning represents another promising direction. Real deployments have shown that different hospitals serve different patient populations, but current systems primarily focus on global model development. Future work should explore how to balance global knowledge sharing with local adaptation to specific patient demographics and clinical protocols.
+
+\subsection{Practical Deployment Challenges}
+
+Looking toward broader deployment, several challenges identified in current systems need to be addressed. The regulatory approval process for federated learning systems varies significantly across jurisdictions, as evidenced by the different compliance approaches used by EXAM (international HIPAA compliance) and HealthChain (GDPR compliance). Future work should develop standardized regulatory frameworks that can facilitate international collaborations while maintaining appropriate protections.
+
+Interoperability between different healthcare systems remains a significant barrier. Current successful deployments often require substantial customization for each participating institution. Developing standardized interfaces and protocols that allow federated learning systems to integrate more seamlessly with existing healthcare IT infrastructure would reduce adoption barriers.
+
+The economic sustainability of multi-institutional federations also needs attention. Current successful deployments like FeTS and EXAM have been supported by research grants, but sustainable models for ongoing operation and maintenance need to be developed. Questions about cost allocation, benefit sharing, and incentive structures for long-term participation require systematic study.
+
+\subsection{Emerging Opportunities}
+
+Despite these challenges, the opportunities for federated learning in patient monitoring continue to expand based on the foundation established by current deployments. The demonstrated success of international collaborations like EXAM shows that federated learning can enable research across countries and healthcare systems that would be impossible with traditional data sharing approaches.
+
+The COVID-19 pandemic has accelerated interest in remote patient monitoring and cross-institutional collaboration, creating a more favorable environment for federated learning adoption. The success of EXAM in predicting COVID-19 patient outcomes suggests that similar approaches could be valuable for other infectious diseases or public health emergencies.
+
+Integration with emerging healthcare technologies represents another significant opportunity. As wearable devices and remote monitoring technologies become more prevalent, federated learning could enable collaborative model development across both institutional and home-based care settings, extending the successful patterns demonstrated in current hospital-based federations.
+
+Federated learning for patient monitoring has evolved from a promising research direction to a field with demonstrated real-world clinical value. The success of systems like EXAM, FeTS, and HealthChain provides clear evidence that federated learning can meet the privacy, regulatory, and clinical requirements of healthcare applications. While challenges remain in standardization, sustainability, and broader integration with healthcare systems, the proven effectiveness of current deployments suggests that federated learning will play an increasingly important role in enabling collaborative healthcare research while protecting patient privacy.
+
+\section{Declaration of Generative AI and AI-related technologies in the writing process}
+During the preparation of this work the author used Anthropic's Claude-Sonnet-4 in order generate latex tables, the abstract, conclusions generation from the other sections, and a reformatting of the introduction section. After using this tool/service, the author reviewed and edited the content as needed and take full responsibility for the content of the publication.
+
+\begin{thebibliography}{10}
+\bibitem{McMahan2017} McMahan, B., Moore, E., Ramage, D., Hampson, S., Arcas, B.A.y., 2017. Communication-Efficient Learning of Deep Networks from Decentralized Data. Proceedings of the 20th International Conference on Artificial Intelligence and Statistics, 1273--1282.
+\bibitem{Li2020} Li, T., Sahu, A.K., Zaheer, M., Sanjabi, M., Talwalkar, A., Smith, V., 2020. Federated Optimization in Heterogeneous Networks. Proceedings of Machine Learning and Systems 2, 429--450.
+\bibitem{Dayan2021} Dayan, I., Roth, H.R., Zhong, A., Harouni, A., Gentili, A., Abidin, A.Z., Liu, A., Costa, A.B., Wood, B.J., Tsai, C.S., Wang, C.H., 2021. Federated learning for predicting clinical outcomes in patients with COVID-19. Nature Medicine 27(10), 1735--1743.
+\bibitem{Baid2021} Baid, U., Ghodasara, S., Mohan, S., Bilello, M., Calabrese, E., Colak, E., Farahani, K., Kalpathy-Cramer, J., Kitamura, F.C., Pati, S., Prevedello, L.M., 2021. The RSNA-ASNR-MICCAI BraTS 2021 Benchmark on Brain Tumor Segmentation and Radiogenomic Classification. arXiv preprint arXiv:2107.02314.
+\bibitem{Pati2021} Pati, S., Baid, U., Zenk, M., Edwards, B., Sheller, M., Reina, G.A., Foley, P., Gruzdev, A., Martin, J., Albarqouni, S., Chen, Y., 2021. The Federated Tumor Segmentation (FeTS) Challenge. arXiv preprint arXiv:2105.05874.
+\bibitem{Rieke2020} Rieke, N., Hancox, J., Li, W., Milletarì, F., Roth, H.R., Albarqouni, S., Bakas, S., Galtier, M.N., Landman, B.A., Maier-Hein, K., Ourselin, S., 2020. The future of digital health with federated learning. NPJ Digital Medicine 3, 119.
+\bibitem{Sheller2020} Sheller, M.J., Edwards, B., Reina, G.A., Martin, J., Pati, S., Kotrotsou, A., Milchenko, M., Xu, W., Marcus, D., Colen, R.R., Bakas, S., 2020. Federated learning in medicine: facilitating multi-institutional collaborations without sharing patient data. Scientific Reports 10, 12598.
+\bibitem{Brisimi2018} Brisimi, T.S., Chen, R., Mela, T., Olshevsky, A., Paschalidis, I.C., Shi, W., 2018. Federated learning of predictive models from federated Electronic Health Records. International Journal of Medical Informatics 112, 59--67.
+\bibitem{Foley2022} Foley, P., Sheller, M.J., Edwards, B., Pati, S., Riviera, W., Sharma, M., Narayana Moorthy, P., Wang, S.H., Martin, J., Mirhaji, P., Shah, P., 2022. OpenFL: the open federated learning library. Physics in Medicine & Biology 67(21), 214001.
+\bibitem{Kairouz2021} Kairouz, P., McMahan, H.B., Avent, B., Bellet, A., Bennis, M., Bhagoji, A.N., Bonawitz, K., Charles, Z., Cormode, G., Cummings, R., D'Oliveira, R.G., 2021. Advances and open problems in federated learning. Foundations and Trends in Machine Learning 14(1--2), 1--210.
+\end{thebibliography}
+
+\end{document}

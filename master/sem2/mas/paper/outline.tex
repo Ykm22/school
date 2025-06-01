@@ -1,0 +1,27 @@
+\documentclass[8pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\title{\textbf{Paper Outline: Federated Learning in Patient Monitoring}}
+\author{Ichim Ștefan}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Federated learning emerges as transformative paradigm for collaborative machine learning across distributed healthcare data sources while preserving privacy and regulatory compliance. Healthcare sector presents unique challenges with naturally distributed patient data across institutions serving distinct populations with different demographics and treatment protocols. Traditional centralized approaches raise significant privacy concerns and regulatory barriers under HIPAA and GDPR. Recent successful deployments include EXAM system coordinating COVID-19 prediction across 20 international institutions and FeTS initiative representing largest healthcare federation with 71 participating sites for brain tumor segmentation. Patient monitoring presents additional technical challenges beyond current deployments including temporal dependencies, equipment heterogeneity, and real-time processing requirements.
+
+\section{Related Work and Background}
+Basic FedAvg algorithm coordinates training through central server aggregating gradients from participating clients. Mathematical formulation: $w_{t+1} = \sum_{k=1}^{K} \frac{n_k}{n} w_k^{(t+1)}$ where clients share parameter changes rather than raw data. FedProx addresses heterogeneity issues common in healthcare settings.
+EXAM system demonstrates federated learning for COVID-19 patient monitoring achieving AUC greater than 0.92 with 16\% improvement over single-site models. FeTS initiative successfully implements brain tumor segmentation across 71 institutions without sharing patient data. HealthChain project deploys federated learning across French hospitals for cancer treatment prediction.
+
+Traditional monitoring systems are reactive rather than predictive, requiring large datasets from diverse patient populations. Patient monitoring data exhibits continuous time-dependent characteristics, equipment heterogeneity, and strict real-time processing requirements for patient safety.
+
+\section{Conclusion and Future Work}
+
+Current federated learning systems successfully demonstrate clinical value through real-world deployments like EXAM, FeTS, and HealthChain, proving ability to meet privacy, regulatory, and clinical requirements. However, limitations include focus on specific clinical tasks rather than comprehensive monitoring systems and integration challenges with hospital information systems. Future directions include continuous patient monitoring integration, healthcare-specific standardized frameworks, and personalized federated learning balancing global knowledge with local adaptation. Practical challenges involve regulatory standardization across jurisdictions, healthcare system interoperability, and economic sustainability models for multi-institutional federations.
+
+\end{document}
