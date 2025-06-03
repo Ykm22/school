@@ -1,1 +1,13 @@
 ./venv/
+**.parquet
+**.txt
+**.csv
+**/checkpoints
+**/classification_output
+**/ner_output
+**/trained_models_and_results
+**.bin
+physionet.org
+data
+report.toc
+**.zip
