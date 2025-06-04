@@ -1,10 +1,7 @@
 import asyncio
-import logging
 from utils.logger import setup_logger
-from game.maze import Maze
-from agents.pacman_agent import PacManAgent
-from agents.environment_agent import EnvironmentAgent
-from agents.ghost_agent import GhostAgent
+from game import Maze
+from agents import PacManAgent, EnvironmentAgent, GhostAgent
 from config.game_config import AGENT_JIDS, AGENT_PASSWORDS, ACTIVE_GHOSTS
 
 async def main():

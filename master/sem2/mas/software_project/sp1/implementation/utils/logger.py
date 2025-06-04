@@ -17,7 +17,7 @@ def setup_logger():
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.FileHandler(log_file),
-            logging.StreamHandler()  # Also log to console
+            # logging.StreamHandler()  # Also log to console
         ]
     )
     

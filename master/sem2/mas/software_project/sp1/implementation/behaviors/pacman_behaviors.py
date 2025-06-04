@@ -1,4 +1,3 @@
-import asyncio
 import random
 import logging
 from spade.behaviour import PeriodicBehaviour

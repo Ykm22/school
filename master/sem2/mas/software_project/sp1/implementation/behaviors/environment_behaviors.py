@@ -1,4 +1,3 @@
-import asyncio
 import logging
 from spade.behaviour import PeriodicBehaviour
 from utils.visualization import MazeVisualizer
