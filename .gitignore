@@ -153,6 +153,7 @@ LaTeX_templates/
 
 # ignore kd tools directory
 **/kd/tools/
+**/kd/lectures/
 
 **/papers/
 **/papers_md/
