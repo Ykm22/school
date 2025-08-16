@@ -1,0 +1,24 @@
+%gcd(X:integer, Y:integer, Z:integer)
+%(i, i, o) (i, i, o)
+gcd(X, 0, X) :- !.
+gcd(X, Y, Z) :-
+    M is mod(X, Y),
+    gcd(Y, M, Z).
+
+%lcm(X:integer, Y:integer, LCM:integer)
+%(i, i, o), (i, i, i)
+lcm(X, Y, LCM) :-
+    gcd(X, Y, GCD),
+    LCM is X*Y/GCD.
+
+%lcm_list(L:list, LCM:integer)
+%(i, o), (i, i)
+lcm_list([], 1) :- !.
+lcm_list([H|T], LCM) :-
+    lcm_list(T, LCM2),
+    lcm(H, LCM2, LCM).
+
+a_go1 :- lcm_list([1, 2, 3], 6).
+a_go2 :- lcm_list([2, 5, 7], 70).
+a_go3 :- lcm_list([-3, 3, 5], -15).
+
