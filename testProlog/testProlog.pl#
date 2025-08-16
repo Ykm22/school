@@ -1,0 +1,68 @@
+%my_reverse(L:list, Rez:list)
+%(i, o) (i,i) determinist
+%inversa listei L pusa in Rez
+my_reverse([], []):-!.
+my_reverse([H|T], Rez) :-
+    my_reverse(T, Rez1),!,
+    append(Rez1, [H], Rez).
+
+
+%suma(L1:list, L2:list, Flag:integer, Rez:list)
+%(i, i, i, o) determinist
+%Face suma celor 2 liste de cifre si pune rezultatul in Rez
+%L1, L2, Rez - listele pe care se va opera
+%Flag : 0 - daca nu trebuie sa adaugam 1
+%       1 - daca trebuie sa adaugam 1
+%Se disting cazuri diferite pentru flaguri
+%     F = 0 => fie adunarea e peste 10 => flag-ul se seteaza 1
+%           => fie adunarea e sub 10 => flag-ul ramane 0
+%     F = 1 => fie adunarea e peste 10 => flag-ul ramane 1
+%           => fie adunarea e 9 => se pune cifra 0 si flag-ul ramane 1
+%           => fie adunarea e sub 9 => se adauga 1 si flag-ul 0
+%De asemenea trebuie testate cazurile in care o lista are mai multe
+%   elemente decat cealalta
+suma([H1|T1], [H2|T2], 0, [Cifra|Rez] ) :-
+    H1 + H2 > 9,!,
+    Cifra is (H1 + H2) mod 10,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 0, [Cifra|Rez] ) :-
+    H1 + H2 < 10,!,
+    Cifra is H1 + H2,
+    suma(T1, T2, 0, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 =:= 9,!,
+    Cifra is 0,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 > 9,!,
+    Cifra is (H1 + H2 + 1) mod 10,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 < 9,!,
+    Cifra is H1 + H2 + 1,
+    suma(T1, T2, 0, Rez).
+suma([A|T], [], 1, [Cifra|Rez]) :-
+    Cifra is A + 1,!,
+    suma(T, [], 0, Rez).
+suma([A|T], [], 0, [Cifra|Rez]) :-
+    Cifra is A,!,
+    suma(T, [], 0, Rez).
+suma([], [A|T], 1, [Cifra|Rez]) :-
+    Cifra is A + 1,!,
+    suma([], T, 0, Rez).
+suma([], [A|T], 0, [Cifra|Rez]) :-
+    Cifra is A,!,
+    suma([], T, 0, Rez).
+% daca ajungem la lista vida si flag-ul e 1 => trebuie adaugat 1 la
+% inceput
+suma([], [], 1, [1]):-!.
+suma([], [], 0, []).
+
+main_suma(L1, L2, Rez) :-
+    my_reverse(L1, Reversed_L1),
+    my_reverse(L2, Reversed_L2),
+    suma(Reversed_L1, Reversed_L2, 0, Reversed_Rez),
+    my_reverse(Reversed_Rez, Rez).
+
+
+

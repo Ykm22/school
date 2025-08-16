@@ -1,0 +1,48 @@
+reverse3([], []).
+reverse3([H|T], Rez) :-
+    reverse3(T, Rez1),!,
+    append(Rez1, [H], Rez).
+
+%suma_2Liste(L1:list, L2:list, Rez:list_sum, F:integer)
+%(i, i, o, i) determinist
+
+suma_2Liste([], [], [], _).
+suma_2Liste([], [H|T], [H + 1|Rez], 1) :-
+    suma_2Liste([], T, Rez, 0).
+suma_2Liste([], [H|T], [H|Rez], 0) :-
+    suma_2Liste([], T, Rez, 0).
+suma_2Liste([H|T], [], [H + 1|Rez], 1) :-
+    suma_2Liste(T, [], Rez, 0).
+suma_2Liste([H|T], [], [H|Rez], 0) :-
+    suma_2Liste(T, [], Rez, 0).
+suma_2Liste([H1|T1], [H2|T2], [X|Rez], 1) :-
+    H1 + H2 > 9,!,
+    X is (H1 + H2 + 1) mod 10,
+    suma_2Liste(T1, T2, Rez, 1).
+suma_2Liste([H1|T1], [H2|T2], [X|Rez], 1) :-
+    H1 + H2 < 10,!,
+    X is (H1 + H2 + 1),
+    suma_2Liste(T1, T2, Rez, 0).
+suma_2Liste([H1|T1], [H2|T2], [X|Rez], 0) :-
+    H1 + H1 > 9,!,
+    X is (H1 + H2),
+    suma_2Liste(T1, T2, Rez, 1).
+suma_2Liste([H1|T1], [H2|T2], [X|Rez], 0) :-
+    H1 + H2 < 10,!,
+    X is (H1 + H2),
+    suma_2Liste(T1, T2, Rez, 0).
+
+suma_main(L1, L2, Rez):-
+    reverse3(L1, Reverse_L1),
+    reverse3(L2, Reverse_L2),
+    suma_2Liste(Reverse_L1, Reverse_L2, Reverse_Rez),
+    reverse3(Reverse_Rez, Rez).
+
+
+
+
+
+
+
+
+

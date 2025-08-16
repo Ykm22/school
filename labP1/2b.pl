@@ -1,0 +1,18 @@
+%add_elem(L:list, E:int, K:int, POW:int, LRez:list)
+%(i, i, i, i, o), (i, i, i, i, i) - determinist
+add_elem([], _, _, _, []) :- !.
+
+add_elem([H|T], E, K, POW, [H, E|Rez]) :-
+    K =:= POW,
+    K1 is K + 1,
+    POW1 is POW * 2,
+    add_elem(T, E, K1, POW1, Rez).
+
+add_elem([H|T], E, K, POW, [H|Rez]) :-
+    K =\= POW,
+    K1 is K + 1,
+    add_elem(T, E, K1, POW, Rez).
+
+b_go1 :- add_elem([1, 2, 3, 4], -1, 1, 1, [1, -1, 2, -1, 3, 4, -1]).
+b_go2 :- add_elem([1, 2, 3, 4, 5, 6, 7], -1, 1, 1, [1, -1, 2, -1, 3, 4, -1, 5, 6, 7]).
+b_go3 :- add_elem([], -1, 1, 1, []).

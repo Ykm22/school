@@ -1,0 +1,25 @@
+%sortare+eliminare dubluri
+%sort_elim_dub(L:list, Col:list, Rez:list)
+
+
+%add_sorted(E:int, List:list, Rez:list)
+add_sorted(E, [], [E], 1):-!.
+add_sorted(_, [], [], 0):-!.
+add_sorted(E, [H1,H2|T], [H1,E, H2|Rez], 1) :-
+    E > H1,!,
+    E =< H2,
+    add_sorted(E, [H2|T], Rez, 0).
+add_sorted(E, [H1|T], [H1|Rez], 1) :-
+    E =< H1,!,
+    add_sorted(E, T, Rez, 1).
+add_sorted(E, [H1|T], [H1|Rez], 1) :-
+    E > H1,!,
+    add_sorted(E, T, Rez, 1).
+add_sorted(E, [_|T], Rez, 0) :-
+    add_sorted(E, T, Rez, 0).
+
+
+
+%my_sort(L:list, Rez:list)
+my_sort([], []).
+%my_sort([H|T], Rez)

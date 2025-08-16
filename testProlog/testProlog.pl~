@@ -1,0 +1,46 @@
+my_reverse([], []):-!.
+my_reverse([H|T], Rez) :-
+    my_reverse(T, Rez1),!,
+    append(Rez1, [H], Rez).
+
+suma([H1|T1], [H2|T2], 0, [Cifra|Rez] ) :-
+    H1 + H2 > 9,!,
+    Cifra is (H1 + H2) mod 10,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 0, [Cifra|Rez] ) :-
+    H1 + H2 < 10,!,
+    Cifra is H1 + H2,
+    suma(T1, T2, 0, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 =:= 9,!,
+    Cifra is 0,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 > 9,!,
+    Cifra is (H1 + H2 + 1) mod 10,
+    suma(T1, T2, 1, Rez).
+suma([H1|T1], [H2|T2], 1, [Cifra|Rez]) :-
+    H1 + H2 < 9,!,
+    Cifra is H1 + H2 + 1,
+    suma(T1, T2, 0, Rez).
+suma([A|T], [], 1, [Cifra|Rez]) :-
+    Cifra is A + 1,
+    suma(T, [], 0, Rez).
+suma([A|T], [], 0, [Cifra|Rez]) :-
+    Cifra is A,
+    suma(T, [], 0, Rez).
+suma([], [A|T], 1, [Cifra|Rez]) :-
+    Cifra is A + 1,
+    suma([], T, 0, Rez).
+suma([], [A|T], 0, [Cifra|Rez]) :-
+    Cifra is A,
+    suma([], T, 0, Rez).
+suma([], [], 1, [1]):-!.
+suma([], [], 0, []).
+
+main_suma(L1, L2, Rez) :-
+    my_reverse(L1, Reversed_L1),
+    my_reverse(L2, Reversed_L2),
+    suma(Reversed_L1, Reversed_L2, 0, Reversed_Rez),
+    my_reverse(Reversed_Rez, Rez).
+
