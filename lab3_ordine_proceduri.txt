@@ -1,0 +1,7 @@
+Ordine operatii in tabel:
+0 - tabela inexistenta
+1 - creea/sterge o tabela;
+2 - adauga un camp nou;
+3 - modifica tipul unui camp
+4 - adauga o costrângere de “valoare implicita” pentru un camp;
+5 - creea/sterge o constrangere de cheie straina
