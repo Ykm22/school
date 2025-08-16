@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetwork.controller.LoginController">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="400.0" prefWidth="751.0">
+         <children>
+            <HBox prefHeight="18.0" prefWidth="614.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="129.0" text="Your friendships - page ">
+                     <HBox.margin>
+                        <Insets left="150.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="label_FriendshipsPage" text="current_page" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="342.0" prefWidth="768.0">
+               <children>
+                  <VBox prefHeight="342.0" prefWidth="534.0">
+                     <children>
+                        <TableView id="tableUsers" fx:id="tableView_Friendships" prefHeight="374.0" prefWidth="507.0">
+                           <columns>
+                              <TableColumn fx:id="tableColumn_Friendships_EmailSender" prefWidth="128.80001544952393" text="Email_Sender" />
+                              <TableColumn fx:id="tableColumn_Friendships_EmailReceiver" prefWidth="137.59999084472656" text="Email_Receiver" />
+                              <TableColumn fx:id="tableColumn_Friendships_FriendsFrom" minWidth="0.0" prefWidth="126.4000244140625" text="Friends from" />
+                              <TableColumn fx:id="tableColumn_Friendships_Status" prefWidth="116.0" text="Status" />
+                           </columns>
+                        </TableView>
+                        <ButtonBar prefHeight="142.0" prefWidth="507.0">
+                           <buttons>
+                              <Button fx:id="button_Friendshps_GoFirstPage" mnemonicParsing="false" onAction="#handleTurnToFirstPage" prefHeight="26.0" prefWidth="240.0" text="First page" />
+                              <Button fx:id="button_Friendships_GoBackPage" mnemonicParsing="false" onAction="#handleTurnToBackPage" text="Back" />
+                              <Button fx:id="button_Friendships_GoNextPage" mnemonicParsing="false" onAction="#handleTurnToNextPage" text="Next" />
+                              <Button fx:id="button_Friendships_GoLastPage" mnemonicParsing="false" onAction="#handleTurnToLastPage" text="Last page" />
+                           </buttons>
+                        </ButtonBar>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="342.0" prefWidth="271.0">
+                     <children>
+                        <HBox prefHeight="34.0" prefWidth="245.0">
+                           <children>
+                              <Label text="Logged into:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="label_LoggedUser" prefHeight="18.0" prefWidth="141.0" text="User">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="28.0" prefWidth="471.0">
+                           <children>
+                              <Label text="Email">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="textField_Email_SendFriendRequest">
+                                 <HBox.margin>
+                                    <Insets left="37.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="278.0">
+                           <children>
+                              <Button fx:id="button_SendFriendRequest" mnemonicParsing="false" onAction="#handleSendFriendRequest" text="Send friend request">
+                                 <HBox.margin>
+                                    <Insets left="105.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="56.0" prefWidth="372.0">
+                           <children>
+                              <Label text="Modify a friendship or request">
+                                 <HBox.margin>
+                                    <Insets left="10.0" top="45.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="28.0" prefWidth="471.0">
+                           <children>
+                              <Label text="Email">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="textField_Email_ModifyRequest">
+                                 <HBox.margin>
+                                    <Insets left="37.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="268.0">
+                           <children>
+                              <Button fx:id="button_AcceptRequest" mnemonicParsing="false" onAction="#handleAcceptFriendRequest" text="Accept request">
+                                 <HBox.margin>
+                                    <Insets left="130.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="268.0">
+                           <children>
+                              <Button fx:id="button_DeleteFriend" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleDeleteFriend" text="Delete friend">
+                                 <HBox.margin>
+                                    <Insets left="141.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="278.0" />
+                        <Button fx:id="button_Logout1" mnemonicParsing="false" onAction="#handleLogout" prefHeight="33.0" prefWidth="154.0" text="Logout">
+                           <VBox.margin>
+                              <Insets left="48.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

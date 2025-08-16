@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="292.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetwork.controller.UserController">
+   <children>
+      <HBox layoutX="14.0" prefHeight="292.0" prefWidth="698.0">
+         <children>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="292.0" prefWidth="678.0">
+               <children>
+                  <VBox prefHeight="283.0" prefWidth="689.0">
+                     <children>
+                        <HBox layoutX="10.0" layoutY="227.0" prefHeight="11.0" prefWidth="823.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="74.0" text="Users - page">
+                                 <HBox.margin>
+                                    <Insets left="200.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="label_UsersPage" prefHeight="18.0" prefWidth="74.0" text="current_page" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="256.0" prefWidth="809.0">
+                           <children>
+                              <HBox prefHeight="256.0" prefWidth="673.0">
+                                 <children>
+                                    <VBox prefHeight="256.0" prefWidth="446.0">
+                                       <children>
+                                          <TableView id="tableUsers" fx:id="tableView_Users" prefHeight="210.0" prefWidth="478.0">
+                                            <columns>
+                                              <TableColumn fx:id="tableColumn_Users_FirstName" prefWidth="108.00000154972076" text="First name" />
+                                              <TableColumn fx:id="tableColumn_Users_LastName" prefWidth="134.39999389648438" text="Last name" />
+                                                <TableColumn fx:id="tableColumn_Users_Email" prefWidth="204.79998779296875" text="Email" />
+                                            </columns>
+                                          </TableView>
+                                          <ButtonBar prefHeight="47.0" prefWidth="450.0">
+                                            <buttons>
+                                                <Button fx:id="button_Users_GoFirstPage" mnemonicParsing="false" onAction="#handleTurnToFirstPage" prefHeight="26.0" prefWidth="155.0" text="First page" />
+                                                <Button fx:id="button_Users_GoBackPage" mnemonicParsing="false" onAction="#handleTurnToBackPage" text="Back" />
+                                                <Button fx:id="button_Users_GoNextPage" mnemonicParsing="false" onAction="#handleTurnToNextPage" text="Next" />
+                                              <Button fx:id="button_Users_GoLastPage" mnemonicParsing="false" onAction="#handleTurnToLastPage" prefHeight="26.0" text="Last page" />
+                                            </buttons>
+                                          </ButtonBar>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="256.0" prefWidth="228.0">
+                                       <children>
+                                          <HBox prefHeight="28.0" prefWidth="471.0">
+                                             <children>
+                                                <Label text="First name">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textField_FirstName_CRUD">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" prefHeight="28.0" prefWidth="471.0">
+                                             <children>
+                                                <Label text="Last name">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textField_LastName_CRUD">
+                                                   <HBox.margin>
+                                                      <Insets left="11.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="38.0" prefHeight="28.0" prefWidth="471.0">
+                                             <children>
+                                                <Label text="Password">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <PasswordField fx:id="passwordField_Password_CRUD">
+                                                   <HBox.margin>
+                                                      <Insets left="15.0" />
+                                                   </HBox.margin>
+                                                </PasswordField>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="66.0" prefHeight="28.0" prefWidth="471.0">
+                                             <children>
+                                                <Label text="Email">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textField_Email_CRUD">
+                                                   <HBox.margin>
+                                                      <Insets left="37.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="26.0" prefWidth="260.0">
+                                             <children>
+                                                <Button fx:id="button_AddUser" mnemonicParsing="false" onAction="#handleAddUser" text="Add">
+                                                   <HBox.margin>
+                                                      <Insets left="132.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button fx:id="button_DeleteUser" mnemonicParsing="false" onAction="#handleDeleteUser" text="Delete">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" prefHeight="28.0" prefWidth="471.0">
+                                             <children>
+                                                <Label text="First name">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textField_FirstName_Filter">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="28.0" prefWidth="374.0">
+                                             <children>
+                                                <Button fx:id="button_ShowUsers" mnemonicParsing="false" onAction="#handleShowUsers" text="Show users">
+                                                   <HBox.margin>
+                                                      <Insets left="102.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button fx:id="button_Filter" mnemonicParsing="false" onAction="#handleFilterUser" text="Filter">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="362.0">
+                                             <children>
+                                                <Label text="Email">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textField_Email_Login" prefHeight="14.0" prefWidth="150.0">
+                                                   <HBox.margin>
+                                                      <Insets left="33.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="28.0" prefWidth="238.0">
+                                             <children>
+                                                <Label text="Password">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <PasswordField fx:id="passwordField_Password_Login">
+                                                   <HBox.margin>
+                                                      <Insets left="11.0" />
+                                                   </HBox.margin>
+                                                </PasswordField>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="278.0">
+                                             <children>
+                                                <Button fx:id="button_Login" mnemonicParsing="false" onAction="#handleLogin" text="Login">
+                                                   <HBox.margin>
+                                                      <Insets left="175.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="0.0" prefWidth="823.0">
+                     <children>
+                        <VBox prefHeight="61.0" prefWidth="824.0" />
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
