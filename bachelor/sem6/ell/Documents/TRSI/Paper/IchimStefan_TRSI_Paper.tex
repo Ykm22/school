@@ -1,0 +1,67 @@
+\documentclass[3p,times,procedia]{elsarticle}
+
+\flushbottom
+
+%% The `ecrc' package must be called to make the CRC functionality available
+\usepackage{ecrc}
+\usepackage[bookmarks=false]{hyperref}
+    \hypersetup{colorlinks,
+      linkcolor=blue,
+      citecolor=blue,
+      urlcolor=blue}
+%\usepackage{amsmath}
+
+\firstpage{1}
+\runauth{Author Name}
+
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage[figuresright]{rotating}
+
+\begin{document}
+\begin{frontmatter}
+
+    \dochead{\huge{Tehnici de realizare a sistemelor inteligente\\ (TRSI 2024)}}%
+    %% Use \dochead if there is an article header, e.g. \dochead{Short communication}
+    %% \dochead can also be used to include a conference title, if directed by the editors
+    %% e.g. \dochead{17th International Conference on Dynamical Processes in Excited States of Solids}
+
+
+    \title{\textbf{Here is the title of the report}}
+
+    \author{Author name}
+
+    \address{Department of Computer Science, Babe\c s-Bolyai University\\1, M. Kogalniceanu Street, 400084, Cluj-Napoca, Romania\\E-mail: .....}
+
+    \begin{abstract}
+        %% Text of abstract
+
+    \end{abstract}
+
+    \begin{keyword}
+    \end{keyword}
+\end{frontmatter}
+\section{Introduction}\label{introduction}
+
+%\section{\textcolor{red}{Other sections to be added}}
+
+\cite{2018_Dafonte} \cite{2018_Tolstikhin}
+
+\section{Discussion}\label{discussion}
+
+\section{Conclusions and future work}\label{conclusions}
+
+
+
+\footnotesize{
+
+    \bibliographystyle{elsarticle-harv}
+    \bibliography{references}
+
+}
+
+\end{document}
