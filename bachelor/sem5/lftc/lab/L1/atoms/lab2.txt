@@ -1,0 +1,5 @@
+a,ID
+=,operator
+0b111,binary
+0x111,hexa
+asd*,unknown symbol
