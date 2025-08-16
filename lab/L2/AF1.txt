@@ -1,0 +1,6 @@
+alfabet=A,B,C,D
+alfabet_intrare=1,0
+stari_finale=D,C
+stare_initiala=A
+A:{B,1};{C,0}
+B:{D,1}

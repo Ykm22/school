@@ -1,0 +1,24 @@
+Specificatiile fisierului care va trebui sa contina automatul finit
+
+<AF> ::= <alfabet_stari> <alfabet_intrare> <stari_finale> <stare_initiala> <tranzitii>
+
+<alfabet_stari> ::= alfabet=<stari_list>
+<stari_list> = <stare> | <stare>,<stari_list>
+<stare> ::= <cuvant>
+
+<alfabet_intrare> ::= alfabet_intrare=<cuvinte>
+
+<stari_finale> ::= stari_finale=<stari_list>
+
+<stare_initiala> ::= stare_initiala=<stare>
+
+<tranzitii> ::= <tranzitie> | <tranzitie>;<tranzitii>
+<tranzitie> ::= <stare> : <lista_perechi_tranzitii>
+<lista_perechi_tranzitii> ::= <pereche_tranzitie> | <pereche_tranzitie>,<lista_perechi_tranzitii>
+<pereche_tranzitie> ::= {<stare>,<litera>}
+
+<cuvant> ::= <cuvant> | <cuvant>,<cuvinte>
+<cuvant> ::= <litera> <rest_cuvant>
+<rest_cuvant> ::= ( <litera> | <cifra> ) | ( <litera> | <cifra> ) <rest_cuvant>
+<litera> ::= "a" | ... | "z" | "A" | ... | "Z"
+<cifra> ::= "0" | ... | "9"

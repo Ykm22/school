@@ -1,0 +1,145 @@
+[8:14 AM] RAUL-MARIAN LINI
+
+<program> ::= <lista_importuri> using namespace std; int main() {  <lista_instructiuni> return 0;}
+
+ 
+
+<lista_importuri> ::= <import> | <import><lista_importuri>
+
+<import> ::= include < <librarie> >
+
+<librarie> ::= <sir_caractere>
+
+<sir_caractere> ::= <caracter>| <caracter><sir_caractere>
+
+<caracter> ::= a|b|c...|z|A|B|C...|z|.
+
+ 
+
+<lista_instructiuni> ::= <instructiune>|<lista_instructiuni>
+
+<instructiune> ::= <intrare> | <iesire> | <atribuire> | <conditionala> | <ciclare> | <declarare>          //la ciclare avem bloc de instructiuni
+
+ 
+
+<atribuire> ::= <id> = <expresie> ;
+
+<expresie> ::= <expresie> <operatie> <expresie>
+
+<expresie> ::= <id> | <constanta>
+
+<operatie> ::= + | - | * | /
+
+ 
+
+<id>::= <litera> | <litera><sir_digit_nondigit>
+
+<litera>::= a|b|c...|z|A|B|C...|z
+
+ 
+
+<sir_digit_nondigit>::= <digit> | <digit><sir_digit_nondigit>
+
+<sir_digit_nondigit>::= <nondigit> | <nondigit><sir_digit_nondigit>
+
+<digit>::= 0|1|2...|9
+
+<non_digit>::=  a|b|c...|z|A|B|C...|z|_
+
+ 
+
+ 
+
+<const> ::= <int_const> | <double_const>
+
+ 
+
+<int_const>::= <semn><digits>
+
+<int_const>::= <semn> 0x <hex_digits>
+
+<int_const>::= <semn> 0 <octa_digits>
+
+<int_const>::= <semn> 0b <binary_digits>
+
+ 
+
+<double_const>::= <semn><digits>.<digits> | <semn><digits>
+
+<double_const>::= <semn> 0x <hex_digits>
+
+<double_const>::= <semn> 0 <octa_digits>
+
+<double_const>::= <semn> 0b <binary_digits>
+
+ 
+
+<semn>::= +|-
+
+<digits>::= <digit><digits>|<digit>
+
+<hex_digits>::<hex_digit><hex_digits> | <hex_digit>
+
+<hex_digit>::= 0|1|2|3..D|E|F
+
+<octa_digits>::<octa_digit><octa_digits> | <octa_digit>
+
+<octa_digit>::= 0|1|2|3..6|7
+
+<binary_digits>::<binary_digit><binary_digits> | <binary_digit>
+
+<binary_digit>::= 0|1
+
+ 
+
+ 
+
+<intrare> ::= cin<citiri>;
+
+<citiri> ::= <citire> | <citire><citiri>
+
+<citire> ::= >><id>
+
+ 
+
+<iesire> ::= cout<afisari>;
+
+<afisari> ::= <afisare> | <afisare><afisari>
+
+<afisare> ::= <<<id> | <<<const> | <<<expresie> | <<endl | <<"<sir_caractere>"
+
+ 
+
+<conditionala> ::= if( <conditii> ) { <lista_instructiuni> } | if( <conditie> ) { <lista_instructiuni> } else { <lista_instructiuni> } 
+
+<conditii> ::= <conditie> | <conditie> && <conditii> | <conditie> || <conditii>
+
+<conditie> ::= <expresie> <operator_relational> <expresie>
+
+<operator_relational> ::= != | == | < | > | <= | >=
+
+ 
+
+<declarare> ::= <tip> <id> ; | <tip> <atribuire>;
+
+<tip> ::= int | double | fractie
+
+ 
+
+<struct_fractie> ::= struct fractie {
+
+				int numitor;
+
+				int numarator;
+
+				}
+
+ 
+
+ 
+
+<ciclare> ::= <while-instr> | <for-instr>
+
+<while-instr> ::= while(<conditii>) {lista_instructiuni}
+
+<for-instr> ::= for (<declarare>; <conditii>; <expresie> ){ lista_instructiuni }

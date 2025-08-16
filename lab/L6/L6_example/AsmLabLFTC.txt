@@ -1,0 +1,9 @@
+Intai rulam in folderul Bison bison si flex iar apoi rezultatul produs il punem intr-un fisier nou cu extensia .asm in folderul asm2
+
+In folderul asm2 rulam in cmd pentru fisierul cu denumirea iodemoC.asm
+nasm -f win32 iodemoC.asm
+nlink iodemoC.obj -lio -o iodemoC.exe
+
+Material
+https://www.cs.virginia.edu/~evans/cs216/guides/x86.html
+

@@ -1,0 +1,173 @@
+Limbaj ales: C++
+
+1. Specificare minilimbajului de programare (MLP)
+
+Tipuri de date:
+
+<type> ::= int | float | <identifier>
+<struct-declaration> ::= struct <identifier> { <field-list> } ;
+
+Identfificator (max 8 caractere)
+
+<identifier> ::= <letter>(<letter><digit>){0, 7}
+<letter> ::= "a" | .. | "z" | "A" | .. | "Z"
+
+<CONST> ::= <integer-constant> | <hex-constant> | <binary-constant> | <octal-constant>
+
+<integer-constant> ::= <digit> | <digit> <number>
+
+<hex-constant> ::= 0x <hex-number>
+<hex-number> ::= <hex-digit> | <hex-digit> <hex-number>
+<hex-digit> ::= <digit> | <hex-letter>
+<hex-letter> ::= "A" | "B" | "C" | "D" | "E" | "F"
+
+<binary-constant> ::= 0b <binary-number>
+<binary-number> ::= <binary-digit> | <binary-digit> <binary-number>
+<binary-digit> ::= "0" | "1"
+
+<octal-constant> ::= 0 <integer-constant>
+
+<number> ::= <digit> | <digit> <number>
+<digit> ::= "0" | .. | "9"
+<field-list> ::= <field>; | <field> ; <field-list>
+<field> ::= <type> <identifier>
+
+Program:
+
+<program> ::= <library-import-list> [<using-standard-namespace>] <anthet> <body>
+<using-standard-namespace> ::= using namespace std;
+<library-import-list> ::= ( <library-import> | <library-import> <library-import-list> ) <new-line>
+<library-import> ::= #include '<' <string> '>'
+<string> ::= <character> | <character><string>
+<character> ::= <letter> | "." | "/"
+<new-line> ::= "\n"
+
+<anthet> ::= <type> main ()
+<body> ::= { <instruction-list> }
+
+<instruction-list> ::= <instruction> | <instruction> <instruction-list>
+<instruction> ::= <declaration> | <read> | <print> | <assign>
+
+<declaration> ::= <type> <declaration-list> ;
+<declaration-list> ::= <identifier> | <identifier>, <declaration-list>
+
+Intrare/Iesire
+
+<read> ::= cin <read-list> ;
+<read-list> ::= <read-item> | <read-item> <read-list>
+<read-item> ::= >> <identifier>
+<print> ::= cout <print-list> ;
+<print-list> ::= <print-item> | <print-item> <print-list>
+<print-item> ::= << (<identifier> | <CONST> | " ")
+
+Atribuire
+
+<assign> ::= <identifier> = <expr>
+<expr> ::= <identifier> | <CONST>  | <expr> <op> <expr>
+<op> ::= + | - | / | %
+
+Selectie conditionala
+
+<conditional-selection> ::= <if-statement>
+<if-statement> ::= if ( (<equality-expr> | <inequality-expr>) ) <statement>
+<equality-expr> ::= <expr> == <expr>
+<inequality-expr> ::= <expr> != <expr>
+
+Ciclare
+
+<loop-instruction> ::= while ( (<equality-expr> | <inequality-expr>) ) { <instruction-list> }
+
+
+2. Se cer textele sursa a 3 mini-programe care respecta specificatiile MLP date care rezolva urmatoarele probleme:
+
+- calculeaza perimetrul si aria cercului de o raza data
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    float radius, pi, perimeter, area;
+    pi = 3.14;
+    cin >> radius;
+    perimeter = 2 * pi * radius;
+    area = pi * radius * radius;
+    cout << perimeter << " " << area;
+    return 0;
+}
+
+- determina cmmdc a 2 nr naturale
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int a, b, gcd;
+    cin >> a >> b;
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    cout << a;
+    return 0;
+}
+
+- calculeaza suma a n nr citite de la tastatura
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int n, x, sum;
+    sum = 0;
+    cin >> n;
+    while(n != 0) {
+        cin >> x;
+        sum = sum + x;
+        n = n - 1;
+    }
+    cout << sum;
+    return 0;
+}
+
+3. Se cer textele sursa a 2 programe care contin erori conform LP-ului definit
+
+- program care contine 2 erori care sunt in acelasi timp erori in limbajul original
+(;, >, < la cin/cout)
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int n, x sum;
+    sum = 0
+    cin >> n;
+    while(n != 0) {
+        cin > x;
+        sum = sum + x;
+        n = n - 1;
+    }
+    cout < sum;
+    return 0;
+}
+
+- program care contine 2 erori conform MLP, dar care nu sunt erori in limbajul original
+(n--, sum+= x, sum = 0)
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int n, x, sum = 0;
+    cin >> n;
+    while(n != 0) {
+        cin >> x;
+        sum += x;
+        n--;
+    }
+    cout << sum;
+    return 0;
+}

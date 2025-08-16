@@ -1,0 +1,11 @@
+#include <iostream>
+#include "stdlib.h"
+#include "test.h"
+
+using namespace std;
+using namespace rt;
+
+int main() {
+	int a;
+	a = 10;
+}

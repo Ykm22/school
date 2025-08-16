@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    double radius, pi, perim, area;
+    pi = 3.14;
+    cin >> radius;
+    perim = 2 * pi;
+    test1 = 0b0101;
+    test2=00123;
+    test3=   0x123AF;
+    perim = perim * radius;
+    area = pi * radius;
+    area = area * radius;
+    cout << perim << " " << area;
+    return 0;
+}

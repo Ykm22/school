@@ -1,0 +1,7 @@
+alfabet=q,r,s,t
+alfabet_intrare=a,b
+stari_finale=r
+stare_initiala=q
+q:{s,a}
+s:{t,b};{r,a}
+t:{s,b}
