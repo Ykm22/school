@@ -1,0 +1,133 @@
+\documentclass[a4paper]{article}
+
+\usepackage{hyphenat}
+
+\title{
+    Bachelor Thesis - Report 2
+}
+\author{Ichim Ștefan}
+\date{2 April 2024}
+
+\begin{document}
+
+\maketitle
+
+%\newpage
+
+\section*{Bibliographical Documentation}
+\begin{enumerate}
+      \item Alsubaie, M.G.; Luo, S.; Shaukat, K. Alzheimer's Disease Detection Using Deep Learning on Neuroimaging:
+            A Systematic Review. Mach. Learn. Knowl. Extr. 2024, 6, 464-505. https://doi.org/10.3390/make6010024
+            \begin{itemize}
+                  \item This paper gives detailed explanations on notions from medicine used in this study,
+                        the state-of-the-arts approaches to Alzheimer's Disease Detection, the datasets and the multi-modal
+                        input methods
+                  \item Highly valuable research paper, giving important initial directions in the chosen topic
+                  \item Its place is to make an overhaul on the 2018-2023 improvements in AD detection
+            \end{itemize}
+      \item Matthews PM, Jezzard P. Functional magnetic resonance imaging. J Neurol Neurosurg Psychiatry.
+            2004 Jan;75(1):6-12. PMID: 14707297; PMCID: PMC1757457. https://pubmed.ncbi.nlm.nih.gov/14707297/
+            \begin{itemize}
+                  \item Matthews and Jezzard explain one of the most commonly used types of fMRI, the
+                        blood oxygenation level dependent (BOLD) functional MRI, and the advantages
+                        it brings versus Electroencephalography (EEG) scans
+                  \item Less useful paper, nevertheless I considered it important to grasp the way MRI data
+                        is gathered for a better understanding of the problem.
+                  \item Helped understanding the importance of relaxation times of the brain
+                        $T_1$, $T_2$, $T_2^*$
+            \end{itemize}
+      \item Gorgolewski KJ, Auer T, Calhoun VD, Craddock RC, Das S, Duff EP, Flandin G, Ghosh SS, Glatard T,
+            Halchenko YO, Handwerker DA, Hanke M, Keator D, Li X, Michael Z, Maumet C, Nichols BN, Nichols TE, Pellman J,
+            Poline JB, Rokem A, Schaefer G, Sochat V, Triplett W, Turner JA, Varoquaux G, Poldrack RA. The brain imaging
+            data structure, a format for organizing and describing outputs of neuroimaging experiments. Sci Data. 2016 Jun 21;
+            3:160044. doi: 10.1038/sdata.2016.44. PMID: 27326542; PMCID: PMC4978148. \\
+            https://pubmed.ncbi.nlm.nih.gov/27326542/
+            \begin{itemize}
+                  \item Paper sheds light on the importance of a standardization of how data regarding neuroimaging is stored,
+                        specifying the previous standards, among which some weren't adopted (XML) and some got selected forward (JSON, NIfTi, tsv)
+                  \item Relatively important due to the need of understanding how datasets work in other scientific fields for an easier
+                        time utilizing them
+                  \item This paper stands at a base level in the economy of the research, laying out the foundations which data gatherers
+                        abide to
+            \end{itemize}
+      \item Jack CR Jr, Bernstein MA, Fox NC, Thompson P, Alexander G, Harvey D, Borowski B, Britson PJ, L Whitwell J, Ward C,
+            Dale AM, Felmlee JP, Gunter JL, Hill DL, Killiany R, Schuff N, Fox-Bosetti S, Lin C, Studholme C, DeCarli CS, Krueger G,
+            Ward HA, Metzger GJ, Scott KT, Mallozzi R, Blezek D, Levy J, Debbins JP, Fleisher AS, Albert M, Green R, Bartzokis G,
+            Glover G, Mugler J, Weiner MW. The Alzheimer's Disease Neuroimaging Initiative (ADNI): MRI methods. J Magn Reson Imaging.
+            2008 Apr;27(4):685-91. doi: 10.1002/jmri.21049. PMID: 18302232; PMCID: PMC2544629. https://doi.org/10.1002/jmri.21049
+            \begin{itemize}
+                  \item Article describes the methods of how the ADNI dataset was created, which type of scans were given more attention to,
+                        emphasizing the importance of maximizing scientific value while minimizing patient burden.
+                  \item I had received permission to use this dataset, but had found many notations given without explanation. Having read
+                        through this paper many of the questions were answered, thus I consider this paper of high importance.
+                  \item It is yet another fundamental article in the topic of research, describing the scanning process and offering
+                        to the scientific public a mass of data for researching Alzheimer's Disease
+            \end{itemize}
+      \item Klein A, Andersson J, Ardekani BA, Ashburner J, Avants B, Chiang MC, Christensen GE, Collins DL, Gee J, Hellier P, Song JH,
+            Jenkinson M, Lepage C, Rueckert D, Thompson P, Vercauteren T, Woods RP, Mann JJ, Parsey RV. Evaluation of 14 nonlinear deformation
+            algorithms applied to human brain MRI registration. Neuroimage. 2009 Jul 1;46(3):786-802. doi: 10.1016/j.neuroimage.2008.12.037.
+            Epub 2009 Jan 13. PMID: 19195496; PMCID: PMC2747506. \\
+            https://pubmed.ncbi.nlm.nih.gov/19195496/
+            \begin{itemize}
+                  \item This paper ranks algorithms used for one of the most important pre-processing steps, image registration,
+                        which represents the positioning of the brain scans of different patients in the same positions with respect to others,
+                        to lead to easier time handling the image collections
+                  \item The use this paper brings me is to understand data pre-processing steps from a different area of expertise
+                  \item But with that being said, its importance compared to other papers could be considered lower
+            \end{itemize}
+      \item Jenkinson M, Bannister P, Brady M, Smith S. Improved optimization for the robust and accurate linear registration and motion correction
+            of brain images. Neuroimage. 2002 Oct;17(2):825-41. doi: 10.1016/s1053-8119(02)91132-8. PMID: 12377157. \\
+            https://pubmed.ncbi.nlm.nih.gov/12377157/
+            \begin{itemize}
+                  \item This publication describes a new approach to previous algorithms used in brain scans pre-processing, such as image registration
+                        and motion correction, which were shown to lead to a local minimum
+                  \item This new approach, simply put, expands the view at a step in the search algorithm, which, while increasing
+                        computation, can have the chance of escaping a local minimum. That being said, there is no guarantee in finding
+                        the global minimum, similarly to any global minimum algorithm without infinite time
+                  \item Main use to me was the explanation of another pre-processing step, motion correction, which represents solving movements
+                        of either the clinical patients or the scanner, due to the fact that the images are taking at intervals of time, and a
+                        certain correlation between consecutive scans must be kept
+            \end{itemize}
+      \item Tom Fawcett, An introduction to ROC analysis, Pattern Recognition Letters, Volume 27, Issue 8, 2006, Pages 861-874,
+            ISSN 0167-8655, \\
+            https://doi.org/10.1016/j.patrec.2005.10.010.
+            \begin{itemize}
+                  \item This piece of research presents ROC graphs as an evaluation metric and their advantages over other commonly
+                        used metrics in classification problems, such as accuracy, sensitivity, specificty.
+                  \item I would consider this article moderately important, having noticed in diagnostic classification that this
+                        metric is particularly useful, in the way the trade-off between benefits and costs has agency over an
+                        algorithm in this topic (benefits - True Positives, costs - False Positives).
+                  \item The paper stands at an introductory level in the topic of research, given the fact it summarizes the importance
+                        of an evaluation metric, previously unused by me.
+            \end{itemize}
+      \item Bae JB, Lee S, Jung W, Park S, Kim W, Oh H, Han JW, Kim GE, Kim JS, Kim JH, Kim KW. Identification of Alzheimer's disease
+            using a convolutional neural network model based on T1-weighted magnetic resonance imaging. Sci Rep. 2020 Dec 17;10(1):22252.
+            doi: 10.1038/s41598-020-79243-9. PMID: 33335244; PMCID: PMC7746752. \\
+            https://pubmed.ncbi.nlm.nih.gov/33335244/
+            \begin{itemize}
+                  \item This article summarizes a Deep Learning approach to the classification, opting for 2D image inputs and a binary classification
+                        between Cognitive Normal(CN) and Alzheimer's Disease(AD) utilizing a CNN-like architecture.
+                  \item Highly important article, underlines the importance of the datasets, specifically the demographic origin and education level,
+                        explaining that, for example, Caucasians with higher education level(from ADNI dataset) will have a different brain shape
+                        compared to Koreans or Japanese of lower or medium education level.
+            \end{itemize}
+      \item Minh Nguyen, Tong He, Lijun An, Daniel C. Alexander, Jiashi Feng, B.T. Thomas Yeo, Predicting Alzheimer's disease progression using deep
+            recurrent neural networks,NeuroImage, Volume 222, 2020, 117203, ISSN 1053-8119, https://doi.org/10.1016/j.neuroimage.2020.117203.
+            \begin{itemize}
+                  \item Compared to paper 8, this article utilizes a different network architecture, an RNN, specifically a minimalRNN,
+                        its predecessor being an LSTM which had problems with overfitting. Switching over to an RNN, the problem had gotten fixed.
+                        Their goal was to predict at indefinite amount of time points in the future the presence of Alzheimer's Disease.
+                  \item Another point this paper brings up is how missing data is treated, suggesting that it would be wiser not to ignore it, but
+                        to fill it up, and they end up describing 3 methods of doing so, leading to better experiment reults.
+                  \item All in all, this article summarizes a contest awarded approach, specifically The Alzheimer's Disease Prediction
+                        Of Longitudinal Evolution(TADPOLE), where it had achieved 2nd place in 2020.
+            \end{itemize}
+\end{enumerate}
+
+\section*{Acknowledgement}
+
+This work is the result of my own activity, and I confirm I have neither given, nor received unauthorized assistance for this work.
+
+I declare that I did not use generative AI or automated tools in the creation of content or drafting of this document.
+
+\end{document}

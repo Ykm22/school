@@ -1,0 +1,1079 @@
+\documentclass[a4paper, 12pt]{article}
+
+%•	Lucrarea se recomandă a avea între 30 și 60 de pagini
+%•	Format: A4, fonturi de 12pt, distanță de 1.5 între rânduri
+%•	Obligatoriu paginile sunt numerotate
+%•	Capitolele vor începe pe pagină nouă
+% margini: top=2.5cm,left=3cm,right=2.5cm,bottom=2.5cm
+\usepackage{comment}
+\usepackage{setspace}
+
+% for bibliography
+\usepackage[english]{babel}
+\usepackage[nottoc]{tocbibind}
+% subfigure
+\usepackage{subcaption}
+
+% for clicking on a cite leading to bibliography
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    filecolor=blue, 
+}
+% specificatii in legatura cu margini
+\usepackage[top=2.5cm,left=3cm,right=2.5cm,bottom=2.5cm]{geometry}
+
+\usepackage{graphicx}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Define colors for syntax highlighting
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define style for Python code
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\scriptsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    language=Python
+}
+
+% Apply the style
+\lstset{style=mystyle}
+
+% Redefine \maketitle to customize title layout
+\makeatletter
+\renewcommand{\maketitle}{
+    \begin{center}
+            \normalsize{BABEŞ-BOLYAI UNIVERSITY CLUJ-NAPOCA}\par % University name
+            \normalsize{FACULTY OF MATHEMATICS AND COMPUTER SCIENCE}\par % Faculty name
+            \normalsize{COMPUTER SCIENCE IN ROMANIAN SPECIALIZATION}\par
+        \vspace{21em} % Vertical space
+
+        {\LARGE\@title\par} % Title in large font
+        \vspace{21em} % Vertical space
+
+        \textbf{Supervisor}\hspace{20em}\textbf{Author}\par
+        Prof.dr. Horia F. Pop\hspace{16em}{\large\@author\par} % Author
+        \vspace{3em} % Vertical space
+
+        {\large\@date\par} % Date
+    \end{center}
+}
+\makeatother
+
+\title{
+    DIPLOMA THESIS \\
+    Alzheimer's Disease Detection
+}
+\author{Ichim Ștefan}
+\date{2024}
+
+% Set line spacing to 1.5
+\onehalfspacing
+
+\begin{document}
+
+% title page
+\maketitle
+\newpage
+
+% ------------------------------------ABSTRACT--------------------------------------
+% abstract page
+\begin{abstract}
+    Alzheimer's Disease (AD) is a neurodegenerative disorder characterized by progressive cognitive decline, affecting memory, thinking, and behavior.
+    This work aims to enhance early detection of AD using advanced machine learning techniques, focusing on deep learning models such as Convolutional
+    Neural Networks (CNNs).
+    The study involves the analysis of a brain imaging modality, specifically the structural Magnetic Resonance Imaging(sMRI) scan, to identify biomarkers associated with AD.
+    A comprehensive dataset from the ADNI Initiative is preprocessed through methods like skull-stripping and normalization.
+    The proposed approach leverages a modified ResNet architecture to classify Alzheimer's stages and assess model performance through various experiments.
+    Results indicate significant improvements in diagnostic accuracy, suggesting the potential of deep learning models in clinical applications for early AD detection.
+    Future work will explore the integration of additional data types and further model optimization to enhance robustness and its level of generalization.
+\end{abstract}
+\newpage
+
+% ------------------------------------CONTENTS--------------------------------------
+\tableofcontents
+\newpage
+
+% ----------------------------------INTRODUCTION------------------------------------
+\section{Theoretic}
+\subsection{Introduction}
+There is no denying that humanity stands at a previously inconceivable point in healthcare and medicine,
+which naturally have led to hindrances in senescence, populations increasingly reaching older stages of life.
+Furthermore, studies which take into account multiple case scenarios show that population is expected to reach
+9.2 billion by the age of 2050, leading to an uprise of 21\% in the elderly. \cite{KC2017181}
+
+With that being said, researchers' concern has has taken a turn towards diseases occurring at these later
+parts of human lives, some of them considered treatable while others less so.
+One of such disorders is Alzheimer's Disease, or AD, considered to be the most likely predecessor of dementia.
+Alzheimer's Disease is a brain disease, neurodegenerative, which in time diminishes cognitive skills such as memory,
+thinking and speaking, and in due course even removes the ability of accomplishing simple activities vital to one's
+daily life.
+On top of that, it is an incurable disorder, which only underlines even further the reasons why early
+detection stand of such great importance, so that appropriate actions can be taken by both the medical team
+and the one diagnosed, along with their relatives and close ones.
+
+\subsubsection{Disease Summary}
+
+The brain of a healthy human represents a cluster of neurons by the number of bilions which together amount to
+what actions and reactions we have, through a process of signal propagating.
+Through our sensory mechanism, which includes hearing and seeing, receptors carry out the tasks of sending signals
+(Fig \ref{fig:neuron-communication}) using designated channels all the way to the neurons inside the brain, where new
+specific signals are formed and sent back, resulting in what we call actions. \cite{Sivadas2020HowDM}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figs/neuron-communication.jpg}
+    \caption{Communication between neurons}
+    \label{fig:neuron-communication}
+\end{figure}
+
+Alzheimer's Disease intervenes in this process by gradually decreasing the utility function of each neuron, leading to
+the atrophy of the brain's proficiencies, as neurons imminently die one by one.
+
+There are three major factors included in the dynamic between AD and neurons.
+First of all, a key advantage of neurons which many other cells lack, and which accomplishes
+their long survival, is the ability to repair themselves, form new connections, or changing current ones' magnitude.
+Secondly, synaptic connections, which solidify the signal transmission process, and lastly the intake of glucose and
+oxygen necessary for their normal functioning.
+It is believed these fundamental attributes of a healthy human receive considerable drawbacks upon the disease's presence.
+\cite{NIH1}
+
+\subsubsection{Causes} %* -- Introduction/Causes
+While the factors which lead to Alzheimer's Disease are not yet properly understood, past research and studies prove that some
+of the most commonly met criterias which lead to a diagnostic include genetic inheritance - chances of developing Alzheimer's
+Disease increase by 30\% when another close relative suffers from it \cite{HMS20192801}, lifestyle and environmental factors.
+
+\subsubsection*{Genetical Inheritance} %* -- Introduction/Causes/GeneticalInheritance
+Genes represent instructions passed down from generation to generation, which contain information regarding how various cells
+need to behave. Some roles played by these include defining one's height, or the color of hair and eyes.
+
+Advances in genetic research have led to discover 80 genetic areas that can possibly play a part in AD development \cite{NIH2}.
+One of the more known genes which raises the risk of Alzheimer's Disease is the apolipoprotein E (APOE) gene, which comes in forms such as
+$\epsilon_2, \epsilon_3, \epsilon_4$. A pair of two such APOE genes, one from each parent, gets passed down to the next generation
+resulting in 6 possible cases. Among them, the $\left(\epsilon_4,\epsilon_4\right)$ combination having the highest risk of AD,
+only increasing, not guaranteeing it, and in contrast, $\epsilon_2$ provides a higher degree of protection against it.
+
+\subsubsection*{External Factors} %* -- Introduction/Causes/ExternalFactors
+Besides genetical inheritance, researchers have drawn conclusions regarding causes of Alzheimer's Disease to contain a plethora
+of other outside factors, which we can have a higher influence on.
+Among these can be found vascular conditions - high blood pressure, heart diseases - and metabolic diseases - obesity and diabetes
+\cite{NIH2}.
+
+%* todo - 15/04 -> symptoms, process of diagnosios, how scans work
+\subsubsection{Symptoms} %* -- Introduction/Symptoms
+Before beginning the discussion about its effects, a noteworthy fact is that brain structure modifications, whether they may be
+neurofibrillary tangles or plaques of amyloid, occur several years before any cognitive issues manifest at all, a stage of the disease titled
+preclinical. With that being said, their presence does not inevitably lead to dementia.
+
+Apart from preclinical stage, AD has been classified into three others: mild, moderate, severe.
+
+\subsubsection*{Early-stage (Mild)} %* -- Introduction/Symptoms/Early-stage
+A person which suffers from early-stage Alzheimer's Disease can still function normally on their own, without mandatory outside benefactors.
+However, changes appear in memory skills, starting to forget recently gained information, such as names at social gatherings, objects placements
+and losing the reasoninng behind starting certain activities.
+
+It is important to understand these memory setbacks are hardly noticeable by the affected one, more commonly than not leaving it up to their
+surrounding group of people and friends to pinpoint them and initiate medical visits.
+
+\subsubsection*{Middle-stage (Moderate)} %* -- Introduction/Symptoms/Middle-stage
+Here, over the course of many years, cognitive skills start degrading, with the diagnosed person needing increasing help from other people.
+Previous rare memory losses become the norm, and even more proeminent. Not only that, disturbances in emotions begin escalating, some
+expressed in a stronger tone, while others hardly able to be exhibited at all.
+
+Daily tasks must be simplified to the level the person with Alzheimer's can accomplish them, and as the external attention needed rises,
+place them in special care centers where experienced caretakers can easily reach out.
+
+\subsubsection*{Late-stage (Severe)} %* -- Introduction/Symptoms/Late-stage
+This final stage of AD is categorized by vital losses in the ability to function at all. Patients stop reacting to outside factors
+altogether, and even initiating conversations. In due course, pain becomes impossible to verbalize, and as such, hourly check-ups
+are necessary. \cite{AA1}
+
+\subsubsection{Diagnosis Process} %* -- Introduction/DiagnosisProcess
+AD diagnosis can only be carried out upon gathering a variety of complex data, which includes medical history, assessments of
+cognitive and physical skills, neurological exams, brain scans, blood tests and cerebrospinal fluid.
+
+Medical history consists of modifications in how the patient behaves over the course of time, past and present medical concerns
+and even the undergoing medication. Other than these, information about other family members' health conditions is obtained, since,
+as previously mentioned, genes do play a role in increasing the risk, or protecting against Alzheimer's Disease.
+
+An overall health status is evaluated, involving commonly met questions about diet, blood pressure and pulse, checking
+the quality of breathing and sample taking for testing.
+
+Cognitive tests' purpose is to express a general view whether memory impairment takes a toll in the daily life of the diagnosed,
+and to shed light on the awareness of the disease. A number of tests are simple - tasks of remembering sequences of words, or
+mathematic operations, but there also exist those that take a longer period of time, alongside with raised levels of attention.
+
+The neurological examination typically implies assessing the patient's nervous system, where a physician tries to distinguish
+between the possibilities of the disease to be a different brain disorder instead of AD - brain tumors or Parkinson's Disease.
+
+Brain imaging is used to form 3D and 2D, functional and structural scans of the brain, through which experts can point out
+characteristics specific to Alzheimer's Disease. One such mark is the presence of higher concentrations than normal of amyloid
+beta ($A\beta $ or Abeta), peptides considered the essential part of amyloid plaques. This specific part of the diagnosis
+process typically serves only as a last resort. \\
+\cite{AA2}
+
+%* todo: fix this shit sometimes, sounds awful
+
+\subsubsection{Imaging Modalities Involved in Alzheimer's Disease} %* -- Introduction/ImagingModalitiesInvolved
+Through recent technological advancements, brain imaging's role has shifted to a crucial one. By and large, imaging has
+expanded into various different modalities, each with their own strengths and weaknesses, but combined lead to a better
+analysis of AD's effects on the human brain. \cite{Johnson2012BrainII}
+
+\subsubsection*{Amyloid PET} %* -- Introduction/ImagingModalitiesInvolved/AmyloidPET
+Amyloid Positron Emission Tomography is a non-invasive technique, which locates amyloid plaques.
+Due to its unavailability and expensive price, this method has not seen much popularity, but
+there is no denying its accuracy, past studies showing that 96\% of the people who had performed an
+amyloid PET scan and were amyloid positive had been diagnosed with Alzheimer's Disease.\\
+\cite{Johnson2012BrainII}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figs/amyloid-pet.jpeg}
+    \caption{Amyloid PET images}
+    \label{fig:amyloid-pet}
+\end{figure}
+
+\subsubsection*{FDG PET} %* -- Introduction/ImagingModalitiesInvolved/FDG-PET
+Fluoro-deoxy-D-glucose (FDG) PET showcases synaptic activity, because the brain's primary energy comes from glucose.
+The Fluorine part of the FDG comes as a consequence of the convenient dynamic it has with Positron Emission Tomography,
+which easily detects it.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.2\textheight,width=0.40\textwidth]{figs/fdg-pet.png}
+    \caption{Transitional FDG-PET scans}
+    \label{fig:fdg-pet}
+\end{figure}
+
+\subsubsection*{Structural MRI} %* -- Introduction/ImagingModalitiesInvolved/SMRI
+Structual Magnetic Resonance Imaging (sMRI) is a non-invasive method applied to observe pathology and anatomy of the brain
+by emitting radiofrequency pulses in sequences. Its main purpose is to exhibit brain atrophy, associated with shrinking size
+due to neuron counts declining. One of its drawbacks is that, compared to PET imaging, hallmarks of AD cannot be detected,
+and also atrophy isn't specific to the disease discussed.
+
+\subsubsection*{Functional MRI} %* -- Introduction/ImagingModalitiesInvolved/FMRI
+As the previous method, the functional variant of MRI is non-invasive as well, but, on the other hand, provides
+scientists a neuronal activity mapping of the brain. A few of them require the patient to perform certain cognitive tasks
+during the scanning process, and there are also some which need the brain to be found in a specific resting state.
+Functional MRI's setback is the necessity of lack of motion, and any of the patient's movements could lead to faulty
+data.
+
+%* todo 16/4 -> fix intro(imaging), kinda day off
+% todo 17/4 -> describe prediction tasks, history of approaches, how neural networks work, start related works, at least 1 papers described 
+
+\subsubsection*{Tasks}
+An important question to ask before traversing further, is what type of predictions are we demanding from ourselves?
+As aforementioned, Alzheimer's Disease classifies itself in three stages: Normal Cognition(NC), Mild Cognitive Impairment(MCI)
+- which further breaks down into progressive MCI and stable MCI, pMCI and sMCI respectively - and Alzheimer's Disease.
+
+These various disease progressions have given birth to a collection of tasks for researchers. There are approaches
+which classify AD in two - NC vs AD, NC vs MCI, MCI vs AD -, three - NC vs MCI vs AD - and even four classes, including MCI's
+subclasses. On the other hand, regression problems build the percentage of a specific stage to progress.
+
+\subsubsection*{Deep Learning}
+Recent advancements in deep learning, with a higher degree of respect to Convolutional Neural Networks (CNNs) and Recurrent
+Neural Networks(RNNs), have had main roles in raising the speed and accuracy with which classification or regression task
+are accomplished.
+
+Before 2013, the most commonly met algorithms included stacked Restricted Boltzmann machines and stacked autoencoders,
+but ever since, CNNs and RNNs have taken the spotlight, surprising the world with their results, especially when given
+inputs of MRI or PET \cite{make6010024}.
+
+Deep Learning's key characteristic is the power to find a hypothesis leading to the desired outcome unbeknownst to the
+humans of how it is realized, with the drawback of needing a high amount of data and proportionate computational resources.
+
+\subsubsection*{Artificial Neural Networks}
+As their name suggests, ANNs consist of a collective of artifical neurons connected between eachother. They represent how
+researchers have tried to emmulate the biological neural brain, where the nodes play the role of neurons, and connections,
+or edges, between them that of synapses.
+
+Furthermore these neurons are stratified into various layers, through which information passes, notably the initial and last
+layer have been titled as input and output accordingly, while the ones in-between called hidden layers.
+
+Each neuron's meaning is to receive information and process it in order to be passed to the next layer through the
+array of synapses. Activation functions take place in the processing stage, in order for non-linearities to be applied
+to the hypothesis being built.
+
+In the course of multiple iterations, these neurons adapt to the task given by the designer, adaptation formally known as weights.
+
+\subsubsection*{Convolutional Neural Networks}
+These types of artifical neural networks are feedforward - input flows only in forward direction, without loops - and exhibit
+the capacity to extract features automatically. In such networks, convolutional layers and pooling layers represent
+their main components. Convolutional layers transform the data by passing it through a kernel creating a feature map
+, and pooling layers finetune network parameters by taking these feature maps and reducing their size.
+This final product also takes the name of pooled feature map \cite{li2021survey}.
+
+\subsubsection*{Recurrent Neural Networks}
+RNNs are the other types of neural networks, described best by how information propagates inside it, which compared to
+the single directioned CNNs, RNNs are bi-directional. This property creates the opportunity of some information to be
+used in more than just one place, with the justification that evaluations sometimes show improvements in results.
+
+
+\subsubsection{Regions of Interests}
+This section serves as a guide to understanding why certain regions of the brain deserve more attention than others while
+studying the Alzheimer's Disease.
+
+\subsubsection*{Medial Temporal Lobe (MTL)}
+MTL represents a brain region known for its capacities of handling memory abilities related to space and episodes \cite{10.3389/fnsys.2017.00019}.
+Previous works prove that it is among the first to suffer from shrinkage over the course of AD's effect \cite{deFlores2131}, \\
+mainly due to how soon tangles of neurofibrilaries develop (NFT). Upon the beginning of NFTs, they start spreading further in the network,
+ultimately reaching the neocortex, region which realizes reasoning, meaning and consciousness.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.25\textheight,width=0.7\textwidth]{figs/MTL-coronal.png}
+    \caption{(a) Illustration showing the location of medial temporal lobe structures on coronal section
+        (taken from Gray's Anatomy). (b) Coronal T1-weighted MRI scan of HM's brain, showing the absence of the
+        hippocampus and related medial temporal lobe structures bilaterally (arrowhead). Source: \cite{MTL-image}}
+    \label{fig:MTL}
+\end{figure}
+
+
+% todo 18/04 -> 2 3D-MRI CNN, 2 RNN approaches
+\newpage
+\newpage
+
+\subsection{Related Work} %* -- RelatedWork
+\cite{bae2020} suggest a Convolutional Neural Network approach where, in contrast to other CNN approaches, they give as input
+2D-MRI scans, with attention to the medial temporal lobe (MTL) from coronal slices, MTL being widely considered to be the
+area suffering most change. Even though other parts of the brain contain valuable information as well, they deem it
+unnecessary due to probabilities of altering the algorithm's outcomes. They make use of ADNI\footnote{Alzheimer's Disease Neuroimaging Initiative}
+and SNUBH\footnote{Seoul National University Bundang Hospital} datasets in order to highlight the importance of each patient's background for
+the predictions, such as ethnicity and educational levels, by which the human brain is thought to vary accordingly.
+Their approach include evaluations through AUC (area under the receiver operating characteristic curve), accuracy, sensitivity and specificity
+- for ADNI: 88\%, 83\%, 76\%, 89\%, and for SNUBH: 89\%, 82\%, 79\%, 85\% . They have also underwent within and between dataset comparisons,
+having used 2 datasets: 91\%-94\% for within-dataset and 88\%-89\% for between.
+
+On the other hand, \cite{PMID-31201098} provide a 3D-MRI approach using CNNs where the a region of the medial temporal lobe
+is taken into consideration this time, the hippocampus. The used datasets include 3 stages from the ADNI study: 1, GO \& 2 and
+the AIBL\footnote{Australian Imaging Biomarkers and Lifestyle Study of Aging}. Their main concern is that of predicting the
+progression from the moderate to servere stage along with a time estimation, underlining that previous MCI and AD comparisons
+only classify MCI in either progressive (pMCI) or stable (sMCI). Accuracies for each dataset are the following: ADNI with
+76.2\%, AIBL with 78.1\%.
+
+\cite{10.1117/1.JMI.8.2.024503} realize multiple trials with different architectures and input modalities, 2D and 3D MR scans,
+however making use only on a small amount of 132 subjects from the ADNI dataset before dividing in the corresponding purposes
+to the algorithm. Their best results come from SqueezeNet and ResNet-18 on 2D inputs using transfer learning.
+For measurements of accuracy, sensitivity and specificity, ResNet had achieved 84.38\%, 87.5\%, 81.25\% respectively, while
+SqueezeNet's results were 90.62\%, 81.25\% and 100\%.
+
+% todo 19/04 -> explain medial temporal lobe, 1-2 more articles
+
+Nguyen and colleagues tackled a Recurrent Neural Network method for the TADPOLE\footnote{The Alzheimer's Disease Prediction
+    Of Longitudinal Evolution} Challenge \cite{NGUYEN2020117203}. \\
+Corresponding to the competition's recommendation, a set of 23 variables was used as inputs which included multi-modal
+imaging, cognitive test results and clinical diagnosis. The research had tested the minimalRNN architecture \cite{Chen2017MinimalRNNTM}
+which was modified properly in order for the problem to become 6-class labeling problem: NC stable, NC progressive, MCI recovered,
+MCI stable, MCI progressive and AD stable. Their trials were verified using multiclass area under the curve (mAUC) and balanced
+class accuracy (BCA) with the scores of 94.5\% and 88\%. One of their unique noteworthy contribution is their ways of
+handling missing data at consecutive time points, which consisted of three variations: firstly, model-filling, done by the model
+during training and testing, and the next two were considered as preprocessing techniques: forward-filling and linear-filling using linear
+interpolation. Model-filling coming out on top for the minimalRNN solution.
+
+\begin{table}[htbp]
+    \centering
+    \footnotesize
+    \begin{tabular}{cccc}
+        \toprule
+        \multirow{2}{*}{Article}                     & \multirow{2}{*}{Architectures} & \multirow{2}{*}{Performance Measures} & \multirow{2}{*}{Results}        \\
+                                                     &                                &                                       &                                 \\
+        \midrule
+        Jong Bin Bae et al.(2020)                    & 2D-CNN                         & AUC, acc, sens, specif                & \tiny{88\%, 83\%, 76\%, 89\%}   \\
+        \midrule
+        Li et al.(2019)                              & 3D-CNN                         & acc                                   & \footnotesize{76.2\%, 78.1\%}   \\
+        \midrule
+        \multirow{2}{*}{Ebrahimi and Sunhuai (2021)} & SqueezeNet                     & \multirow{2}{*}{acc, sens, specif}    & \tiny{84.38\%, 87.5\%, 81.25\%} \\
+                                                     & Resnet-18                      &                                       & \tiny{90.62\%, 81.25\%, 100\%}  \\
+        \midrule
+        Nguyen et al. (2020)                         & minimalRNN                     & mAUC, BCA                             & \footnotesize{94.5\%, 88\%}     \\
+        \bottomrule
+    \end{tabular}
+    \caption{A breakdown of the state-of-the-arts}
+    \label{tab:mytable}
+\end{table}
+
+% \newpage
+% \section{Setup Summary(will be replaced later)}
+% \begin{itemize}
+%     \item 2D-MR image CNN approach
+%     \item Classify between NC and AD
+%     \item AUC, accuracy, specificity and sensitivity as evaluation metrics.
+%     \item Dataset: ADNI (available upon request from \url{https://adni.loni.usc.edu/}).
+%     \item Tools: python, pytorch.
+%     \item Why? - 2D mr scans can lead to more complex CNN networks, while still having less parameters than 3D CNN
+% \end{itemize}
+
+
+% todo 21/04 code/dataset
+\newpage
+\subsection{Dataset}
+The data used in this research has been taken from the Alzheimer's Disease Neuroimaging Initiative (ADNI)
+database (adni.loni.usc.edu). The initiative started in 2003 led by Principal Investigator Michael W. Weiner, MD
+as a public-private partnership. Its primary objective has been to verify if serial magnetic resonance imaging (MRI),
+positron emission tomography (PET), clinical and neuropsychological assessments, as well as other biological markers
+can together measure the progression of mild cognitive impairment (MCI) and early Alzheimer's Disease (AD)\\
+\cite{PMID20042704}.
+
+% todo 22/04: fix here later, made really early for a stupid assignment
+% todo 21/05: back to work 🙂
+% todo 21/05: dataset/preprocessing/model/results
+
+Images are taken using structural MR imaging (sMRI) which display brain atrophies. These scans can be found in
+NiFTi format (.nii) and using the \textit{nibabel} library in python, which was designed for the purpose of
+supporting neuroimaging file formats, they can be accessed and plotted as 2D images, according to a specific
+plane - coronal, sagittal or axial (Fig \ref{fig:images}).
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/coronal-slice-75.png}
+        \caption{Coronal Slice}
+        \label{fig:sub1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth, height=0.16\textheight]{figs/axial-slice-75.png}
+        \caption{Axial Slice}
+        \label{fig:sub2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/sagittal-slice-75.png}
+        \caption{Sagittal Slice}
+        \label{fig:sub3}
+    \end{subfigure}
+    \caption{Visualisation of an sMRI scan}
+    \label{fig:images}
+\end{figure}
+
+Due to the large amount of size such complex scans come in, this study only takes into consideration the first phase of the
+ADNI Initiative, ADNI1 which included 448 unique subjects, with multiple visits, in total reaching up to 1512 entries.
+With that being said, only 852 entries also were accompanied by their respective mask used for preprocessing, which is later
+described. At the end, the data consisted of 381GB worth of NiFTi files.
+
+Furthermore, images came in different shapes
+due to which scanner had been used: 52\% entries followed [256 x 256 x 166] and 45\% had the [240 x 256 x 160] size.
+Unfortunately, reshaping such scans to a standard cannot be achieved using simple algorithms due to how much each small
+pixel matters, point solidified by the reason for these files to be stored in a special format on their own.
+
+FreeSurfer\footnote{\cite{FreeSurfer}} is one such software which handles most problems in data preprocessing for MRI scans, which wasn't
+useable in this research due to its operating software limitations, along with required available space.
+
+Thus, the input had been reduced to 52\% of valid entries, 300 cognitive normal scans and 187 from the AD group. As a consequence
+of this class imbalance, up-sampling was applied, which will be later described.
+
+\newpage
+\subsection{Preprocessing}
+In Data Science, preprocessing plays the valuable role of preparing data to be given to the learning algorithm. In order for
+the inference to unfold expectedly, the models expect inputs to follow their standards, and it becomes noticeable in their later
+evaluations if necessary preprocessing methods had not been utilised.
+
+Out of the most commonly known and met preprocessing methods in computer vision, this study includes, skull-stripping, oftenly
+considered in any brain scans related machine learning algorithms, due to their high level noise reduction, min-max normalization
+with the main purpose of reducing pixel values to the interval of [0, 1] and finally, an up-sampling of a specific class in the
+dataset, required for balancing.
+
+As a final note before detailing each technique, ADNI claims the segmentation masks provided may not also be the most accurate ones,
+resulting in research from the FreeSurfer team to come up with the highest quality brain extraction mechanisms. Even in fig \ref{fig:segm-mask}
+(c) it can be observed there still remain slight edges from the skull, and the final input scans will not only include the brain.
+Furthermore, another brain-related preprocessing step, image registration, could not be applied with the same reason of
+inability to use Harvard's software with complex algorithms.
+
+\subsubsection{Skull-Stripping}
+
+Firstly, as a preprocessing step, the skull-stripping technique takes place, which is realized by applying a segmentation mask
+to the original versions of the MRI. Segmentation masks represent black and white images, where the white area symbolizes
+the region of interest of the image to be applied on. These have been provided by the ADNI, and so only the algorithm
+which applies such a mask over an original scan needs to be written.
+
+As it can be seen in fig \ref{fig:segm-mask}, what is called background noise, or unnecessary additional pixels, get
+swept away, in our case being anything except of the human brain.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.16\textheight,width=0.7\textwidth]{figs/sagittal_segm_mask_applying.png}
+    \caption{Skull-stripping using a segmentation mask over a sagittal slice: (a) the segmentation mask, (b) the
+        original version of the scan, (c) the final result after applying the segmentation algorithm
+    }
+    \label{fig:segm-mask}
+\end{figure}
+
+\subsubsection{Data visualisation}
+With the stripping step explained, we can now pay attention to a few differences of the brains between the cognitive normal
+and the Alzheimer's Disease group.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.4\textheight,width=0.95\textwidth]{figs/CN_coronal_slices.png}
+    \caption{CN patient - 16 slices around the hippocampus}
+    \label{fig:CN_coronal_slices}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.4\textheight,width=0.95\textwidth]{figs/AD_coronal_slices.png}
+    \caption{AD patient - 16 slices around the hippocampus}
+    \label{fig:AD_coronal_slices}
+\end{figure}
+
+As it can clearly be noticed, brain atrophies at the hippocampus of an Alzheimer's Disease diagnosed person (fig \ref{fig:AD_coronal_slices})
+can be much more easily observed compared to that of a normally cognitive brain (fig \ref{fig:CN_coronal_slices}). As previously noted,
+our main concern in these scans are about the Medial Temporal Lobe area, especially the hippocampus which resides in it. And as such,
+the models will consider the slices which surround a part of said hippocampus.
+
+\subsubsection{Min-Max normalization}
+Normalization lies at the foundation of machine learning preprocessing. Normalization, or scaling takes place in order for all input data to be bound to the same
+interval of values, and as little that interval is, the easier for the models to find similarities between each entry. With that being said, values
+most popuarly become scaled down to two interval values: [-1, 1] or [0, 1].
+
+In this study, a min-max normalization algorithm is applied to the scan slices, which reduces pixels between 0 and 1. Each pixel going
+through the following formula:
+$$
+    x_{i,j} = \frac{x_{i,j} - x_{min}}{x_{max} - x_{min}}
+$$
+where $x_{min}$ and $x_{max}$ represent the smallest and largest pixel values of the original image.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.225\textheight,width=0.65\textwidth]{figs/min_max_normalization.png}
+    \caption{Min-max normalization, left image average pixel: 168.2, right image average pixel: 0.079}
+    \label{fig:min_max_normalization}
+\end{figure}
+
+\subsubsection{Up-sampling}
+Following up the imbalance in the number of diagnostics per class in the dataset, a certain method must be taken so that our dataset is equally balanced.
+At random, sufficient cases of Alzheimer's Disease group were duplicated up until the point of equality in cases with the Cognitive Normal class.
+
+\subsubsection{Image Registration}
+Image registration is the action of aligning each MRI scan to the same given coordinate space. It is under no circumstance possible for each
+subject to sit in the same position while scanners take the images. As mentioned before, FreeSurfer handles these complex pixel processing techniques
+due to their complex algorithms, and as such this step was skipped.
+
+\newpage
+\subsection{Proposed Approach}
+In this study, a variant of the ResNet family of neural networks was tested, ResNet101.
+
+\subsubsection{ResNet}
+Up until the mid 2010's, researchers had started exploring the impact of adding multiple layers in neural networks, and, to
+a certain degree of surprise, they found out that inreasing layer size will not necessarily lead to better results. This issue
+was mainly due to the appearance of vanishing or, in contrast, exploding gradients. These gradient events occur in the
+back-propagation step, when they suffer that big amount of changes that they span out of control, either too small to
+be of any impact - the vanishing gradient - or large enough to single-handedly distort the weights unbelievably so.
+
+However, in 2015, Microsoft Research experts launched the Residual Network architecture. They introduced the concept of Residual Nodes
+(fig \ref{fig:resnet101_architecture}.b) which allows the model to skip through layers in both the inference and back-propagation steps
+resulting in the elimination of previous gradients concerns: vanishing or exploding.
+
+For this model, each convolutional layer is followed up by a batch normalization, then the ReLu activation function. Conv layers serve
+to learn patterns and contours in the feeded images, batch normalization re-scales what results from the convolutions and finally
+the activation function has the purpose to introduce non-linearity at the layer outputs, which permits the model to distinguish
+even more complex connections between each given scan.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.30\textheight,width=0.9\textwidth]{figs/resnet101_architecture.png}
+    \caption{ResNet101 and its modifications, (a) - Model Architecture, (b) - Residual Nodes, (c) - Study modifications}
+    \label{fig:resnet101_architecture}
+\end{figure}
+
+\subsubsection{Modifications}
+Upon the collection of data from the ADNI Initiative, it was noticed, like other diagnostic-related databases, it didn't come only with
+3D T1-weighted MRI scans and their respective label. Among the data, details for each subject about their age, sex and their visit count
+could also lead to an improved hypothesis for the studied model.
+
+Considering that this model only wants to classify whether an image should be categorized as a cognitive normal or Alzheimer's Disease type,
+and nothing related to time progression, the model was modified to take into account the age and sex for each of the subjects, by expanding
+the final fully-connected layer with these 2 values, and also adding another one to follow it up, before predicting the probabilities for each class
+(fig \ref{fig:resnet101_architecture}.c)
+
+In addition, the input channels for the first convolutional layer were also reduced to 1, since it will take as input a 2D image with
+dimensions [256 x 166].
+
+With all the modifications at hand, the final resulting model has 44.6 million parameters.
+
+\subsubsection{Inference}
+The model has been trained using an NVIDIA GeForce RTX 2060, with 6GB of GPU memory. The considered loss function was
+binary cross entropy(log) loss, given by:
+$$
+    BCE\_Loss = - \frac{1}{N} \sum_{i=1}^{N}y_i \cdot log(p(y_i)) + (1 - y_i) \cdot log(1 - p(y_i))
+$$
+where $y$ is the ground truth label, 0 for CN and 1 for AD, and $p(y)$ represents its respective probability, stopping
+after 35 epochs.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.25\textheight,width=0.55\textwidth]{figs/train_loss.png}
+    \caption{Train loss during the epochs, x axis - epochs, y axis - training loss}
+    \label{fig:train_loss}
+\end{figure}
+
+As for the hyperparameters, the Adam optimizer was used with $\alpha = 0.01$ as learning rate, and the batch size of 16.
+
+\newpage
+\subsection{Results and Experiments}
+Experiments were made on both ResNet18 and ResNet101 with the specified modifications, with the latter offering better
+results. The model takes as input one slice of the coronal region, at the hippocampus corpus and decides on the
+probabilities for each wanted class.
+
+The data was shuffled and split using the 70/30 rule, only using a training and validation dataset, meaning 420 scans and
+180 respectively. The evaluation metric used was accuracy, with the best result being 62\% on the validation set.
+
+The results were used to build up a confusion matrix, from which the accuracy formula was applied (\ref{eq:acc}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.30\textheight,width=0.65\textwidth]{figs/conf_matrix.png}
+    \caption{Confusion matrix}
+    \label{fig:confusion matrix}
+\end{figure}
+
+For a better understanding, TP refers to when the prediction predicts a positive correctly, FP when a positive is incorrectly
+predicted. TN and FN fall under the same rule, but with negatives.
+
+\begin{equation}
+    accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+    \label{eq:acc}
+\end{equation}
+
+\newpage
+\subsection{Discussion and Future Work}
+This study explores a ResNet101 model with a few adaptations in its architecture, which classifies a given slice at the center of the brain,
+the hippocampus into 2 classes, Normal Cognition and Alzheimer's Disease.
+
+
+Different input modalities were trialed, such as sending multiple slices for a subject, however the GPU memory was getting overrun, and the batch size
+would need to be reduced all the way down to 2, which lead to a 20x larger increase in time for the training algorithm, where hyperparameters couldn't
+be tuned, and the results weren't showing significant increase.
+
+With that being said, improvements can also be made upon the preprocessing step, with a proper utilization of the FreeSurfer software, of which many
+studies in the state-of-the-art make use. Firstly, an accurate segmentation would take place, where no margins from the skull could be left standing.
+And secondly, the image registration and scaling would lead to more useable images, and more accurate, positioned at the same coordinates.
+
+A final clear future work would be to take into consideration more phases of the ADNI or even other dataset altogether, which would increase the
+cases of CN and AD for the model to work with.
+\newpage
+\subsection{Conclusions}
+Using data from the ADNI Initiative from its first phase, coronal slices from 3D T1-weighted MRI scans go through a skull-stripping and normalization step,
+then fed to a modified ResNet101 architecture, which also considers additional details from each subject.
+
+The data is reduced from 1512 scans, after cleaning, to 487 useable, and in necessity of a class balancing method before training, for which
+up-sampling was opted.
+
+Within 35 epochs of training, the model reaches its peak performance, which was evaluated using accuracy as a metric, having achieved 61\%.
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[height=0.30\textheight,width=0.9\textwidth]{figs/resnet101_architecture.png}
+%     \caption{ResNet101 and its modifications, (a) - Model Architecture, (b) - Resudial Nodes, (c) - Study modifications}
+%     \label{fig:resnet101_architecture}
+% \end{figure}
+% \newpage
+% The following python function applies the segmentation mask given the mpr scan type and a path to the subject.
+% \begin{lstlisting}
+% import numpy as np
+% import nibabel as nib
+% from pathlib import Path
+
+% def open_and_apply_mask(subject_path : Path, mpr_type: str) -> np.ndarray:
+%     '''
+%     subject_path - path of a subject
+%     mpr_type - which type of mpr to be considered
+
+%     Function takes the full path of the subject directory and the type of mpr, opens the unprocessed .nii file and its corresponding mask and returns the resulting array after applying the segmentation mask.
+%     '''
+%     mask_path = list(subject_path.glob(f"*{mpr_type}__*Mask*.nii"))[0]
+%     image_path = list(subject_path.glob(f"*{mpr_type}__*_Correction_I*.nii"))[0]
+
+%     mask_arr = nib.load(mask_path).get_fdata()
+%     image_arr = nib.load(image_path).get_fdata()
+
+%     mask_arr = np.transpose(mask_arr, (2, 1, 0))
+%     segmented_arr = image_arr.copy()
+
+%     # Mask and image have different orientations for saggital plane
+%     for i in range(mask_arr.shape[2]): 
+%         mask_arr[:, :, i] = np.rot90(mask_arr[:, :, i], k=2)
+
+%     segmented_arr[mask_arr == 0] = 0
+
+%     return segmented_arr
+% \end{lstlisting}
+
+\newpage
+\section{Code}
+\subsection{Libraries}
+Throughout this study, a plethora of python frameworks were made use of which lead to an overall easier and more controlled environment.
+To begin with, one of the most popular libraries when working in python for any reason is numpy. For plotting, matplotlib's pyplot was used
+and for working with file paths, the pathlib library.
+
+For working with the NiFTi files, characteristic to how Magnetic Resonance Imaging results get stored, nibabel took that role.
+
+Pandas came in handy with maneuvering .csv files, from which subject data was procured.
+
+And finally, for the main driver of this study, in terms of the machine learning models, layer architectures, activation functions and optimizers,
+it was PyTorch. As well as sklearn for other a few evaluation methods.
+
+\begin{lstlisting}
+    import os
+    from datetime import datetime
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    from pathlib import Path
+    import pandas as pd
+    import nibabel as nib
+    
+    import torch
+    from torch.utils.data import DataLoader, Dataset, random_split
+    
+    import sklearn
+    import sklearn.metrics
+\end{lstlisting}
+
+\newpage
+\subsection{Dataset}
+Since mentioned previously, ADNI data came with original scans and segmentation masks. Thus, an algorithm needed to be used which would
+apply the masks over the original images and form the segmented scans.
+
+\begin{lstlisting}
+def apply_mask(img_arr, mask_arr):
+    img_arr = nib.load(img_path).get_fdata()
+    mask_arr = nib.load(mask_path).get_fdata()
+
+    mask_arr = np.transpose(mask_arr, (2, 1, 0))
+    segmented_arr = img_arr.copy()
+
+    if img_arr.shape != mask_arr.shape:
+        return None
+
+    # Mask and image have different orientations
+    for i in range(mask_arr.shape[2]): 
+        mask_arr[:, :, i] = np.rot90(mask_arr[:, :, i], k=2)
+
+    segmented_arr[mask_arr == 0] = 0
+    return segmented_arr
+
+
+for index, row in df.iterrows():
+    # converting date formats to match the directory formats for easier finding
+    acq_date = row["Acq Date"]
+    date = convert_date(acq_date) # function converts to "yyyy-mm-dd"
+    subject = row["Subject"]
+    
+    # skip already saved mask applications
+    if os.path.exists(f"{store_dir}/{subject}__{date}.nii"):
+        continue
+
+    subject_img_dir = imgs_dir / subject
+    subject_mask_dir = masks_dir / subject
+
+    img_subdir = search_subdirectories(subject_img_dir, date)
+    mask_subdir = search_subdirectories(subject_mask_dir, date)
+
+    # skip if we don't find the mask for an image
+    if img_subdir == None or mask_subdir == None:
+        continue
+
+    img_path = list(img_subdir.glob(f"**\*.nii"))[0] 
+    mask_path = list(mask_subdir.glob(f"**\*.nii"))[0] 
+    
+    img_arr = nib.load(img_path).get_fdata()
+    mask_arr = nib.load(mask_path).get_fdata()
+
+    segmented_arr = apply_mask(img_arr, mask_arr)
+    if segmented_arr is None:
+        continue
+    
+    nifti_img = nib.Nifti1Image(segmented_arr, np.eye(4))
+    nib.save(nifti_img, f"{store_dir}/{subject}__{date}.nii")
+\end{lstlisting}
+
+With the segmentation masks applied on the original images, we can now separate the data. This was done using
+PyTorch's Dataset, which was later iterated through by DataLoaders. These two work together splendidly because
+the Dataset class provides access to data with a given index, and the DataLoaders can handle hyperparameters
+changes easily, such as batch sizes, or data shuffling type, while also iterating through the Dataset.
+
+\begin{lstlisting}
+class ADNI1_Dataset(Dataset):
+    def __init__(self, img_paths, additional_data, labels, label_dict, input_shapes):
+        self.img_paths = img_paths
+        self.additional_data = additional_data
+        self.labels = labels
+        self.label_dict = label_dict
+        self.input_shapes = input_shapes
+
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, idx):
+        img = read_image(self.img_paths[idx])
+        coronal_slices = separate_16_coronal_slices(img, self.input_shapes[img.shape])
+        coronal_slices = torch.tensor(coronal_slices, dtype=torch.float)
+        return coronal_slices, torch.tensor(self.additional_data[idx]), self.label_dict[self.labels[idx]]
+
+label_dict = {
+    "CN": 0,
+    "AD": 1,
+}
+
+dataset = ADNI1_Dataset(img_paths, additional_data, labels, label_dict, input_shapes)
+
+train_size = int(0.7 * len(dataset))
+test_size = len(dataset) - train_size
+
+train_data, test_data = random_split(dataset, [train_size, test_size])
+
+train_loader = DataLoader(train_data, batch_size=16, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=16, shuffle=True)
+\end{lstlisting}
+
+\newpage
+\subsection{Model and Training Loop}
+The following code sequence describes the used ResNet101 architecture, with the modifications at the final 2 fully-connected layers.
+\begin{lstlisting}
+# module: /models/ResNet101.py
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class BasicBlock(nn.Module):
+    expansion = 1
+
+    def __init__(self, in_planes, planes, stride=1):
+        super(BasicBlock, self).__init__()
+        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(planes)
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
+
+        self.shortcut = nn.Sequential()
+        if stride != 1 or in_planes != self.expansion*planes:
+            self.shortcut = nn.Sequential(
+                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(self.expansion*planes)
+            )
+
+    def forward(self, x):
+        out = F.relu(self.bn1(self.conv1(x)))
+        out = self.bn2(self.conv2(out))
+        out += self.shortcut(x)
+        out = F.relu(out)
+        return out
+
+class Bottleneck(nn.Module):
+    expansion = 4
+
+    def __init__(self, in_planes, planes, stride=1):
+        super(Bottleneck, self).__init__()
+        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(planes)
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
+        self.conv3 = nn.Conv2d(planes, self.expansion*planes, kernel_size=1, bias=False)
+        self.bn3 = nn.BatchNorm2d(self.expansion*planes)
+
+        self.shortcut = nn.Sequential()
+        if stride != 1 or in_planes != self.expansion*planes:
+            self.shortcut = nn.Sequential(
+                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(self.expansion*planes)
+            )
+
+    def forward(self, x):
+        out = F.relu(self.bn1(self.conv1(x)))
+        out = F.relu(self.bn2(self.conv2(out)))
+        out = self.bn3(self.conv3(out))
+        out += self.shortcut(x)
+        out = F.relu(out)
+        return out
+
+class ResNet(nn.Module):
+    def __init__(self, block, num_blocks, device, num_classes=1000):
+        self.device = device
+        super(ResNet, self).__init__()
+        self.in_planes = 64
+
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        self.bn1 = nn.BatchNorm2d(64)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
+        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
+        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
+        self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.fc1 = nn.Linear(512*block.expansion, 512*block.expansion)
+        self.fc2 = nn.Linear(512*block.expansion + 2, num_classes)
+
+    def _make_layer(self, block, planes, num_blocks, stride):
+        strides = [stride] + [1]*(num_blocks-1)
+        layers = []
+        for stride in strides:
+            layers.append(block(self.in_planes, planes, stride))
+            self.in_planes = planes * block.expansion
+        return nn.Sequential(*layers)
+
+    def forward(self, x, y):
+        out = F.relu(self.bn1(self.conv1(x)))
+        out = self.maxpool(out)
+        out = self.layer1(out)
+        out = self.layer2(out)
+        out = self.layer3(out)
+        out = self.layer4(out)
+        out = self.avgpool(out)
+        out = torch.flatten(out, 1)
+        out = F.relu(self.fc1(out))
+        
+        # append (age, sex) to this layer
+        out = torch.cat((out, y), dim=1)
+
+        out = self.fc2(out)
+        return out
+\end{lstlisting}
+
+This part modifies the last layer so that it matches the number of classes we want to categorize our scans into, as well as the input type.
+\begin{lstlisting}
+import models.ResNet as RN
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = RN.ResNet101(device)
+model.conv1 = torch.nn.Conv2d(1, model.conv1.out_channels, kernel_size=model.conv1.kernel_size, stride=model.conv1.stride, padding=model.conv1.padding, bias=model.conv1.bias)
+model.fc2 = torch.nn.Linear(in_features=model.fc2.in_features, out_features=2, bias=True)
+model.to(device)
+\end{lstlisting}
+
+As for the training loop, it is firstly preceeded by setting up hyperparameters.
+\begin{lstlisting}
+num_epochs = 100
+
+optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01)
+criterion = torch.nn.CrossEntropyLoss()
+
+for epoch in range(num_epochs):
+    print(f"epoch = {epoch + 1}/{num_epochs}")
+    train_running_loss = 0
+    n = 0
+    acc = 0
+    conf_matrix = np.zeros((2, 2))
+    for batch_idx, data in enumerate(train_loader):
+        n = n + 1
+        if batch_idx % 10 == 0:
+            print(f"batch id = {batch_idx}")    
+        imgs, additional_data, labels = data[0].to(device), data[1].to(device), data[2].to(device)
+        outputs = model(imgs, additional_data)
+
+        optimizer.zero_grad()
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        train_running_loss += loss.item()
+        acc = acc + torch.sum(torch.argmax(outputs, dim=1) == labels) / len(labels)
+        preds = torch.argmax(outputs, dim=1)
+        conf_matrix += sklearn.metrics.confusion_matrix(labels.cpu().numpy(), preds.cpu().numpy(), labels=np.arange(2))
+    
+    print(conf_matrix)
+    train_losses.append(train_running_loss / n)
+    print(f"train loss = {train_running_loss / n}, acc = {acc / n}")
+
+
+torch.save({
+    'model_state_dict': model.state_dict(),
+    'optimizer_state_dict': optimizer.state_dict(),
+    'epoch': epoch,
+    'loss': loss
+}, 'model_resnet.pth')
+\end{lstlisting}
+
+\newpage
+\subsection{Results}
+The evaluation results are taken in a similar matter, except iterating over the testing DataLoader
+\begin{lstlisting}
+test_running_loss = 0
+conf_matrix = np.zeros((2, 2))
+criterion = torch.nn.CrossEntropyLoss()
+n = 0
+acc = 0
+for i, data in enumerate(test_loader):
+    if i % 10 == 0:
+        print(f"batch_id = {i}")
+    n = n + 1
+    imgs, additional_data, labels = data[0].to(device), data[1].to(device), data[2].to(device)
+    
+    outputs = model(imgs, additional_data)
+    loss = criterion(outputs, labels)
+    loss.backward()
+    test_running_loss += loss.item()    
+
+    acc = acc + torch.sum(torch.argmax(outputs, dim=1) == labels) / len(labels)
+    conf_matrix += sklearn.metrics.confusion_matrix(labels.cpu().numpy(), torch.argmax(outputs, dim=1).cpu().numpy(), labels=np.arange(2))
+    
+print(conf_matrix)
+print(f"eval loss = {test_running_loss / n}, accuracy = {acc / n}")
+\end{lstlisting}
+
+\newpage
+\subsection{Own Contributions}
+My main contributions come in how the dataset is handled, using simplistic available algorithms, without the use of external tools, such as
+the FreeSurfer software.
+
+Besides that, the adaptations of ResNet101 architecture which was inspired by \cite{bae2020}.
+
+Given higher computational power, higher input modalities could be tested out, or were there to be more accessible preprocessing tools,
+the input quality would increase, either thruogh image registration, or a better segmentation which would fully strip the image of the skull
+margins.
+
+\newpage
+\section{Acknowledgements}
+
+This work is the result of my own activity, and I confirm I have neither given, nor received unauthorized assistance for this work.
+
+I declare that I did not use generative AI or automated tools in the creation of content or drafting of this document.
+
+
+Data collection and sharing for the Alzheimer's Disease Neuroimaging Initiative (ADNI) is funded by the National
+Institute on Aging (National Institutes of Health Grant U19 AG024904). The grantee organization is the Northern
+California Institute for Research and Education. In the past, ADNI has also received funding from the National
+Institute of Biomedical Imaging and Bioengineering, the Canadian Institutes of Health Research, and private
+sector contributions through the Foundation for the National Institutes of Health (FNIH) including generous
+contributions from the following: AbbVie, Alzheimer’s Association; Alzheimer’s Drug Discovery Foundation;
+Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.;
+Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated
+company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research \&
+Development, LLC.; Johnson \& Johnson Pharmaceutical Research \&Development LLC.; Lumosity; Lundbeck;
+Merck \& Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis
+Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and
+Transition Therapeutics.
+\newpage
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+
+\end{document}
