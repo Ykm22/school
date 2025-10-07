@@ -159,3 +159,6 @@ LaTeX_templates/
 
 **/papers/
 **/papers_md/
+
+# Oz compiled files
+*.ozf
