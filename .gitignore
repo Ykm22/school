@@ -138,6 +138,7 @@ ui-tests/.pnp.*
 
 # venv
 venv/
+.venv/
 ml_venv/
 
 # LaTeX compilation output
@@ -162,3 +163,9 @@ LaTeX_templates/
 
 # Oz compiled files
 *.ozf
+
+# model stats
+*.pth
+
+# csv files
+*.csv
