@@ -169,3 +169,6 @@ LaTeX_templates/
 
 # csv files
 *.csv
+
+# pickle binary files
+*.pkl
