@@ -148,9 +148,6 @@ def print_results(
 
 
 CORPUS_URLS = {
-    "Baltagul": "https://www.gutenberg.org/cache/epub/52979/pg52979.txt",
-    "Ion": "https://www.gutenberg.org/cache/epub/52678/pg52678.txt",
-    "Morometii": "https://www.gutenberg.org/cache/epub/53048/pg53048.txt",
     "Hamlet": "https://www.gutenberg.org/files/1524/1524-0.txt",
     "Don_Quixote": "https://www.gutenberg.org/files/996/996-0.txt",
 }
