@@ -1,0 +1,100 @@
+Graph saved to: ./zipf_baltagul.png
+
+Baltagul:
+106479 tokens, 7537 types
+
+Top 7 most freq words (in order):
+Baltagul: ("the":6160), ("to":2901), ("of":2860), ("and":2633), ("he":2141), ("that":1846), ("a":1801)
+
+Percent of the tokens in the corpus covered by the most freq. 7 words:
+Baltagul: 19.10%
+
+Percent of the words in the corpus covered by words that appear once:
+- as types
+- as tokens
+
+Baltagul:
+3367,
+3.16% of the tokens, 44.67% of the types
+
+Completed analysis for Baltagul
+Graph saved to: ./zipf_ion.png
+
+Ion:
+17149 tokens, 5480 types
+
+Top 7 most freq words (in order):
+Ion: ("ja":676), ("oli":365), ("on":326), ("mc":269), ("the":189), ("murdo":160), ("sanoi":159)
+
+Percent of the tokens in the corpus covered by the most freq. 7 words:
+Ion: 12.50%
+
+Percent of the words in the corpus covered by words that appear once:
+- as types
+- as tokens
+
+Ion:
+3657,
+21.32% of the tokens, 66.73% of the types
+
+Completed analysis for Ion
+Graph saved to: ./zipf_morometii.png
+
+Morometii:
+8093 tokens, 1724 types
+
+Top 7 most freq words (in order):
+Morometii: ("the":504), ("of":223), ("to":193), ("a":162), ("and":151), ("you":138), ("in":119)
+
+Percent of the tokens in the corpus covered by the most freq. 7 words:
+Morometii: 18.41%
+
+Percent of the words in the corpus covered by words that appear once:
+- as types
+- as tokens
+
+Morometii:
+953,
+11.78% of the tokens, 55.28% of the types
+
+Completed analysis for Morometii
+Graph saved to: ./zipf_hamlet.png
+
+Hamlet:
+32789 tokens, 4547 types
+
+Top 7 most freq words (in order):
+Hamlet: ("the":1112), ("and":986), ("to":735), ("of":680), ("i":635), ("a":561), ("you":559)
+
+Percent of the tokens in the corpus covered by the most freq. 7 words:
+Hamlet: 16.07%
+
+Percent of the words in the corpus covered by words that appear once:
+- as types
+- as tokens
+
+Hamlet:
+2632,
+8.03% of the tokens, 57.88% of the types
+
+Completed analysis for Hamlet
+Graph saved to: ./zipf_don_quixote.png
+
+Don_Quixote:
+433477 tokens, 15586 types
+
+Top 7 most freq words (in order):
+Don_Quixote: ("the":22479), ("and":17719), ("to":14008), ("of":13493), ("that":7994), ("in":7338), ("a":7197)
+
+Percent of the tokens in the corpus covered by the most freq. 7 words:
+Don_Quixote: 20.81%
+
+Percent of the words in the corpus covered by words that appear once:
+- as types
+- as tokens
+
+Don_Quixote:
+5663,
+1.31% of the tokens, 36.33% of the types
+
+Completed analysis for Don_Quixote
