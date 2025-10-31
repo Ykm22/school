@@ -8,6 +8,10 @@ from sklearn.metrics import (
 )
 
 
+def nested_if_classifier_2(X):
+    return np.array([0] * len(X))
+
+
 def nested_if_classifier(X):
     """
     Features: [sepal_length, sepal_width, petal_length, petal_width]
@@ -53,7 +57,7 @@ with open("train_test_splits.pkl", "rb") as f:
 
 print(f"Loaded test set with {len(X_test)} samples")
 
-y_pred = nested_if_classifier(X_test)
+y_pred = nested_if_classifier_2(X_test)
 
 accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)

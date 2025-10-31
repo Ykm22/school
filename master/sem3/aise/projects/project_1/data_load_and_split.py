@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 import pickle
 
 iris = load_iris()
-X = iris.data
-y = iris.target
+X = iris.data  # pyright: ignore
+y = iris.target  # pyright: ignore
 
 # Filter for only Versicolor (1) and Virginica (2)
 mask = (y == 1) | (y == 2)
@@ -26,7 +26,7 @@ with open("train_test_splits.pkl", "wb") as f:
             "X_test": X_test,
             "y_train": y_train,
             "y_test": y_test,
-            "feature_names": iris.feature_names,
+            "feature_names": iris.feature_names,  # pyright: ignore
         },
         f,
     )
@@ -39,4 +39,4 @@ print(
 print(
     f"Class distribution in test: Versicolor={np.sum(y_test == 0)}, Virginica={np.sum(y_test == 1)}"
 )
-print(f"Feature names: {iris.feature_names}")
+print(f"Feature names: {iris.feature_names}")  # pyright: ignore

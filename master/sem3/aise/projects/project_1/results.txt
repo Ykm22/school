@@ -1,0 +1,33 @@
+Loaded test set with 30 samples
+==================================================
+NESTED IF'S APPROACH
+Versicolor (0) vs Virginica (1)
+==================================================
+Accuracy:  0.9000
+Precision: 0.9167
+Recall:    0.8462
+
+Confusion Matrix:
+                    Predicted
+                 Versicolor  Virginica
+Versicolor            16          1
+Virginica              2         11
+==================================================
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Loaded test set with 30 samples
+==================================================
+ML APPROACH - RANDOM FOREST
+Versicolor (0) vs Virginica (1)
+==================================================
+Accuracy:  0.8333
+Precision: 0.9000
+Recall:    0.6923
+
+Confusion Matrix:
+                    Predicted
+                 Versicolor  Virginica
+Versicolor            16          1
+Virginica              4          9
+==================================================
