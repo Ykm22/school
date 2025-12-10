@@ -1,0 +1,94 @@
+{
+  "name": "Logic Puzzle - Houses, Nationals, Animals, Cigarettes",
+  "description": "Three houses with different nationals, animals, and cigarettes. Solve: Who smokes LM? Who has the dog?",
+  "variables": [
+    "house1_national", "house1_animal", "house1_cigarette",
+    "house2_national", "house2_animal", "house2_cigarette",
+    "house3_national", "house3_animal", "house3_cigarette"
+  ],
+  "domains": {
+    "house1_national": ["English", "Spanish", "Russian"],
+    "house1_animal": ["wolf", "horse", "dog"],
+    "house1_cigarette": ["LuckyStrike", "Kent", "LM"],
+    "house2_national": ["English", "Spanish", "Russian"],
+    "house2_animal": ["wolf", "horse", "dog"],
+    "house2_cigarette": ["LuckyStrike", "Kent", "LM"],
+    "house3_national": ["English", "Spanish", "Russian"],
+    "house3_animal": ["wolf", "horse", "dog"],
+    "house3_cigarette": ["LuckyStrike", "Kent", "LM"]
+  },
+  "constraints": [
+    {
+      "type": "all_different",
+      "variables": ["house1_national", "house2_national", "house3_national"],
+      "description": "Each national lives in exactly one house"
+    },
+    {
+      "type": "all_different",
+      "variables": ["house1_animal", "house2_animal", "house3_animal"],
+      "description": "Each animal is in exactly one house"
+    },
+    {
+      "type": "all_different",
+      "variables": ["house1_cigarette", "house2_cigarette", "house3_cigarette"],
+      "description": "Each cigarette brand is smoked in exactly one house"
+    },
+    {
+      "type": "custom",
+      "variables": ["house1_national"],
+      "expression": "v0 == 'English'",
+      "description": "Constraint 1: The Englishman lives in the first house"
+    },
+    {
+      "type": "custom",
+      "variables": ["house1_animal", "house2_cigarette"],
+      "expression": "v0 == 'wolf' and v1 == 'LuckyStrike' or v0 != 'wolf'",
+      "description": "Constraint 2: If house 1 has wolf, then house 2 smokes Lucky Strike"
+    },
+    {
+      "type": "custom",
+      "variables": ["house2_animal", "house3_cigarette"],
+      "expression": "v0 == 'wolf' and v1 == 'LuckyStrike' or v0 != 'wolf'",
+      "description": "Constraint 2: If house 2 has wolf, then house 3 smokes Lucky Strike"
+    },
+    {
+      "type": "custom",
+      "variables": ["house1_national", "house1_cigarette"],
+      "expression": "v0 == 'Spanish' and v1 == 'Kent' or v0 != 'Spanish'",
+      "description": "Constraint 3: Spaniard smokes Kent (house 1)"
+    },
+    {
+      "type": "custom",
+      "variables": ["house2_national", "house2_cigarette"],
+      "expression": "v0 == 'Spanish' and v1 == 'Kent' or v0 != 'Spanish'",
+      "description": "Constraint 3: Spaniard smokes Kent (house 2)"
+    },
+    {
+      "type": "custom",
+      "variables": ["house3_national", "house3_cigarette"],
+      "expression": "v0 == 'Spanish' and v1 == 'Kent' or v0 != 'Spanish'",
+      "description": "Constraint 3: Spaniard smokes Kent (house 3)"
+    },
+    {
+      "type": "custom",
+      "variables": ["house1_national", "house1_animal"],
+      "expression": "v0 == 'Russian' and v1 == 'horse' or v0 != 'Russian'",
+      "description": "Constraint 4: Russian has horse (house 1)"
+    },
+    {
+      "type": "custom",
+      "variables": ["house2_national", "house2_animal"],
+      "expression": "v0 == 'Russian' and v1 == 'horse' or v0 != 'Russian'",
+      "description": "Constraint 4: Russian has horse (house 2)"
+    },
+    {
+      "type": "custom",
+      "variables": ["house3_national", "house3_animal"],
+      "expression": "v0 == 'Russian' and v1 == 'horse' or v0 != 'Russian'",
+      "description": "Constraint 4: Russian has horse (house 3)"
+    }
+  ],
+  "visualization": {
+    "type": "zebra_puzzle"
+  }
+}
